@@ -7,6 +7,7 @@ var _fade_rect: ColorRect
 
 func _ready() -> void:
 	layer = 100
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 	_fade_rect = ColorRect.new()
 	_fade_rect.name = "FadeRect"
@@ -19,8 +20,12 @@ func _ready() -> void:
 func transition_to(scene_path: String) -> void:
 	if _is_transitioning:
 		return
+	if !ResourceLoader.exists(scene_path):
+		push_error("Scene does not exist: %s" % scene_path)
+		return
 
 	_is_transitioning = true
+	get_tree().paused = false
 	await _fade_to(1.0)
 	get_tree().change_scene_to_file(scene_path)
 	await get_tree().process_frame

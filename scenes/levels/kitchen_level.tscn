@@ -3,9 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://cwtgybohgy4y6" path="res://assets/player/all-assets/kitchen.png" id="1"]
 [ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2"]
 [ext_resource type="Script" uid="uid://banv13pkevnio" path="res://scenes/levels/kitchen_level.gd" id="3"]
-[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="4_pause"]
-[ext_resource type="AudioStream" path="res://assets/sfx/walking-wood.mp3" id="5_walkwood"]
-[ext_resource type="Script" path="res://scenes/audio/audio_group.gd" id="6_audio_group"]
+[ext_resource type="PackedScene" uid="uid://dl2lvutrpved5" path="res://scenes/ui/pause_menu.tscn" id="4_pause"]
+[ext_resource type="AudioStream" uid="uid://co0pnmyergap7" path="res://assets/sfx/walking-wood.mp3" id="5_walkwood"]
+[ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="6_audio_group"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(384, 20)
@@ -80,7 +80,7 @@ shape = SubResource("RectangleShape2D_door")
 [node name="Player" parent="." unique_id=448662690 instance=ExtResource("2")]
 position = Vector2(164, 244)
 
-[node name="WalkingGrassAudio" type="AudioStreamPlayer2D" parent="Player" unique_id=448662692]
+[node name="WalkingAudio" type="AudioStreamPlayer2D" parent="Player" unique_id=448662692]
 stream = ExtResource("5_walkwood")
 volume_db = 10.0
 script = ExtResource("6_audio_group")

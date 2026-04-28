@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://fr5q0t7gqts5" path="res://assets/textures/background_0.png" id="5_6761a"]
 [ext_resource type="Script" uid="uid://bsxoiywwcsmy6" path="res://scenes/levels/level_1.gd" id="6_vx93k"]
 [ext_resource type="Texture2D" uid="uid://dgj5q4f5rxd2q" path="res://assets/player/all-assets/cabin.png" id="6_wtwp4"]
-[ext_resource type="PackedScene" path="res://scenes/enemies/bee_enemy.tscn" id="7_bee1"]
+[ext_resource type="PackedScene" uid="uid://cg3vehjh8dh8b" path="res://scenes/enemies/bee_enemy.tscn" id="7_bee1"]
 [ext_resource type="Texture2D" uid="uid://0haiuucjeipt" path="res://assets/player/all-assets/tend1.png" id="7_iwr0g"]
 [ext_resource type="AudioStream" uid="uid://rsl5w5cslq80" path="res://assets/sfx/wind-sound.mp3" id="8_wind"]
 [ext_resource type="AudioStream" uid="uid://bosgsxncy0dkl" path="res://assets/sfx/tfa-soundtrack.MP3" id="9_music"]
@@ -319,7 +319,7 @@ tile_set = SubResource("TileSet_ybxn4")
 [node name="Player" parent="Ground" unique_id=891875222 instance=ExtResource("2_6iamk")]
 position = Vector2(206, -50)
 
-[node name="WalkingGrassAudio" type="AudioStreamPlayer2D" parent="Ground/Player" unique_id=891875223]
+[node name="WalkingAudio" type="AudioStreamPlayer2D" parent="Ground/Player" unique_id=891875223]
 stream = ExtResource("10_walk")
 volume_db = 2.5
 script = ExtResource("11_audio_group")

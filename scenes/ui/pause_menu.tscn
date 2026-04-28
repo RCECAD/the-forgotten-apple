@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dl2lvutrpved5"]
 
-[ext_resource type="Script" path="res://scenes/ui/pause_menu.gd" id="1"]
+[ext_resource type="Script" uid="uid://caxke4mt1546w" path="res://scenes/ui/pause_menu.gd" id="1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 content_margin_left = 10.0

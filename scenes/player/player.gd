@@ -1,6 +1,6 @@
 extends CharacterBody2D
 @onready var animated_sprite_2d = $AnimatedSprite2D
-@onready var walking_grass_audio: AudioStreamPlayer2D = get_node_or_null("WalkingGrassAudio") as AudioStreamPlayer2D
+@onready var walking_audio: AudioStreamPlayer2D = get_node_or_null("WalkingAudio") as AudioStreamPlayer2D
 
 const GRAVITY = 1000
 const WALK_SPEED = 90.0
@@ -49,16 +49,16 @@ func _update_hurt_timer(delta: float) -> void:
 		animated_sprite_2d.modulate.a = 1.0
 
 func _update_walking_audio() -> void:
-	if walking_grass_audio == null:
+	if walking_audio == null:
 		return
 
 	var is_walking: bool = is_on_floor() and absf(velocity.x) > 0.1 and !is_player_down
 	if is_walking:
-		if !walking_grass_audio.playing:
-			walking_grass_audio.play()
+		if !walking_audio.playing:
+			walking_audio.play()
 	else:
-		if walking_grass_audio.playing:
-			walking_grass_audio.stop()
+		if walking_audio.playing:
+			walking_audio.stop()
 
 func player_falling(delta):
 	if !is_on_floor():
