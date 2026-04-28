@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://1cfhvojidpby"]
+
+[ext_resource type="Texture2D" uid="uid://dmtalcqfgu2tx" path="res://assets/player/all-assets/bedroom.png" id="1"]
+[ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2"]
+[ext_resource type="Script" uid="uid://bvp1le63qvdam" path="res://scenes/levels/bedroom_level.gd" id="3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(384, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(16, 192)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ceiling"]
+size = Vector2(384, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(22, 65)
+
+[node name="BedroomLevel" type="Node2D" unique_id=1797629656]
+script = ExtResource("3")
+
+[node name="Bedroom" type="Sprite2D" parent="." unique_id=251177454]
+position = Vector2(265, 207.5)
+scale = Vector2(1.0703125, 1.0703125)
+texture = ExtResource("1")
+
+[node name="CollisionLayer" type="Node2D" parent="." unique_id=564340321]
+
+[node name="Floor" type="StaticBody2D" parent="CollisionLayer" unique_id=1675595217]
+position = Vector2(320, 276)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/Floor" unique_id=1480171561]
+position = Vector2(-1, -14)
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="LeftWall" type="StaticBody2D" parent="CollisionLayer" unique_id=59141814]
+position = Vector2(128, 180)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/LeftWall" unique_id=1471879236]
+position = Vector2(13, 0)
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="RightWall" type="StaticBody2D" parent="CollisionLayer" unique_id=1571548338]
+position = Vector2(512, 180)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/RightWall" unique_id=1572759676]
+position = Vector2(-117, 0)
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Ceiling" type="StaticBody2D" parent="CollisionLayer" unique_id=332474890]
+position = Vector2(320, 84)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/Ceiling" unique_id=1314932397]
+position = Vector2(0, 72)
+shape = SubResource("RectangleShape2D_ceiling")
+
+[node name="DoorTrigger" type="Area2D" parent="." unique_id=2079067051]
+position = Vector2(378, 220)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorTrigger" unique_id=2079067052]
+position = Vector2(-5, -0.5)
+shape = SubResource("RectangleShape2D_door")
+
+[node name="Player" parent="." unique_id=1560461873 instance=ExtResource("2")]
+position = Vector2(196, 244)
+
+[node name="InteractPrompt" type="Label" parent="Player" unique_id=1560461874]
+visible = false
+offset_left = -4.0
+offset_top = -38.0
+offset_right = -4.0
+offset_bottom = -38.0
+theme_override_font_sizes/font_size = 20
+text = "E"
+horizontal_alignment = 1
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=950993437]
+position = Vector2(0, -16)
+zoom = Vector2(1.25, 1.25)
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
