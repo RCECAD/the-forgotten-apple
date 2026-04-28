@@ -1,20 +1,20 @@
 extends Area2D
 
-@export var patrol_speed: float = 36.0
-@export var chase_speed: float = 72.0
-@export var acceleration: float = 260.0
+@export var patrol_speed: float = 24.0
+@export var chase_speed: float = 44.0
+@export var acceleration: float = 120.0
 @export var patrol_range: float = 96.0
-@export var chase_radius: float = 180.0
-@export var chase_stop_radius: float = 28.0
-@export var attack_radius: float = 18.0
-@export var attack_windup: float = 0.35
-@export var attack_cooldown: float = 0.8
-@export var hover_offset_x: float = 36.0
-@export var hover_offset_y: float = -10.0
-@export var strafe_strength: float = 0.55
+@export var chase_radius: float = 140.0
+@export var chase_stop_radius: float = 12.0
+@export var attack_radius: float = 30.0
+@export var attack_windup: float = 0.45
+@export var attack_cooldown: float = 1.25
+@export var hover_offset_x: float = 20.0
+@export var hover_offset_y: float = -6.0
+@export var strafe_strength: float = 0.15
 @export var bob_amplitude: float = 4.0
-@export var bob_speed: float = 3.5
-@export var forget_radius: float = 220.0
+@export var bob_speed: float = 2.6
+@export var forget_radius: float = 180.0
 @export var return_threshold: float = 4.0
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
@@ -47,7 +47,7 @@ func _physics_process(delta: float) -> void:
 		_return_home(delta)
 	elif player and global_position.distance_to(player.global_position) <= chase_radius:
 		_chase_player(player, delta)
-		_try_damage_player(player, delta)
+		_try_damage_player(player)
 	else:
 		_is_winding_up = false
 		_windup_timer = 0.0
@@ -97,7 +97,7 @@ func _chase_player(player: CharacterBody2D, delta: float) -> void:
 
 	if distance > chase_stop_radius:
 		desired_velocity = to_target.normalized() * chase_speed
-		desired_velocity.x += player.velocity.x * 0.25
+		desired_velocity.x += player.velocity.x * 0.1
 
 	_velocity = _velocity.move_toward(desired_velocity, acceleration * delta)
 	global_position += _velocity * delta
@@ -108,14 +108,13 @@ func _chase_player(player: CharacterBody2D, delta: float) -> void:
 	_direction = 1.0 if _velocity.x >= 0.0 else -1.0
 	_animated_sprite_2d.flip_h = _direction < 0.0
 
-func _try_damage_player(player: CharacterBody2D, delta: float) -> void:
+func _try_damage_player(player: CharacterBody2D) -> void:
 	if _attack_timer > 0.0:
 		_is_winding_up = false
 		_windup_timer = 0.0
 		return
 
-	var distance_to_player := global_position.distance_to(player.global_position)
-	if distance_to_player <= attack_radius:
+	if _is_player_in_attack_range(player):
 		if !_is_winding_up:
 			_is_winding_up = true
 			_windup_timer = attack_windup
@@ -132,6 +131,9 @@ func _try_damage_player(player: CharacterBody2D, delta: float) -> void:
 	else:
 		_is_winding_up = false
 		_windup_timer = 0.0
+
+func _is_player_in_attack_range(player: CharacterBody2D) -> bool:
+	return overlaps_body(player) or global_position.distance_to(player.global_position) <= attack_radius
 
 func _snap_visual() -> void:
 	_animated_sprite_2d.global_position = global_position.round() + Vector2(0, -4)

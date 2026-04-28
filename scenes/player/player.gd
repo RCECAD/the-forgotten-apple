@@ -1,4 +1,7 @@
 extends CharacterBody2D
+
+signal health_changed(current_health: int, max_health: int)
+
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var walking_audio: AudioStreamPlayer2D = get_node_or_null("WalkingAudio") as AudioStreamPlayer2D
 
@@ -8,8 +11,10 @@ const RUN_SPEED = 155.0
 const JUMP_FORCE = -300
 const MAX_JUMPS := 2
 const HURT_INVULNERABILITY := 0.9
-const HURT_KNOCKBACK_X := 180.0
-const HURT_KNOCKBACK_Y := -180.0
+const HURT_CONTROL_LOCK := 0.26
+const HURT_KNOCKBACK_X := 220.0
+const HURT_KNOCKBACK_Y := -220.0
+const HURT_BLINK_INTERVAL_MS := 70
 
 enum State {Idle, Walk, Run, Jump, Fall, Get_Down, Stay_Down, Get_Up}
 
@@ -18,24 +23,35 @@ var is_player_down
 var max_health := 3
 var health := max_health
 var _hurt_timer := 0.0
+var _control_lock_timer := 0.0
 var _jumps_remaining := MAX_JUMPS
+var _is_dead := false
 
 func _ready():
 	current_state = State.Idle
 	is_player_down = false
 	_jumps_remaining = MAX_JUMPS
 	add_to_group("player")
+	health_changed.emit(health, max_health)
 	
 func _physics_process(delta):
+	if _is_dead:
+		return
+
 	_update_hurt_timer(delta)
+	_update_control_lock_timer(delta)
 	if is_on_floor():
 		_jumps_remaining = MAX_JUMPS
 	player_falling(delta)
-	player_idle(delta)
-	player_move(delta)
-	player_jump()
-	player_down()
-	update_state()
+
+	if _control_lock_timer <= 0.0:
+		player_idle(delta)
+		player_move(delta)
+		player_jump()
+		player_down()
+		update_state()
+	else:
+		_update_knockback_state()
 	
 	move_and_slide()
 	_update_walking_audio()
@@ -44,15 +60,28 @@ func _physics_process(delta):
 func _update_hurt_timer(delta: float) -> void:
 	if _hurt_timer > 0.0:
 		_hurt_timer = maxf(_hurt_timer - delta, 0.0)
-		animated_sprite_2d.modulate.a = 0.5 if int(Time.get_ticks_msec() / 80) % 2 == 0 else 1.0
+		var blink_on := int(Time.get_ticks_msec() / HURT_BLINK_INTERVAL_MS) % 2 == 0
+		animated_sprite_2d.modulate = Color(1.0, 0.35, 0.35, 0.45) if blink_on else Color.WHITE
 	else:
-		animated_sprite_2d.modulate.a = 1.0
+		animated_sprite_2d.modulate = Color.WHITE
+
+func _update_control_lock_timer(delta: float) -> void:
+	if _control_lock_timer > 0.0:
+		_control_lock_timer = maxf(_control_lock_timer - delta, 0.0)
+
+func _update_knockback_state() -> void:
+	if !is_on_floor():
+		current_state = State.Jump if velocity.y < 0.0 else State.Fall
+	elif absf(velocity.x) > 0.1:
+		current_state = State.Walk
+	else:
+		current_state = State.Idle
 
 func _update_walking_audio() -> void:
 	if walking_audio == null:
 		return
 
-	var is_walking: bool = is_on_floor() and absf(velocity.x) > 0.1 and !is_player_down
+	var is_walking: bool = is_on_floor() and absf(velocity.x) > 0.1 and !is_player_down and _control_lock_timer <= 0.0
 	if is_walking:
 		if !walking_audio.playing:
 			walking_audio.play()
@@ -137,11 +166,13 @@ func _on_area_entered(area):
 		area.queue_free()
 
 func take_damage(amount: int = 1, source_position: Vector2 = Vector2.ZERO) -> void:
-	if _hurt_timer > 0.0:
+	if _is_dead or _hurt_timer > 0.0:
 		return
 
 	health = maxi(health - amount, 0)
+	health_changed.emit(health, max_health)
 	_hurt_timer = HURT_INVULNERABILITY
+	_control_lock_timer = HURT_CONTROL_LOCK
 
 	if source_position != Vector2.ZERO:
 		var knockback_direction: float = sign(global_position.x - source_position.x)
@@ -151,4 +182,11 @@ func take_damage(amount: int = 1, source_position: Vector2 = Vector2.ZERO) -> vo
 		velocity.y = HURT_KNOCKBACK_Y
 
 	if health <= 0:
-		get_tree().reload_current_scene()
+		_die()
+
+func _die() -> void:
+	_is_dead = true
+	velocity = Vector2.ZERO
+	if walking_audio != null and walking_audio.playing:
+		walking_audio.stop()
+	get_node("/root/SceneTransition").reload_current_scene()

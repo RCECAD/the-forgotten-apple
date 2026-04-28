@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cg3vehjh8dh8b"]
+[gd_scene format=3 uid="uid://bpefa8lo1dt1j"]
 
 [ext_resource type="Texture2D" uid="uid://queyp2uo5x1s" path="res://assets/player/all-assets/bee.png" id="1"]
 [ext_resource type="Script" uid="uid://b6yfgn1314hmb" path="res://scenes/enemies/bee_enemy.gd" id="2"]
@@ -100,22 +100,22 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(20, 16)
 
-[node name="BeeEnemy" type="Area2D"]
+[node name="BeeEnemy" type="Area2D" unique_id=1328790581]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("2")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -4)
-scale = Vector2(1.1, 1.1)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1754811807]
+position = Vector2(0, -2.3841858e-07)
+scale = Vector2(0.6875, 0.6875)
 sprite_frames = SubResource("SpriteFrames_1")
 animation = &"fly"
 autoplay = "fly"
 
-[node name="BeeBuzzAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="BeeBuzzAudio" type="AudioStreamPlayer2D" parent="." unique_id=1630365186]
 stream = ExtResource("3_buzz")
 script = ExtResource("4_audio_group")
 audio_group = "enemies"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=754905556]
 shape = SubResource("RectangleShape2D_1")

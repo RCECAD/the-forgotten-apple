@@ -7,13 +7,14 @@
 [ext_resource type="Texture2D" uid="uid://fr5q0t7gqts5" path="res://assets/textures/background_0.png" id="5_6761a"]
 [ext_resource type="Script" uid="uid://bsxoiywwcsmy6" path="res://scenes/levels/level_1.gd" id="6_vx93k"]
 [ext_resource type="Texture2D" uid="uid://dgj5q4f5rxd2q" path="res://assets/player/all-assets/cabin.png" id="6_wtwp4"]
-[ext_resource type="PackedScene" uid="uid://cg3vehjh8dh8b" path="res://scenes/enemies/bee_enemy.tscn" id="7_bee1"]
+[ext_resource type="PackedScene" uid="uid://bpefa8lo1dt1j" path="res://scenes/enemies/bee_enemy.tscn" id="7_bee1"]
 [ext_resource type="Texture2D" uid="uid://0haiuucjeipt" path="res://assets/player/all-assets/tend1.png" id="7_iwr0g"]
 [ext_resource type="AudioStream" uid="uid://rsl5w5cslq80" path="res://assets/sfx/wind-sound.mp3" id="8_wind"]
 [ext_resource type="AudioStream" uid="uid://bosgsxncy0dkl" path="res://assets/sfx/tfa-soundtrack.MP3" id="9_music"]
 [ext_resource type="AudioStream" uid="uid://bj6j28f2qwtmy" path="res://assets/sfx/walking-grass.mp3" id="10_walk"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="11_audio_group"]
 [ext_resource type="PackedScene" uid="uid://dl2lvutrpved5" path="res://scenes/ui/pause_menu.tscn" id="12_pause"]
+[ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="13_health"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2lb6k"]
 texture = ExtResource("1_ksju7")
@@ -309,6 +310,11 @@ layer = 200
 
 [node name="PauseMenu" parent="UI" unique_id=680990775 instance=ExtResource("12_pause")]
 visible = false
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=303690046]
+layer = 150
+
+[node name="HealthUI" parent="HUD" instance=ExtResource("13_health")]
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=2057881822]
 use_parent_material = true
