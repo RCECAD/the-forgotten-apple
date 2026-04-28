@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ld8h0sqqkld2"
+path="res://.godot/imported/The Forgotten Apple - Soundtrack.MP3-83985ba1b32c4109ea496bfaaecc8eab.mp3str"
+
+[deps]
+
+source_file="res://assets/sfx/The Forgotten Apple - Soundtrack.MP3"
+dest_files=["res://.godot/imported/The Forgotten Apple - Soundtrack.MP3-83985ba1b32c4109ea496bfaaecc8eab.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
