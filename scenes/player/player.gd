@@ -3,14 +3,15 @@ extends CharacterBody2D
 @onready var walking_grass_audio: AudioStreamPlayer2D = get_node_or_null("WalkingGrassAudio") as AudioStreamPlayer2D
 
 const GRAVITY = 1000
-const SPEED = 120
+const WALK_SPEED = 90.0
+const RUN_SPEED = 155.0
 const JUMP_FORCE = -300
 const MAX_JUMPS := 2
 const HURT_INVULNERABILITY := 0.9
 const HURT_KNOCKBACK_X := 180.0
 const HURT_KNOCKBACK_Y := -180.0
 
-enum State {Idle, Run, Jump, Get_Down, Stay_Down, Get_Up}
+enum State {Idle, Walk, Run, Jump, Get_Down, Stay_Down, Get_Up}
 
 var current_state
 var is_player_down
@@ -31,13 +32,12 @@ func _physics_process(delta):
 		_jumps_remaining = MAX_JUMPS
 	player_falling(delta)
 	player_idle(delta)
-	player_run(delta)
+	player_move(delta)
 	player_jump()
 	player_down()
 	update_state()
 	
 	move_and_slide()
-	global_position = global_position.round()
 	_update_walking_audio()
 	player_animations()
 
@@ -70,16 +70,17 @@ func player_idle(delta):
 		current_state = State.Idle
 
 @warning_ignore("unused_parameter")
-func player_run(delta):
-	var direction = Input.get_axis("move_left", "move_right")
+func player_move(delta):
+	var direction := signf(Input.get_axis("move_left", "move_right"))
 	
 	if direction:
-		velocity.x = direction * SPEED
+		var movement_speed := RUN_SPEED if Input.is_key_pressed(KEY_SHIFT) else WALK_SPEED
+		velocity.x = direction * movement_speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, RUN_SPEED)
 		
 	if direction != 0:
-		current_state = State.Run
+		current_state = State.Run if Input.is_key_pressed(KEY_SHIFT) else State.Walk
 		animated_sprite_2d.flip_h = false if direction > 0 else true
 		
 func player_jump():
@@ -109,13 +110,15 @@ func update_state():
 		else:
 			current_state = State.Jump
 	elif velocity.x != 0:
-		current_state = State.Run
+		current_state = State.Run if Input.is_key_pressed(KEY_SHIFT) else State.Walk
 	else:
 		current_state = State.Idle
 
 func player_animations():
 	if current_state == State.Idle:
 		animated_sprite_2d.play("idle")
+	elif current_state == State.Walk:
+		animated_sprite_2d.play("walk")
 	elif current_state == State.Run:
 		animated_sprite_2d.play("run")
 	elif current_state == State.Jump:
