@@ -16,6 +16,9 @@
 [ext_resource type="PackedScene" uid="uid://dl2lvutrpved5" path="res://scenes/ui/pause_menu.tscn" id="12_pause"]
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="13_health"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cabin_door"]
+size = Vector2(23, 38)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2lb6k"]
 texture = ExtResource("1_ksju7")
 0:0/0 = 0
@@ -272,6 +275,18 @@ texture = ExtResource("4_s8va5")
 position = Vector2(2200, 74)
 texture = ExtResource("6_wtwp4")
 
+[node name="CabinDoorTrigger" type="Area2D" parent="." unique_id=1611502732]
+position = Vector2(2200, 205)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CabinDoorTrigger" unique_id=349138179]
+position = Vector2(-6.5, -122)
+shape = SubResource("RectangleShape2D_cabin_door")
+
+[node name="CabinExitSpawn" type="Marker2D" parent="." unique_id=1258987877]
+position = Vector2(2182, 88)
+
 [node name="Tend1" type="Sprite2D" parent="." unique_id=310560343]
 position = Vector2(2782, 103)
 texture = ExtResource("7_iwr0g")
@@ -314,7 +329,7 @@ visible = false
 [node name="HUD" type="CanvasLayer" parent="." unique_id=303690046]
 layer = 150
 
-[node name="HealthUI" parent="HUD" instance=ExtResource("13_health")]
+[node name="HealthUI" parent="HUD" unique_id=1069930278 instance=ExtResource("13_health")]
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=2057881822]
 use_parent_material = true
@@ -329,6 +344,16 @@ position = Vector2(206, -50)
 stream = ExtResource("10_walk")
 volume_db = 2.5
 script = ExtResource("11_audio_group")
+
+[node name="InteractPrompt" type="Label" parent="Ground/Player" unique_id=730787264]
+visible = false
+offset_left = -7.0
+offset_top = -47.0
+offset_right = 8.0
+offset_bottom = -19.0
+theme_override_font_sizes/font_size = 13
+text = "E"
+horizontal_alignment = 1
 
 [node name="StartWall" type="StaticBody2D" parent="." unique_id=2067000001]
 position = Vector2(-660, 180)

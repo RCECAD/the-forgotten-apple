@@ -1,0 +1,128 @@
+[gd_scene format=3 uid="uid://cyrdkd7d1ibuv"]
+
+[ext_resource type="Texture2D" uid="uid://bht0qrhodhy7t" path="res://assets/player/all-assets/interior-cabin1.png" id="1_cabin"]
+[ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="Script" uid="uid://cr54oushkdu31" path="res://scenes/levels/cabin_level.gd" id="3_script"]
+[ext_resource type="PackedScene" uid="uid://dl2lvutrpved5" path="res://scenes/ui/pause_menu.tscn" id="4_pause"]
+[ext_resource type="AudioStream" uid="uid://co0pnmyergap7" path="res://assets/sfx/walking-wood.mp3" id="5_walkwood"]
+[ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="6_audio_group"]
+[ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="7_health"]
+[ext_resource type="Texture2D" uid="uid://cm35d8lnjw038" path="res://assets/player/all-assets/apple.png" id="8_apple"]
+[ext_resource type="Script" uid="uid://dm65jpv68ijrq" path="res://scenes/items/apple_collectible.gd" id="9_apple_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(404, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(16, 198)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ceiling"]
+size = Vector2(404, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(29, 33)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_apple"]
+
+[node name="CabinLevel" type="Node2D" unique_id=1754679603]
+script = ExtResource("3_script")
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=1038680456]
+layer = -100
+
+[node name="ColorRect" type="ColorRect" parent="Background" unique_id=2106305228]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="InteriorCabin" type="Sprite2D" parent="." unique_id=61715949]
+position = Vector2(247.00003, 219.00002)
+scale = Vector2(0.6499999, 0.6499999)
+texture = ExtResource("1_cabin")
+
+[node name="CollisionLayer" type="Node2D" parent="." unique_id=2141449827]
+
+[node name="Floor" type="StaticBody2D" parent="CollisionLayer" unique_id=481349942]
+position = Vector2(320, 280)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/Floor" unique_id=345648158]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="LeftWall" type="StaticBody2D" parent="CollisionLayer" unique_id=1910053839]
+position = Vector2(118, 184)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/LeftWall" unique_id=418142384]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="RightWall" type="StaticBody2D" parent="CollisionLayer" unique_id=564632954]
+position = Vector2(522, 184)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/RightWall" unique_id=1462004862]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Ceiling" type="StaticBody2D" parent="CollisionLayer" unique_id=1188650889]
+position = Vector2(320, 86)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/Ceiling" unique_id=1668688347]
+shape = SubResource("RectangleShape2D_ceiling")
+
+[node name="DoorTrigger" type="Area2D" parent="." unique_id=1046949265]
+position = Vector2(170, 224)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorTrigger" unique_id=728409021]
+position = Vector2(30.5, 13.5)
+shape = SubResource("RectangleShape2D_door")
+
+[node name="Player" parent="." unique_id=1412338559 instance=ExtResource("2_player")]
+position = Vector2(232, 257)
+
+[node name="WalkingAudio" type="AudioStreamPlayer2D" parent="Player" unique_id=300816336]
+stream = ExtResource("5_walkwood")
+volume_db = 10.0
+script = ExtResource("6_audio_group")
+
+[node name="InteractPrompt" type="Label" parent="Player" unique_id=219714052]
+visible = false
+offset_left = -7.0
+offset_top = -47.0
+offset_right = 8.0
+offset_bottom = -19.0
+theme_override_font_sizes/font_size = 13
+text = "E"
+horizontal_alignment = 1
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=411156762]
+position = Vector2(0, -16)
+zoom = Vector2(2, 2)
+
+[node name="Apple" type="Area2D" parent="." unique_id=1145594646]
+position = Vector2(432, 242)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("9_apple_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="Apple" unique_id=737389164]
+position = Vector2(-139, -8)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("8_apple")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Apple" unique_id=1308293078]
+position = Vector2(-140, -8)
+shape = SubResource("CircleShape2D_apple")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=2083792688]
+layer = 150
+
+[node name="HealthUI" parent="HUD" unique_id=585662213 instance=ExtResource("7_health")]
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=134912223]
+layer = 200
+
+[node name="PauseMenu" parent="UI" unique_id=1454580238 instance=ExtResource("4_pause")]
+visible = false
