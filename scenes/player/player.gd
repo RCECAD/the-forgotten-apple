@@ -11,7 +11,7 @@ const HURT_INVULNERABILITY := 0.9
 const HURT_KNOCKBACK_X := 180.0
 const HURT_KNOCKBACK_Y := -180.0
 
-enum State {Idle, Walk, Run, Jump, Get_Down, Stay_Down, Get_Up}
+enum State {Idle, Walk, Run, Jump, Fall, Get_Down, Stay_Down, Get_Up}
 
 var current_state
 var is_player_down
@@ -108,7 +108,7 @@ func update_state():
 		if velocity.y < 0:
 			current_state = State.Jump
 		else:
-			current_state = State.Jump
+			current_state = State.Fall
 	elif velocity.x != 0:
 		current_state = State.Run if Input.is_key_pressed(KEY_SHIFT) else State.Walk
 	else:
@@ -123,6 +123,8 @@ func player_animations():
 		animated_sprite_2d.play("run")
 	elif current_state == State.Jump:
 		animated_sprite_2d.play("jump")
+	elif current_state == State.Fall:
+		animated_sprite_2d.play("fall")
 	elif current_state == State.Get_Down:
 		animated_sprite_2d.play("get_down")
 	elif current_state == State.Stay_Down:
