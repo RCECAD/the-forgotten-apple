@@ -41,7 +41,7 @@ func player_run(delta):
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-	
+		
 	if direction != 0:
 		current_state = State.Run
 		animated_sprite_2d.flip_h = false if direction > 0 else true
