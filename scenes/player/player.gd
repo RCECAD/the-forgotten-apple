@@ -28,10 +28,12 @@ func player_falling(delta):
 	if !is_on_floor():
 		velocity.y += 1000 * delta
 
+@warning_ignore("unused_parameter")
 func player_idle(delta):
 	if is_on_floor() and velocity.x == 0 and !is_player_down:
 		current_state = State.Idle
 
+@warning_ignore("unused_parameter")
 func player_run(delta):
 	var direction = Input.get_axis("move_left", "move_right")
 	
