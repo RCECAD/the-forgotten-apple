@@ -2,11 +2,7 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-<<<<<<< HEAD
-uid="uid://rsl5w5cslq80"
-=======
-uid="uid://t6c76bfbh5bd"
->>>>>>> 1fc62c00705d97741b89fa13fd058e53c47e3905
+uid="uid://bmy25b4lc07c5"
 path="res://.godot/imported/wind-sound.mp3-dd46dde9c3f229364b1718e2c0375ef9.mp3str"
 
 [deps]
