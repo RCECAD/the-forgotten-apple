@@ -14,11 +14,10 @@ extends Control
 @onready var _tab_container: TabContainer = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer
 
 const MAIN_MENU_SCENE := "res://scenes/ui/main_menu.tscn"
-const MIN_PANEL_WIDTH := 200.0
-const MAX_PANEL_WIDTH := 280.0
-const MIN_PANEL_HEIGHT := 180.0
-const MAX_PANEL_HEIGHT := 240.0
-const MENU_SCALE := 0.58
+const MIN_PANEL_WIDTH := 360.0
+const MAX_PANEL_WIDTH := 560.0
+const MIN_PANEL_HEIGHT := 300.0
+const MAX_PANEL_HEIGHT := 430.0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -65,11 +64,10 @@ func _connect_signals() -> void:
 
 func _update_layout() -> void:
 	var viewport_size := get_viewport_rect().size
-	scale = Vector2.ONE * MENU_SCALE
-	var panel_width := clampf(viewport_size.x * 0.42, MIN_PANEL_WIDTH, MAX_PANEL_WIDTH)
-	var panel_height := clampf(viewport_size.y * 0.44, MIN_PANEL_HEIGHT, MAX_PANEL_HEIGHT)
+	var panel_width := clampf(viewport_size.x * 0.44, MIN_PANEL_WIDTH, MAX_PANEL_WIDTH)
+	var panel_height := clampf(viewport_size.y * 0.58, MIN_PANEL_HEIGHT, MAX_PANEL_HEIGHT)
 	_panel_container.custom_minimum_size = Vector2(panel_width, panel_height)
-	_tab_container.custom_minimum_size = Vector2(0, clampf(viewport_size.y * 0.14, 84.0, 120.0))
+	_tab_container.custom_minimum_size = Vector2(0, clampf(viewport_size.y * 0.28, 170.0, 240.0))
 
 func _sync_from_settings() -> void:
 	var settings: Node = get_node("/root/GameSettings")
