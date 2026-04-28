@@ -3,6 +3,7 @@ extends Node2D
 @onready var _player: CharacterBody2D = $Player
 @onready var _door_trigger: Area2D = $DoorTrigger
 @onready var _interact_prompt: Label = $Player/InteractPrompt
+@onready var _pause_menu: Control = $UI/PauseMenu
 
 func _ready() -> void:
 	_interact_prompt.visible = false
@@ -14,6 +15,8 @@ func _process(_delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		get_node("/root/SceneTransition").transition_to("res://scenes/ui/main_menu.tscn")
+		if !_pause_menu.visible:
+			_pause_menu.open_menu()
+			get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("interact") and _door_trigger.overlaps_body(_player):
 		get_node("/root/SceneTransition").transition_to("res://scenes/levels/kitchen_level.tscn")

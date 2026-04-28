@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" path="res://assets/player/all-assets/bee.png" id="1"]
 [ext_resource type="Script" path="res://scenes/enemies/bee_enemy.gd" id="2"]
+[ext_resource type="AudioStream" path="res://assets/sfx/bee-buzzing.mp3" id="3_buzz"]
+[ext_resource type="Script" path="res://scenes/audio/audio_group.gd" id="4_audio_group"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0"]
 atlas = ExtResource("1")
@@ -109,6 +111,11 @@ scale = Vector2(1.1, 1.1)
 sprite_frames = SubResource("SpriteFrames_1")
 animation = &"fly"
 autoplay = "fly"
+
+[node name="BeeBuzzAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_buzz")
+script = ExtResource("4_audio_group")
+audio_group = "enemies"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1")

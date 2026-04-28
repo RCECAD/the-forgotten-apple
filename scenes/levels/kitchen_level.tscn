@@ -3,6 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://cwtgybohgy4y6" path="res://assets/player/all-assets/kitchen.png" id="1"]
 [ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2"]
 [ext_resource type="Script" uid="uid://banv13pkevnio" path="res://scenes/levels/kitchen_level.gd" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="4_pause"]
+[ext_resource type="AudioStream" path="res://assets/sfx/walking-wood.mp3" id="5_walkwood"]
+[ext_resource type="Script" path="res://scenes/audio/audio_group.gd" id="6_audio_group"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(384, 20)
@@ -18,6 +21,18 @@ size = Vector2(72, 88)
 
 [node name="KitchenLevel" type="Node2D" unique_id=579035503]
 script = ExtResource("3")
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=579035504]
+layer = -100
+
+[node name="ColorRect" type="ColorRect" parent="Background" unique_id=579035505]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="Kitchen" type="Sprite2D" parent="." unique_id=1263504602]
 position = Vector2(272, 204)
@@ -65,6 +80,12 @@ shape = SubResource("RectangleShape2D_door")
 [node name="Player" parent="." unique_id=448662690 instance=ExtResource("2")]
 position = Vector2(164, 244)
 
+[node name="WalkingGrassAudio" type="AudioStreamPlayer2D" parent="Player" unique_id=448662692]
+stream = ExtResource("5_walkwood")
+volume_db = 10.0
+script = ExtResource("6_audio_group")
+audio_group = "effects"
+
 [node name="InteractPrompt" type="Label" parent="Player" unique_id=448662691]
 visible = false
 position = Vector2(-4, -38)
@@ -74,6 +95,10 @@ horizontal_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1724093807]
 position = Vector2(0, -16)
-zoom = Vector2(1.25, 1.25)
-position_smoothing_enabled = true
-position_smoothing_speed = 6.0
+zoom = Vector2(2, 2)
+position_smoothing_enabled = false
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=448662692]
+layer = 200
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("4_pause")]

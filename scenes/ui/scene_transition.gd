@@ -31,4 +31,3 @@ func _fade_to(alpha: float) -> void:
 	var tween := create_tween()
 	tween.tween_property(_fade_rect, "modulate:a", alpha, FADE_DURATION)
 	await tween.finished
-

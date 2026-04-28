@@ -14,8 +14,11 @@ extends Area2D
 @export var strafe_strength: float = 0.55
 @export var bob_amplitude: float = 4.0
 @export var bob_speed: float = 3.5
+@export var forget_radius: float = 220.0
+@export var return_threshold: float = 4.0
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _buzz_audio: AudioStreamPlayer2D = $BeeBuzzAudio
 
 var _start_position: Vector2
 var _direction := 1.0
@@ -29,6 +32,7 @@ var _strafe_direction := 1.0
 func _ready() -> void:
 	_start_position = global_position
 	monitoring = true
+	_buzz_audio.play()
 	_animated_sprite_2d.play("fly")
 
 func _physics_process(delta: float) -> void:
@@ -37,13 +41,19 @@ func _physics_process(delta: float) -> void:
 	_windup_timer = maxf(_windup_timer - delta, 0.0)
 
 	var player: CharacterBody2D = get_tree().get_first_node_in_group("player") as CharacterBody2D
-	if player and global_position.distance_to(player.global_position) <= chase_radius:
+	if global_position.distance_to(_start_position) > forget_radius:
+		_is_winding_up = false
+		_windup_timer = 0.0
+		_return_home(delta)
+	elif player and global_position.distance_to(player.global_position) <= chase_radius:
 		_chase_player(player, delta)
 		_try_damage_player(player, delta)
 	else:
 		_is_winding_up = false
 		_windup_timer = 0.0
 		_patrol(delta)
+
+	_snap_visual()
 
 func _patrol(delta: float) -> void:
 	var target_position := Vector2(
@@ -59,6 +69,21 @@ func _patrol(delta: float) -> void:
 		_direction = 1.0
 
 	_animated_sprite_2d.flip_h = _velocity.x < 0.0
+
+func _return_home(delta: float) -> void:
+	var to_home := _start_position - global_position
+	if to_home.length() <= return_threshold:
+		global_position = _start_position
+		_velocity = Vector2.ZERO
+		_direction = 1.0
+		_strafe_direction = 1.0
+		_animated_sprite_2d.flip_h = false
+		return
+
+	_velocity = _velocity.move_toward(to_home.normalized() * patrol_speed, acceleration * delta)
+	global_position += _velocity * delta
+	_direction = 1.0 if _velocity.x >= 0.0 else -1.0
+	_animated_sprite_2d.flip_h = _direction < 0.0
 
 func _chase_player(player: CharacterBody2D, delta: float) -> void:
 	var side_bias: float = _strafe_direction * strafe_strength
@@ -107,3 +132,6 @@ func _try_damage_player(player: CharacterBody2D, delta: float) -> void:
 	else:
 		_is_winding_up = false
 		_windup_timer = 0.0
+
+func _snap_visual() -> void:
+	_animated_sprite_2d.global_position = global_position.round() + Vector2(0, -4)
