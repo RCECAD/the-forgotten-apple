@@ -2,7 +2,11 @@
 
 importer="mp3"
 type="AudioStreamMP3"
+<<<<<<< HEAD
 uid="uid://dudbms50eahmc"
+=======
+uid="uid://dcituxwyqe41e"
+>>>>>>> 1fc62c00705d97741b89fa13fd058e53c47e3905
 path="res://.godot/imported/bee-buzzing.mp3-852f630802c097fdcc441c1651e3906b.mp3str"
 
 [deps]
