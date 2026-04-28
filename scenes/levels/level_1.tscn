@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cqktbpnbl6pnu" path="res://assets/textures/background_2.png" id="3_oc4kc"]
 [ext_resource type="Texture2D" uid="uid://tf0a5hsc3xdu" path="res://assets/player/all-assets/house.png" id="4_s8va5"]
 [ext_resource type="Texture2D" uid="uid://fr5q0t7gqts5" path="res://assets/textures/background_0.png" id="5_6761a"]
+[ext_resource type="Script" uid="uid://bsxoiywwcsmy6" path="res://scenes/levels/level_1.gd" id="6_vx93k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2lb6k"]
 texture = ExtResource("1_ksju7")
@@ -182,21 +183,39 @@ texture = ExtResource("1_ksju7")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_2lb6k")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_start_wall"]
+size = Vector2(24, 480)
+
 [node name="Level1" type="Node2D" unique_id=1242495829]
 position = Vector2(-3, 80)
+script = ExtResource("6_vx93k")
 
 [node name="Background0" type="Sprite2D" parent="." unique_id=986238671]
 position = Vector2(-316.764, 98.399994)
 scale = Vector2(2.2205834, 1.9844444)
 texture = ExtResource("5_6761a")
 
-[node name="Background1" type="Sprite2D" parent="." unique_id=1567525241]
-position = Vector2(-316.5, 104.99999)
+[node name="Background1" type="Parallax2D" parent="." unique_id=1567525241]
+z_index = -20
+scale = Vector2(1.545, 2.63)
+scroll_scale = Vector2(0.03, 0)
+scroll_offset = Vector2(0, -13.999981)
+repeat_size = Vector2(568, 0)
+repeat_times = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="Background1" unique_id=1567525242]
 scale = Vector2(2.21875, 1.4000001)
 texture = ExtResource("2_sk5k4")
 
-[node name="Background2" type="Sprite2D" parent="." unique_id=1506454957]
-position = Vector2(-316.5, 143.5)
+[node name="Background2" type="Parallax2D" parent="." unique_id=1506454957]
+z_index = -10
+scale = Vector2(1, 1.83)
+scroll_scale = Vector2(0.09, 0)
+scroll_offset = Vector2(-565, 114)
+repeat_size = Vector2(568, 0)
+repeat_times = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="Background2" unique_id=1506454958]
 scale = Vector2(2.21875, 0.9611112)
 texture = ExtResource("3_oc4kc")
 
@@ -211,7 +230,15 @@ tile_map_data = PackedByteArray("AAAAAP//AAAAAAoAAAAAAP7/AAAAAAoAAAACAP3/AAACAAk
 tile_set = SubResource("TileSet_ybxn4")
 
 [node name="Player" parent="Ground" unique_id=891875222 instance=ExtResource("2_6iamk")]
-position = Vector2(207, -75)
+position = Vector2(206, -50)
+
+[node name="StartWall" type="StaticBody2D" parent="." unique_id=2067000001]
+position = Vector2(-660, 180)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartWall" unique_id=2067000002]
+position = Vector2(92, -26)
+shape = SubResource("RectangleShape2D_start_wall")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1435188804]
 position = Vector2(-315, 98)
