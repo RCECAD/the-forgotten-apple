@@ -305,6 +305,21 @@ audio_group = "music"
 [node name="BeeEnemy" parent="." unique_id=868484983 instance=ExtResource("7_bee1")]
 position = Vector2(-290, 136)
 
+[node name="BeeEnemy4" parent="." unique_id=438155632 instance=ExtResource("7_bee1")]
+position = Vector2(952, 189)
+
+[node name="BeeEnemy5" parent="." unique_id=778253620 instance=ExtResource("7_bee1")]
+position = Vector2(1884, 172)
+
+[node name="BeeEnemy6" parent="." unique_id=1799672892 instance=ExtResource("7_bee1")]
+position = Vector2(2553, 157)
+
+[node name="BeeEnemy3" parent="." unique_id=478653764 instance=ExtResource("7_bee1")]
+position = Vector2(656, 201)
+
+[node name="BeeEnemy2" parent="." unique_id=2125768626 instance=ExtResource("7_bee1")]
+position = Vector2(-24, 189)
+
 [node name="UI" type="CanvasLayer" parent="." unique_id=303690045]
 layer = 200
 
