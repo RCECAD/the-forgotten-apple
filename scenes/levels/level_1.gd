@@ -7,12 +7,14 @@ extends Node2D
 @onready var _wind_sound: AudioStreamPlayer = $WindSound
 @onready var _music_sound: AudioStreamPlayer = $MusicSound
 @onready var _cabin_trigger: Area2D = $CabinDoorTrigger
+@onready var _tent_trigger: Area2D = $TentDoorTrigger
 @onready var _interact_prompt: Label = $Ground/Player/InteractPrompt
 @onready var _cabin_exit_spawn: Marker2D = $CabinExitSpawn
 
 const CAMERA_SMOOTH_SPEED := 6.0
 const BG0_Z_INDEX := -30
 const CABIN_LEVEL_SCENE := "res://scenes/levels/cabin_level.tscn"
+const TEND_LEVEL_SCENE := "res://scenes/levels/tend_level.tscn"
 
 var _camera_start_x: float
 var _camera_start_y: float
@@ -29,6 +31,7 @@ func _ready() -> void:
 	_background0.z_index = BG0_Z_INDEX
 	_interact_prompt.visible = false
 	_cabin_trigger.monitoring = true
+	_tent_trigger.monitoring = true
 	_apply_spawn_marker()
 	_wind_sound.play()
 	get_node("/root/GameSettings").call("apply_audio")
@@ -40,7 +43,8 @@ func _process(_delta: float) -> void:
 		_interact_prompt.visible = false
 		return
 
-	_interact_prompt.visible = _cabin_trigger.overlaps_body(_player)
+	var can_interact := _cabin_trigger.overlaps_body(_player) or _tent_trigger.overlaps_body(_player)
+	_interact_prompt.visible = can_interact
 
 	if !_follow_player and _player.global_position.x > _camera_start_x:
 		_follow_player = true
@@ -65,6 +69,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		_is_transitioning = true
 		_interact_prompt.visible = false
 		get_node("/root/SceneTransition").transition_to(CABIN_LEVEL_SCENE)
+	elif event.is_action_pressed("interact") and _tent_trigger.overlaps_body(_player):
+		_is_transitioning = true
+		_interact_prompt.visible = false
+		get_node("/root/SceneTransition").transition_to(TEND_LEVEL_SCENE)
 
 func _play_music() -> void:
 	if !is_inside_tree():

@@ -1,0 +1,145 @@
+[gd_scene format=3 uid="uid://dd1k84r64h437"]
+
+[ext_resource type="Texture2D" uid="uid://c1dq4dudt4poj" path="res://assets/player/all-assets/interior-tend1.png" id="1_interior"]
+[ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scenes/levels/tend_level.gd" id="3_script"]
+[ext_resource type="Texture2D" uid="uid://q4val7l5yujo" path="res://assets/player/all-assets/wolf.png" id="4_wolf"]
+[ext_resource type="Texture2D" uid="uid://dbn5jemqdntqg" path="res://assets/textures/logo.png" id="5_logo"]
+[ext_resource type="AudioStream" uid="uid://nieqqaqn1us4" path="res://assets/sfx/interior-hum.mp3" id="6_hum"]
+[ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="7_audio_group"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(1000, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(48, 520)
+
+[node name="TendLevel" type="Node2D" unique_id=719282567]
+script = ExtResource("3_script")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=692775211]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.014, 0.008, 0.012, 1)
+
+[node name="InteriorTend" type="Sprite2D" parent="." unique_id=2007108297]
+position = Vector2(478, 472.99997)
+scale = Vector2(2.109375, 2.109375)
+texture = ExtResource("1_interior")
+
+[node name="CollisionLayer" type="Node2D" parent="." unique_id=528383189]
+
+[node name="Floor" type="StaticBody2D" parent="CollisionLayer" unique_id=1918273950]
+position = Vector2(640, 625)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/Floor" unique_id=1640601693]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="LeftWall" type="StaticBody2D" parent="CollisionLayer" unique_id=1596226166]
+position = Vector2(120, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/LeftWall" unique_id=1974269084]
+position = Vector2(44, 0)
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="RightWall" type="StaticBody2D" parent="CollisionLayer" unique_id=872323450]
+position = Vector2(1160, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/RightWall" unique_id=264617709]
+position = Vector2(-419, 0)
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Player" parent="." unique_id=1288115185 instance=ExtResource("2_player")]
+position = Vector2(350, 590)
+scale = Vector2(3, 3)
+
+[node name="Wolf" type="Sprite2D" parent="." unique_id=948259877]
+position = Vector2(601, 542)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("4_wolf")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="InteriorHum" type="AudioStreamPlayer" parent="." unique_id=484137708]
+stream = ExtResource("6_hum")
+volume_db = -9.0
+script = ExtResource("7_audio_group")
+audio_group = "music"
+
+[node name="Credits" type="CanvasLayer" parent="." unique_id=335974577]
+layer = 300
+
+[node name="Dim" type="ColorRect" parent="Credits" unique_id=1840344530]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.82)
+
+[node name="CreditsRoll" type="Control" parent="Credits" unique_id=195406378]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+
+[node name="Logo" type="TextureRect" parent="Credits/CreditsRoll" unique_id=902446379]
+layout_mode = 0
+offset_left = 490.0
+offset_right = 790.0
+offset_bottom = 200.0
+mouse_filter = 2
+texture = ExtResource("5_logo")
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Credits/CreditsRoll" unique_id=1012482665]
+layout_mode = 0
+offset_top = 250.0
+offset_right = 1280.0
+offset_bottom = 310.0
+theme_override_font_sizes/font_size = 46
+text = "The Forgotten Apple"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Credits/CreditsRoll" unique_id=138370814]
+layout_mode = 0
+offset_top = 330.0
+offset_right = 1280.0
+offset_bottom = 380.0
+theme_override_font_sizes/font_size = 26
+text = "Creditos finais"
+horizontal_alignment = 1
+
+[node name="Placeholder1" type="Label" parent="Credits/CreditsRoll" unique_id=1871897842]
+layout_mode = 0
+offset_top = 440.0
+offset_right = 1280.0
+offset_bottom = 490.0
+theme_override_font_sizes/font_size = 24
+text = "Direcao, arte e programacao"
+horizontal_alignment = 1
+
+[node name="Placeholder2" type="Label" parent="Credits/CreditsRoll" unique_id=949677326]
+layout_mode = 0
+offset_top = 500.0
+offset_right = 1280.0
+offset_bottom = 550.0
+theme_override_font_sizes/font_size = 22
+text = "Eduarda
+Maria Eduarda
+Giullia
+Rafael
+Comelli"
+horizontal_alignment = 1
+
+[node name="Placeholder3" type="Label" parent="Credits/CreditsRoll" unique_id=1139300273]
+layout_mode = 0
+offset_top = 685.0
+offset_right = 1280.0
+offset_bottom = 735.0
+theme_override_font_sizes/font_size = 20
+text = "Obrigado por jogar"
+horizontal_alignment = 1

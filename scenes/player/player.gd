@@ -22,6 +22,7 @@ var current_state
 var is_player_down
 var max_health := 3
 var health := max_health
+var input_enabled := true
 var _hurt_timer := 0.0
 var _control_lock_timer := 0.0
 var _jumps_remaining := MAX_JUMPS
@@ -44,7 +45,10 @@ func _physics_process(delta):
 		_jumps_remaining = MAX_JUMPS
 	player_falling(delta)
 
-	if _control_lock_timer <= 0.0:
+	if !input_enabled:
+		velocity.x = move_toward(velocity.x, 0, RUN_SPEED)
+		_update_knockback_state()
+	elif _control_lock_timer <= 0.0:
 		player_idle(delta)
 		player_move(delta)
 		player_jump()
@@ -81,7 +85,7 @@ func _update_walking_audio() -> void:
 	if walking_audio == null:
 		return
 
-	var is_walking: bool = is_on_floor() and absf(velocity.x) > 0.1 and !is_player_down and _control_lock_timer <= 0.0
+	var is_walking: bool = input_enabled and is_on_floor() and absf(velocity.x) > 0.1 and !is_player_down and _control_lock_timer <= 0.0
 	if is_walking:
 		if !walking_audio.playing:
 			walking_audio.play()
@@ -190,3 +194,14 @@ func _die() -> void:
 	if walking_audio != null and walking_audio.playing:
 		walking_audio.stop()
 	get_node("/root/SceneTransition").reload_current_scene()
+
+func set_input_enabled(enabled: bool) -> void:
+	input_enabled = enabled
+	if enabled:
+		return
+
+	velocity.x = 0.0
+	is_player_down = false
+	current_state = State.Idle
+	if walking_audio != null and walking_audio.playing:
+		walking_audio.stop()
