@@ -20,6 +20,8 @@ extends Area2D
 @onready var _animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _buzz_audio: AudioStreamPlayer2D = $BeeBuzzAudio
 
+const DIFFICULTY_SPEED_MULTIPLIERS := [0.65, 1.0, 1.5]
+
 var _start_position: Vector2
 var _direction := 1.0
 var _time := 0.0
@@ -34,6 +36,9 @@ func _ready() -> void:
 	monitoring = true
 	_buzz_audio.play()
 	_animated_sprite_2d.play("fly")
+	var mult := DIFFICULTY_SPEED_MULTIPLIERS[get_node("/root/GameSettings").get_difficulty()]
+	patrol_speed *= mult
+	chase_speed *= mult
 
 func _physics_process(delta: float) -> void:
 	_time += delta

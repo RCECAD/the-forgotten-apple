@@ -10,12 +10,14 @@ const WINDOW_PRESETS := [
 	Vector2i(960, 540),
 	Vector2i(1280, 720),
 ]
+const DIFFICULTY_NAMES := ["Fácil", "Normal", "Difícil"]
 
 var music_volume_percent: float = 100.0
 var enemy_volume_percent: float = 100.0
 var effects_volume_percent: float = 100.0
 var fullscreen_enabled := false
 var window_preset_index := 2
+var difficulty: int = 1
 
 func _ready() -> void:
 	load_settings()
@@ -52,6 +54,14 @@ func set_window_preset_index(index: int) -> void:
 	_save_settings()
 	settings_changed.emit()
 
+func set_difficulty(value: int) -> void:
+	difficulty = clampi(value, 0, DIFFICULTY_NAMES.size() - 1)
+	_save_settings()
+	settings_changed.emit()
+
+func get_difficulty() -> int:
+	return difficulty
+
 func apply_audio() -> void:
 	_apply_group_volume("music", music_volume_percent)
 	_apply_group_volume("enemies", enemy_volume_percent)
@@ -76,6 +86,8 @@ func load_settings() -> void:
 	fullscreen_enabled = bool(config.get_value("display", "fullscreen_enabled", fullscreen_enabled))
 	window_preset_index = int(config.get_value("display", "window_preset_index", window_preset_index))
 	window_preset_index = clampi(window_preset_index, 0, WINDOW_PRESETS.size() - 1)
+	difficulty = int(config.get_value("gameplay", "difficulty", difficulty))
+	difficulty = clampi(difficulty, 0, DIFFICULTY_NAMES.size() - 1)
 
 func _save_settings() -> void:
 	var config := ConfigFile.new()
@@ -84,6 +96,7 @@ func _save_settings() -> void:
 	config.set_value("audio", "effects_volume_percent", effects_volume_percent)
 	config.set_value("display", "fullscreen_enabled", fullscreen_enabled)
 	config.set_value("display", "window_preset_index", window_preset_index)
+	config.set_value("gameplay", "difficulty", difficulty)
 	config.save(CONFIG_PATH)
 
 func _apply_group_volume(group_name: String, percent: float) -> void:
