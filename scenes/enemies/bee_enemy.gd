@@ -20,7 +20,7 @@ extends Area2D
 @onready var _animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _buzz_audio: AudioStreamPlayer2D = $BeeBuzzAudio
 
-const DIFFICULTY_SPEED_MULTIPLIERS := [0.65, 1.0, 1.5]
+const DIFFICULTY_SPEED_MULTIPLIERS: Array[float] = [0.65, 1.0, 1.5]
 
 var _start_position: Vector2
 var _direction := 1.0
