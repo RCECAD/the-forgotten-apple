@@ -8,7 +8,7 @@ extends Node2D
 @onready var _music_sound: AudioStreamPlayer = $MusicSound
 @onready var _cabin_trigger: Area2D = $CabinDoorTrigger
 @onready var _tent_trigger: Area2D = $TentDoorTrigger
-@onready var _interact_prompt: Label = $Ground/Player/InteractPrompt
+@onready var _interact_prompt: Control = $Ground/Player/InteractPrompt
 @onready var _cabin_exit_spawn: Marker2D = $CabinExitSpawn
 
 const CAMERA_SMOOTH_SPEED := 6.0

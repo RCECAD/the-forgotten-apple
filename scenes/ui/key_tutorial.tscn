@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b26uxoj66f43l"]
+
+[ext_resource type="Script" uid="uid://cq7nfxjhl6eys" path="res://scenes/ui/key_tutorial.gd" id="1_script"]
+
+[node name="KeyTutorial" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_script")

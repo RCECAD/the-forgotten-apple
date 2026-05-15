@@ -7,6 +7,8 @@
 [ext_resource type="AudioStream" uid="uid://co0pnmyergap7" path="res://assets/sfx/walking-wood.mp3" id="5_walkwood"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="6_audio_group"]
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="7_health"]
+[ext_resource type="Texture2D" uid="uid://dog7f20uqlgds" path="res://assets/textures/keyboard_e.png" id="8_key_e"]
+[ext_resource type="Script" uid="uid://dgm8u6likclsa" path="res://scenes/ui/interact_prompt.gd" id="9_prompt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(384, 20)
@@ -86,14 +88,16 @@ stream = ExtResource("5_walkwood")
 volume_db = 10.0
 script = ExtResource("6_audio_group")
 
-[node name="InteractPrompt" type="Label" parent="Player" unique_id=448662691]
-offset_left = -7.0
-offset_top = -47.22
+[node name="InteractPrompt" type="TextureRect" parent="Player" unique_id=448662691]
+offset_left = -8.0
+offset_top = -48.0
 offset_right = 8.0
-offset_bottom = -19.220001
-theme_override_font_sizes/font_size = 13
-text = "E"
-horizontal_alignment = 1
+offset_bottom = -32.0
+pivot_offset = Vector2(8, 8)
+texture = ExtResource("8_key_e")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("9_prompt")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1724093807]
 position = Vector2(0, -16)

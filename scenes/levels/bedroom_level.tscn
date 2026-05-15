@@ -7,6 +7,9 @@
 [ext_resource type="AudioStream" uid="uid://co0pnmyergap7" path="res://assets/sfx/walking-wood.mp3" id="5_walkwood"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="6_audio_group"]
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="7_health"]
+[ext_resource type="PackedScene" uid="uid://b26uxoj66f43l" path="res://scenes/ui/key_tutorial.tscn" id="8_tutorial"]
+[ext_resource type="Texture2D" uid="uid://dog7f20uqlgds" path="res://assets/textures/keyboard_e.png" id="9_key_e"]
+[ext_resource type="Script" uid="uid://dgm8u6likclsa" path="res://scenes/ui/interact_prompt.gd" id="10_prompt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(384, 20)
@@ -86,14 +89,16 @@ stream = ExtResource("5_walkwood")
 volume_db = 10.0
 script = ExtResource("6_audio_group")
 
-[node name="InteractPrompt" type="Label" parent="Player" unique_id=189663474]
-offset_left = -7.31
-offset_top = -42.455
-offset_right = 7.69
-offset_bottom = -14.455002
-theme_override_font_sizes/font_size = 13
-text = "E"
-horizontal_alignment = 1
+[node name="InteractPrompt" type="TextureRect" parent="Player" unique_id=189663474]
+offset_left = -8.0
+offset_top = -48.0
+offset_right = 8.0
+offset_bottom = -32.0
+pivot_offset = Vector2(8, 8)
+texture = ExtResource("9_key_e")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("10_prompt")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=950993437]
 position = Vector2(0, -16)
@@ -108,3 +113,5 @@ layer = 200
 layer = 150
 
 [node name="HealthUI" parent="HUD" instance=ExtResource("7_health")]
+
+[node name="KeyTutorial" parent="HUD" instance=ExtResource("8_tutorial")]

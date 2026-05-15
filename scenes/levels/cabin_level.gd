@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var _player: CharacterBody2D = $Player
 @onready var _door_trigger: Area2D = $DoorTrigger
-@onready var _interact_prompt: Label = $Player/InteractPrompt
+@onready var _interact_prompt: Control = $Player/InteractPrompt
 @onready var _pause_menu: Control = $UI/PauseMenu
 
 const LEVEL_1_SCENE := "res://scenes/levels/level_1.tscn"

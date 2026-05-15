@@ -15,6 +15,8 @@
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="11_audio_group"]
 [ext_resource type="PackedScene" uid="uid://dl2lvutrpved5" path="res://scenes/ui/pause_menu.tscn" id="12_pause"]
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="13_health"]
+[ext_resource type="Texture2D" uid="uid://dog7f20uqlgds" path="res://assets/textures/keyboard_e.png" id="14_key_e"]
+[ext_resource type="Script" uid="uid://dgm8u6likclsa" path="res://scenes/ui/interact_prompt.gd" id="15_prompt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cabin_door"]
 size = Vector2(23, 38)
@@ -357,15 +359,17 @@ stream = ExtResource("10_walk")
 volume_db = 2.5
 script = ExtResource("11_audio_group")
 
-[node name="InteractPrompt" type="Label" parent="Ground/Player" unique_id=730787264]
+[node name="InteractPrompt" type="TextureRect" parent="Ground/Player" unique_id=730787264]
 visible = false
-offset_left = -7.0
-offset_top = -47.0
+offset_left = -8.0
+offset_top = -48.0
 offset_right = 8.0
-offset_bottom = -19.0
-theme_override_font_sizes/font_size = 13
-text = "E"
-horizontal_alignment = 1
+offset_bottom = -32.0
+pivot_offset = Vector2(8, 8)
+texture = ExtResource("14_key_e")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("15_prompt")
 
 [node name="StartWall" type="StaticBody2D" parent="." unique_id=2067000001]
 position = Vector2(-660, 180)

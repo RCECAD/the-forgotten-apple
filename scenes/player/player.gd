@@ -105,15 +105,16 @@ func player_idle(delta):
 @warning_ignore("unused_parameter")
 func player_move(delta):
 	var direction := signf(Input.get_axis("move_left", "move_right"))
+	var is_running := _is_run_pressed()
 	
 	if direction:
-		var movement_speed := RUN_SPEED if Input.is_key_pressed(KEY_SHIFT) else WALK_SPEED
+		var movement_speed := RUN_SPEED if is_running else WALK_SPEED
 		velocity.x = direction * movement_speed
 	else:
 		velocity.x = move_toward(velocity.x, 0, RUN_SPEED)
 		
 	if direction != 0:
-		current_state = State.Run if Input.is_key_pressed(KEY_SHIFT) else State.Walk
+		current_state = State.Run if is_running else State.Walk
 		animated_sprite_2d.flip_h = false if direction > 0 else true
 		
 func player_jump():
@@ -143,9 +144,12 @@ func update_state():
 		else:
 			current_state = State.Fall
 	elif velocity.x != 0:
-		current_state = State.Run if Input.is_key_pressed(KEY_SHIFT) else State.Walk
+		current_state = State.Run if _is_run_pressed() else State.Walk
 	else:
 		current_state = State.Idle
+
+func _is_run_pressed() -> bool:
+	return Input.is_key_pressed(KEY_SHIFT) or Input.is_key_pressed(KEY_CTRL)
 
 func player_animations():
 	if current_state == State.Idle:

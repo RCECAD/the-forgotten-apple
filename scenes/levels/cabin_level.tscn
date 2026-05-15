@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="7_health"]
 [ext_resource type="Texture2D" uid="uid://cm35d8lnjw038" path="res://assets/player/all-assets/apple.png" id="8_apple"]
 [ext_resource type="Script" uid="uid://dm65jpv68ijrq" path="res://scenes/items/apple_collectible.gd" id="9_apple_script"]
+[ext_resource type="Texture2D" uid="uid://dog7f20uqlgds" path="res://assets/textures/keyboard_e.png" id="10_key_e"]
+[ext_resource type="Script" uid="uid://dgm8u6likclsa" path="res://scenes/ui/interact_prompt.gd" id="11_prompt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(404, 20)
@@ -87,15 +89,17 @@ stream = ExtResource("5_walkwood")
 volume_db = 10.0
 script = ExtResource("6_audio_group")
 
-[node name="InteractPrompt" type="Label" parent="Player" unique_id=219714052]
+[node name="InteractPrompt" type="TextureRect" parent="Player" unique_id=219714052]
 visible = false
-offset_left = -7.0
-offset_top = -47.0
+offset_left = -8.0
+offset_top = -48.0
 offset_right = 8.0
-offset_bottom = -19.0
-theme_override_font_sizes/font_size = 13
-text = "E"
-horizontal_alignment = 1
+offset_bottom = -32.0
+pivot_offset = Vector2(8, 8)
+texture = ExtResource("10_key_e")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("11_prompt")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=411156762]
 position = Vector2(0, -16)
