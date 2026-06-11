@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 SceneTransition="res://scenes/ui/scene_transition.gd"
 GameSettings="res://scenes/ui/game_settings.gd"
+GameState="res://scenes/player/game_state.gd"
 
 [display]
 
