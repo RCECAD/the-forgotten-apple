@@ -4,10 +4,14 @@ const DEFAULT_MAX_HEALTH := 3
 
 var max_health := DEFAULT_MAX_HEALTH
 var health := DEFAULT_MAX_HEALTH
+var intro_dialog_seen := false
 
 func reset_player_health() -> void:
 	max_health = DEFAULT_MAX_HEALTH
 	health = max_health
+
+func reset_narrative_progress() -> void:
+	intro_dialog_seen = false
 
 func set_player_health(current_health: int, current_max_health: int) -> void:
 	max_health = maxi(current_max_health, 1)
