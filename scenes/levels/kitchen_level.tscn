@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://00jnp5dwvl7i"]
+[gd_scene load_steps=13 format=3 uid="uid://00jnp5dwvl7i"]
 
 [ext_resource type="Texture2D" uid="uid://cwtgybohgy4y6" path="res://assets/player/all-assets/kitchen.png" id="1"]
 [ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://co0pnmyergap7" path="res://assets/sfx/walking-wood.mp3" id="5_walkwood"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="6_audio_group"]
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="7_health"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/interactable_letter.tscn" id="8_letter"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(384, 20)
@@ -77,6 +78,9 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DoorTrigger" unique_id=1455408823]
 position = Vector2(11, 0)
 shape = SubResource("RectangleShape2D_door")
+
+[node name="InteractableLetter" parent="." instance=ExtResource("8_letter")]
+position = Vector2(239, 218)
 
 [node name="Player" parent="." unique_id=448662690 instance=ExtResource("2")]
 position = Vector2(164, 244)
