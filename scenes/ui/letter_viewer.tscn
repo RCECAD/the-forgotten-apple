@@ -1,11 +1,17 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scenes/ui/letter_viewer_ui.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/player/all-assets/letter-expanded.png" id="2_letter"]
+[ext_resource type="AudioStream" path="res://assets/sfx/taking-paper.mp3" id="3_paper_sfx"]
+[ext_resource type="Script" path="res://scenes/audio/audio_group.gd" id="4_audio_group"]
 
 [node name="LetterViewer" type="CanvasLayer"]
 layer = 320
 script = ExtResource("1_script")
+
+[node name="TakingPaperSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_paper_sfx")
+script = ExtResource("4_audio_group")
 
 [node name="Root" type="Control" parent="."]
 layout_mode = 3

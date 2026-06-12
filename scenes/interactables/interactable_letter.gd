@@ -24,7 +24,9 @@ func trigger_sequence() -> void:
 
 	_is_interacting = true
 	await get_node("/root/DialogManager").start_dialog([
-		"Receitas, lista de compras... Maçãs, farinha, canela... Espera. Essa nota parece recente."
+		"Receitas, lista de compras...",
+		"Maçãs, farinha, canela...",
+		"Espera. Essa nota parece recente."
 	])
 	await get_node("/root/InventoryManager").collect_letter_with_presentation()
 	await get_node("/root/LetterViewer").open_letter()

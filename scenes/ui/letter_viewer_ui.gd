@@ -2,12 +2,15 @@ extends CanvasLayer
 
 signal letter_closed
 
+@onready var _taking_paper_sfx: AudioStreamPlayer = $TakingPaperSfx
+
 var _can_close := false
 var _closed := false
 
 func _ready() -> void:
 	layer = 320
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_taking_paper_sfx.play()
 	call_deferred("_enable_close")
 
 func _input(event: InputEvent) -> void:
