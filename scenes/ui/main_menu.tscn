@@ -50,44 +50,44 @@ stretch_mode = 5
 
 [node name="OptionsContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 675.0
-offset_top = 335.0
-offset_right = 895.0
-offset_bottom = 511.0
+offset_left = 690.0
+offset_top = 342.0
+offset_right = 880.0
+offset_bottom = 498.0
 theme_override_constants/separation = 8
 
 [node name="NovoJogoLabel" type="Label" parent="OptionsContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 38)
+custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 27
 text = "Novo Jogo"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ContinuarLabel" type="Label" parent="OptionsContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 38)
+custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 27
 text = "Continuar"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ConfiguracoesLabel" type="Label" parent="OptionsContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 38)
+custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 27
 text = "Configurações"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SairLabel" type="Label" parent="OptionsContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 38)
+custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 27
 text = "Sair"
 horizontal_alignment = 1
 vertical_alignment = 1

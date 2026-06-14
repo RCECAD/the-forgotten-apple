@@ -39,6 +39,19 @@ func transition_to(scene_path: String, spawn_marker := "") -> void:
 	await _fade_to(0.0)
 	_is_transitioning = false
 
+func transition_to_packed(scene: PackedScene, spawn_marker := "") -> void:
+	if _is_transitioning or scene == null:
+		return
+
+	_is_transitioning = true
+	_spawn_marker = spawn_marker
+	get_tree().paused = false
+	await _fade_to(1.0)
+	get_tree().change_scene_to_packed(scene)
+	await get_tree().process_frame
+	await _fade_to(0.0)
+	_is_transitioning = false
+
 func consume_spawn_marker() -> String:
 	var marker := _spawn_marker
 	_spawn_marker = ""

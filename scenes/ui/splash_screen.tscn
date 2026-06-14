@@ -1,20 +1,14 @@
-[gd_scene format=3 uid="uid://n6xsmqxxdkak"]
+[gd_scene load_steps=5 format=3 uid="uid://n6xsmqxxdkak"]
 
 [ext_resource type="Script" uid="uid://bfiwhyn66iub8" path="res://scenes/ui/splash_screen.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://c3e7wgaj40g23" path="res://assets/textures/tileset-sunset.png" id="2_bg"]
-[ext_resource type="Texture2D" uid="uid://dbn5jemqdntqg" path="res://assets/textures/logo.png" id="3_logo"]
+[ext_resource type="Texture2D" path="res://assets/player/all-assets/loading-screen.png" id="2_background"]
+[ext_resource type="Texture2D" uid="uid://cw57nxvaqfcfh" path="res://assets/player/all-assets/new-logo.png" id="3_logo"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-bg_color = Color(0.102, 0.047, 0.071, 0.82)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.84, 0.512, 0.173, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+[sub_resource type="Shader" id="Shader_vignette"]
+code = "shader_type canvas_item;\n\nvoid fragment() {\n\tvec2 centered_uv = UV * 2.0 - 1.0;\n\tfloat vignette = smoothstep(0.35, 1.15, length(centered_uv));\n\tCOLOR = vec4(0.01, 0.005, 0.015, vignette * 0.78);\n}\n"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
+shader = SubResource("Shader_vignette")
 
 [node name="SplashScreen" type="Control"]
 layout_mode = 3
@@ -32,48 +26,90 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_bg")
-expand_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_background")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="Tint" type="ColorRect" parent="."]
+[node name="DarkTint" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.031, 0.018, 0.027, 0.38)
+mouse_filter = 2
+color = Color(0.008, 0.012, 0.025, 0.52)
+
+[node name="Atmosphere" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Vignette" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_vignette")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
 
 [node name="Content" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="Content"]
+[node name="Logo" type="TextureRect" parent="Content"]
+unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -310.0
+offset_top = -245.0
+offset_right = 310.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="Content/CenterContainer"]
-custom_minimum_size = Vector2(420, 190)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
-
-[node name="MarginContainer" type="MarginContainer" parent="Content/CenterContainer/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 34
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 34
-theme_override_constants/margin_bottom = 32
-
-[node name="Logo" type="TextureRect" parent="Content/CenterContainer/PanelContainer/MarginContainer"]
-layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("3_logo")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="Prompt" type="Label" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -230.0
+offset_top = -105.0
+offset_right = 230.0
+offset_bottom = -62.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.91, 0.79, 0.55, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+text = "Pressione qualquer tecla"
+horizontal_alignment = 1
+vertical_alignment = 1

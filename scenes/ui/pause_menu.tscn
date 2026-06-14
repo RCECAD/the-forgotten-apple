@@ -1,246 +1,477 @@
-[gd_scene format=3 uid="uid://dl2lvutrpved5"]
+[gd_scene load_steps=7 format=3 uid="uid://dl2lvutrpved5"]
 
-[ext_resource type="Script" uid="uid://caxke4mt1546w" path="res://scenes/ui/pause_menu.gd" id="1"]
+[ext_resource type="Script" uid="uid://caxke4mt1546w" path="res://scenes/ui/pause_menu.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/ui/menu_box.png" id="2_main_panel"]
+[ext_resource type="Texture2D" path="res://assets/player/all-assets/menu-box-expanded.png" id="3_expanded_panel"]
+[ext_resource type="Texture2D" path="res://assets/ui/menu_arrow.png" id="4_arrow"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.09411765, 0.078431375, 0.06666667, 0.96)
+[sub_resource type="StyleBoxFlat" id="StyleBox_slider"]
+bg_color = Color(0.11, 0.075, 0.045, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.7882353, 0.5647059, 0.25490198, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+border_color = Color(0.55, 0.33, 0.12, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
-bg_color = Color(0.20392157, 0.13725491, 0.08627451, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBox_slider_fill"]
+bg_color = Color(0.88, 0.58, 0.16, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.7882353, 0.5647059, 0.25490198, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(1, 0.82, 0.35, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
-bg_color = Color(0.32941177, 0.2, 0.105882354, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.9607843, 0.7411765, 0.36078432, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_pressed"]
-bg_color = Color(0.12156863, 0.08627451, 0.05882353, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.9607843, 0.7411765, 0.36078432, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-
-[node name="PauseMenu" type="Control" unique_id=1116789673]
+[node name="PauseMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1")
+mouse_filter = 1
+script = ExtResource("1_script")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1817940623]
+[node name="BackgroundOverlay" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.015686275, 0.011764706, 0.007843138, 0.72)
+mouse_filter = 1
+color = Color(0, 0, 0, 0.65)
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=426410128]
+[node name="MainPanel" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -260.0
+offset_right = 400.0
+offset_bottom = 260.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=39603362]
-custom_minimum_size = Vector2(440, 360)
-layout_mode = 2
-size_flags_stretch_ratio = 0.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+[node name="MenuBox" type="TextureRect" parent="MainPanel"]
+layout_mode = 0
+offset_top = 60.0
+offset_right = 800.0
+offset_bottom = 510.0
+mouse_filter = 2
+texture = ExtResource("2_main_panel")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=734557876]
-layout_mode = 2
-theme_override_constants/margin_left = 28
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 28
-theme_override_constants/margin_bottom = 24
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" unique_id=1851058901]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="Title" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=393341335]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.9607843, 0.7411765, 0.36078432, 1)
-theme_override_font_sizes/font_size = 32
+[node name="Title" type="Label" parent="MainPanel"]
+layout_mode = 0
+offset_left = 220.0
+offset_right = 580.0
+offset_bottom = 58.0
+theme_override_colors/font_color = Color(1, 0.88, 0.46, 1)
+theme_override_colors/font_shadow_color = Color(0.25, 0.08, 0.01, 0.95)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 44
 text = "Pausa"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Subtitle" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1995990906]
+[node name="OptionsContainer" type="VBoxContainer" parent="MainPanel"]
+layout_mode = 0
+offset_left = 250.0
+offset_top = 182.0
+offset_right = 550.0
+offset_bottom = 402.0
+theme_override_constants/separation = 5
+
+[node name="ContinueOption" type="Label" parent="MainPanel/OptionsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.827451, 0.7764706, 0.6745098, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 28
+text = "Continuar"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsOption" type="Label" parent="MainPanel/OptionsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
 text = "Configurações"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="TabContainer" type="TabContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=2043756288]
-custom_minimum_size = Vector2(0, 190)
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 14
-current_tab = 0
-
-[node name="Audio" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer" unique_id=868064643]
-layout_mode = 2
-theme_override_constants/separation = 8
-metadata/_tab_index = 0
-
-[node name="MusicRow" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio" unique_id=1070779392]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="MusicLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/MusicRow" unique_id=1269002229]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.89411765, 0.85882354, 0.7607843, 1)
-theme_override_font_sizes/font_size = 14
-text = "Música"
-
-[node name="MusicValueLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/MusicRow" unique_id=1392879234]
+[node name="ControlsOption" type="Label" parent="MainPanel/OptionsContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9607843, 0.7411765, 0.36078432, 1)
-theme_override_font_sizes/font_size = 13
-text = "100%"
-horizontal_alignment = 2
+theme_override_font_sizes/font_size = 28
+text = "Controles"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="MusicSlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/MusicRow" unique_id=677200375]
+[node name="MainMenuOption" type="Label" parent="MainPanel/OptionsContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 26)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-value = 100.0
+theme_override_font_sizes/font_size = 28
+text = "Voltar ao Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="EnemyRow" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio" unique_id=824370379]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="EnemyLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/EnemyRow" unique_id=358177813]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.89411765, 0.85882354, 0.7607843, 1)
-theme_override_font_sizes/font_size = 14
-text = "Inimigos"
-
-[node name="EnemyValueLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/EnemyRow" unique_id=1032741784]
+[node name="ExitOption" type="Label" parent="MainPanel/OptionsContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9607843, 0.7411765, 0.36078432, 1)
-theme_override_font_sizes/font_size = 13
-text = "100%"
-horizontal_alignment = 2
+theme_override_font_sizes/font_size = 28
+text = "Sair do Jogo"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="EnemySlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/EnemyRow" unique_id=872227004]
+[node name="ExpandedPanel" type="Control" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 26)
-layout_mode = 2
-value = 100.0
-
-[node name="EffectsRow" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio" unique_id=1552106393]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="EffectsLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/EffectsRow" unique_id=1841543597]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.89411765, 0.85882354, 0.7607843, 1)
-theme_override_font_sizes/font_size = 14
-text = "Efeitos"
-
-[node name="EffectsValueLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/EffectsRow" unique_id=930025190]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.9607843, 0.7411765, 0.36078432, 1)
-theme_override_font_sizes/font_size = 13
-text = "100%"
-horizontal_alignment = 2
-
-[node name="EffectsSlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/EffectsRow" unique_id=2032126136]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 26)
-layout_mode = 2
-value = 100.0
-
-[node name="Display" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer" unique_id=1997867471]
 visible = false
-layout_mode = 2
-theme_override_constants/separation = 12
-metadata/_tab_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -337.0
+offset_right = 270.0
+offset_bottom = 337.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="FullscreenCheckButton" type="CheckButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Display" unique_id=808052165]
+[node name="MenuBoxExpanded" type="TextureRect" parent="ExpandedPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_expanded_panel")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SettingsContent" type="Control" parent="ExpandedPanel"]
 unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.89411765, 0.85882354, 0.7607843, 1)
-theme_override_font_sizes/font_size = 15
-text = "Tela cheia"
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="ResolutionLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Display" unique_id=53911732]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.89411765, 0.85882354, 0.7607843, 1)
-theme_override_font_sizes/font_size = 15
-text = "Resolução"
-
-[node name="ResolutionOption" type="OptionButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Display" unique_id=353961305]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="ButtonRow" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1429245922]
-layout_mode = 2
+[node name="Rows" type="VBoxContainer" parent="ExpandedPanel/SettingsContent"]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 105.0
+offset_right = 435.0
+offset_bottom = 555.0
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="ResumeButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonRow" unique_id=1903338972]
+[node name="MasterRow" type="Control" parent="ExpandedPanel/SettingsContent/Rows"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(132, 42)
+custom_minimum_size = Vector2(330, 58)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.93333334, 0.8, 1)
-theme_override_font_sizes/font_size = 15
-theme_override_styles/normal = SubResource("StyleBoxFlat_button")
-theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
-text = "Continuar"
 
-[node name="MainMenuButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ButtonRow" unique_id=328311127]
+[node name="MasterLabel" type="Label" parent="ExpandedPanel/SettingsContent/Rows/MasterRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(156, 42)
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 22
+text = "Volume geral"
+
+[node name="MasterSlider" type="HSlider" parent="ExpandedPanel/SettingsContent/Rows/MasterRow"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 31.0
+offset_right = 270.0
+offset_bottom = 53.0
+theme_override_styles/slider = SubResource("StyleBox_slider")
+theme_override_styles/grabber_area = SubResource("StyleBox_slider_fill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBox_slider_fill")
+step = 1.0
+value = 100.0
+
+[node name="MasterValue" type="Label" parent="ExpandedPanel/SettingsContent/Rows/MasterRow"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 275.0
+offset_right = 330.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 20
+text = "100%"
+horizontal_alignment = 2
+
+[node name="MusicRow" type="Control" parent="ExpandedPanel/SettingsContent/Rows"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(330, 58)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.93333334, 0.8, 1)
-theme_override_font_sizes/font_size = 15
-theme_override_styles/normal = SubResource("StyleBoxFlat_button")
-theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_button_pressed")
-text = "Menu Principal"
+
+[node name="MusicLabel" type="Label" parent="ExpandedPanel/SettingsContent/Rows/MusicRow"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 22
+text = "Música"
+
+[node name="MusicSlider" type="HSlider" parent="ExpandedPanel/SettingsContent/Rows/MusicRow"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 31.0
+offset_right = 270.0
+offset_bottom = 53.0
+theme_override_styles/slider = SubResource("StyleBox_slider")
+theme_override_styles/grabber_area = SubResource("StyleBox_slider_fill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBox_slider_fill")
+step = 1.0
+value = 100.0
+
+[node name="MusicValue" type="Label" parent="ExpandedPanel/SettingsContent/Rows/MusicRow"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 275.0
+offset_right = 330.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 20
+text = "100%"
+horizontal_alignment = 2
+
+[node name="EffectsRow" type="Control" parent="ExpandedPanel/SettingsContent/Rows"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(330, 58)
+layout_mode = 2
+
+[node name="EffectsLabel" type="Label" parent="ExpandedPanel/SettingsContent/Rows/EffectsRow"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 170.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 22
+text = "Efeitos sonoros"
+
+[node name="EffectsSlider" type="HSlider" parent="ExpandedPanel/SettingsContent/Rows/EffectsRow"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 31.0
+offset_right = 270.0
+offset_bottom = 53.0
+theme_override_styles/slider = SubResource("StyleBox_slider")
+theme_override_styles/grabber_area = SubResource("StyleBox_slider_fill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBox_slider_fill")
+step = 1.0
+value = 100.0
+
+[node name="EffectsValue" type="Label" parent="ExpandedPanel/SettingsContent/Rows/EffectsRow"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 275.0
+offset_right = 330.0
+offset_bottom = 26.0
+theme_override_font_sizes/font_size = 20
+text = "100%"
+horizontal_alignment = 2
+
+[node name="DisplayModeRow" type="Control" parent="ExpandedPanel/SettingsContent/Rows"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(330, 42)
+layout_mode = 2
+
+[node name="DisplayModeLabel" type="Label" parent="ExpandedPanel/SettingsContent/Rows/DisplayModeRow"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 38.0
+theme_override_font_sizes/font_size = 22
+text = "Modo de tela"
+vertical_alignment = 1
+
+[node name="DisplayModeValue" type="Label" parent="ExpandedPanel/SettingsContent/Rows/DisplayModeRow"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 165.0
+offset_right = 330.0
+offset_bottom = 38.0
+theme_override_font_sizes/font_size = 20
+text = "Janela"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ResolutionRow" type="Control" parent="ExpandedPanel/SettingsContent/Rows"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(330, 42)
+layout_mode = 2
+
+[node name="ResolutionLabel" type="Label" parent="ExpandedPanel/SettingsContent/Rows/ResolutionRow"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 38.0
+theme_override_font_sizes/font_size = 22
+text = "Resolução"
+vertical_alignment = 1
+
+[node name="ResolutionValue" type="Label" parent="ExpandedPanel/SettingsContent/Rows/ResolutionRow"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 150.0
+offset_right = 330.0
+offset_bottom = 38.0
+theme_override_font_sizes/font_size = 20
+text = "1280 x 720"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="SettingsBackRow" type="Control" parent="ExpandedPanel/SettingsContent/Rows"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(330, 42)
+layout_mode = 2
+
+[node name="SettingsBackLabel" type="Label" parent="ExpandedPanel/SettingsContent/Rows/SettingsBackRow"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 23
+text = "Voltar"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ControlsContent" type="Control" parent="ExpandedPanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Keys" type="Label" parent="ExpandedPanel/ControlsContent"]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 110.0
+offset_right = 235.0
+offset_bottom = 500.0
+theme_override_colors/font_color = Color(1, 0.84, 0.42, 1)
+theme_override_font_sizes/font_size = 22
+text = "W / A / S / D\nEspaço\nE\nI\nEsc\nSetas\nEnter ou E"
+vertical_alignment = 1
+
+[node name="Actions" type="Label" parent="ExpandedPanel/ControlsContent"]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 110.0
+offset_right = 440.0
+offset_bottom = 500.0
+theme_override_colors/font_color = Color(0.86, 0.78, 0.65, 1)
+theme_override_font_sizes/font_size = 22
+text = "Movimento\nPular\nInteragir\nAbrir inventário\nPausar\nNavegar nos menus\nConfirmar"
+vertical_alignment = 1
+
+[node name="ControlsBackRow" type="Control" parent="ExpandedPanel/ControlsContent"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 125.0
+offset_top = 520.0
+offset_right = 415.0
+offset_bottom = 570.0
+
+[node name="ControlsBackLabel" type="Label" parent="ExpandedPanel/ControlsContent/ControlsBackRow"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "Voltar"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ConfirmationContent" type="Control" parent="ExpandedPanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ConfirmationMessage" type="Label" parent="ExpandedPanel/ConfirmationContent"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 105.0
+offset_top = 175.0
+offset_right = 435.0
+offset_bottom = 330.0
+theme_override_colors/font_color = Color(0.88, 0.82, 0.7, 1)
+theme_override_font_sizes/font_size = 22
+text = "Deseja realmente sair do jogo?"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Options" type="VBoxContainer" parent="ExpandedPanel/ConfirmationContent"]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 350.0
+offset_right = 390.0
+offset_bottom = 465.0
+theme_override_constants/separation = 15
+
+[node name="ConfirmationYes" type="Label" parent="ExpandedPanel/ConfirmationContent/Options"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Sim"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ConfirmationNo" type="Label" parent="ExpandedPanel/ConfirmationContent/Options"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Não"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectionArrow" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 56.0
+offset_bottom = 56.0
+mouse_filter = 2
+texture = ExtResource("4_arrow")
+expand_mode = 1
+stretch_mode = 5
