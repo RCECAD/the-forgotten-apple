@@ -15,6 +15,7 @@ const DIFFICULTY_NAMES := ["Fácil", "Normal", "Difícil"]
 var music_volume_percent: float = 100.0
 var enemy_volume_percent: float = 100.0
 var effects_volume_percent: float = 100.0
+var master_volume_percent: float = 100.0
 var fullscreen_enabled := false
 var window_preset_index := 2
 var difficulty: int = 1
@@ -26,6 +27,12 @@ func _ready() -> void:
 
 func set_music_volume_percent(value: float) -> void:
 	music_volume_percent = clampf(value, 0.0, 100.0)
+	apply_audio()
+	_save_settings()
+	settings_changed.emit()
+
+func set_master_volume_percent(value: float) -> void:
+	master_volume_percent = clampf(value, 0.0, 100.0)
 	apply_audio()
 	_save_settings()
 	settings_changed.emit()
@@ -63,8 +70,14 @@ func get_difficulty() -> int:
 	return difficulty
 
 func apply_audio() -> void:
+	var master_bus_index := AudioServer.get_bus_index("Master")
+	if master_bus_index >= 0:
+		AudioServer.set_bus_volume_db(master_bus_index, _percent_to_db(master_volume_percent))
 	_apply_group_volume("music", music_volume_percent)
-	_apply_group_volume("enemies", enemy_volume_percent)
+	_apply_group_volume(
+		"enemies",
+		effects_volume_percent * enemy_volume_percent / 100.0
+	)
 	_apply_group_volume("effects", effects_volume_percent)
 
 func apply_display() -> void:
@@ -83,6 +96,7 @@ func load_settings() -> void:
 	music_volume_percent = float(config.get_value("audio", "music_volume_percent", music_volume_percent))
 	enemy_volume_percent = float(config.get_value("audio", "enemy_volume_percent", enemy_volume_percent))
 	effects_volume_percent = float(config.get_value("audio", "effects_volume_percent", effects_volume_percent))
+	master_volume_percent = float(config.get_value("audio", "master_volume_percent", master_volume_percent))
 	fullscreen_enabled = bool(config.get_value("display", "fullscreen_enabled", fullscreen_enabled))
 	window_preset_index = int(config.get_value("display", "window_preset_index", window_preset_index))
 	window_preset_index = clampi(window_preset_index, 0, WINDOW_PRESETS.size() - 1)
@@ -94,6 +108,7 @@ func _save_settings() -> void:
 	config.set_value("audio", "music_volume_percent", music_volume_percent)
 	config.set_value("audio", "enemy_volume_percent", enemy_volume_percent)
 	config.set_value("audio", "effects_volume_percent", effects_volume_percent)
+	config.set_value("audio", "master_volume_percent", master_volume_percent)
 	config.set_value("display", "fullscreen_enabled", fullscreen_enabled)
 	config.set_value("display", "window_preset_index", window_preset_index)
 	config.set_value("gameplay", "difficulty", difficulty)
@@ -115,6 +130,9 @@ func _percent_to_db(percent: float) -> float:
 func get_music_volume_percent() -> float:
 	return music_volume_percent
 
+func get_master_volume_percent() -> float:
+	return master_volume_percent
+
 func get_enemy_volume_percent() -> float:
 	return enemy_volume_percent
 
@@ -126,6 +144,9 @@ func is_fullscreen_enabled() -> bool:
 
 func get_window_preset_index() -> int:
 	return window_preset_index
+
+func get_window_preset_count() -> int:
+	return WINDOW_PRESETS.size()
 
 func get_window_preset_label(index: int) -> String:
 	var size: Vector2i = WINDOW_PRESETS[clampi(index, 0, WINDOW_PRESETS.size() - 1)]
