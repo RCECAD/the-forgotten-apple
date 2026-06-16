@@ -1,10 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dd1k84r64h437"]
+[gd_scene format=3 uid="uid://dd1k84r64h437"]
 
 [ext_resource type="Texture2D" uid="uid://c1dq4dudt4poj" path="res://assets/player/all-assets/interior-tend1.png" id="1_interior"]
 [ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2_player"]
-[ext_resource type="Script" path="res://scenes/levels/tend_level.gd" id="3_script"]
+[ext_resource type="Script" uid="uid://dlrrdwts1w7u0" path="res://scenes/levels/tend_level.gd" id="3_script"]
 [ext_resource type="Texture2D" uid="uid://q4val7l5yujo" path="res://assets/player/all-assets/wolf.png" id="4_wolf"]
-[ext_resource type="Texture2D" path="res://assets/player/all-assets/forest-image.png" id="5_forest"]
+[ext_resource type="Texture2D" uid="uid://djmk2g3qpatd2" path="res://assets/player/all-assets/forest-image.png" id="5_forest"]
 [ext_resource type="AudioStream" uid="uid://nieqqaqn1us4" path="res://assets/sfx/interior-hum.mp3" id="6_hum"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="7_audio_group"]
 
@@ -18,16 +18,15 @@ size = Vector2(48, 520)
 script = ExtResource("3_script")
 forest_illustration = ExtResource("5_forest")
 
-[node name="EncounterCamera" type="Camera2D" parent="."]
+[node name="EncounterCamera" type="Camera2D" parent="." unique_id=1718598333]
 position = Vector2(478, 500)
-enabled = true
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
 [node name="Backdrop" type="ColorRect" parent="." unique_id=692775211]
 offset_left = -320.0
 offset_right = 1280.0
-offset_bottom = 720.0
+offset_bottom = 896.0
 color = Color(0.014, 0.008, 0.012, 1)
 
 [node name="InteriorTend" type="Sprite2D" parent="." unique_id=2007108297]
@@ -74,15 +73,18 @@ volume_db = -9.0
 script = ExtResource("7_audio_group")
 audio_group = "music"
 
-[node name="ForestIllustration" type="CanvasLayer" parent="."]
+[node name="ForestIllustration" type="CanvasLayer" parent="." unique_id=1505969162]
 layer = 250
 
-[node name="ForestImage" type="TextureRect" parent="ForestIllustration"]
+[node name="ForestImage" type="TextureRect" parent="ForestIllustration" unique_id=1382017355]
 unique_name_in_owner = true
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -109.0
+offset_top = 140.0
+offset_right = -109.0
+offset_bottom = 140.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
