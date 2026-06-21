@@ -1,6 +1,6 @@
 extends Node
 
-const DEFAULT_MAX_HEALTH := 3
+const DEFAULT_MAX_HEALTH := 5
 
 var max_health := DEFAULT_MAX_HEALTH
 var health := DEFAULT_MAX_HEALTH

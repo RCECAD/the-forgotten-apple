@@ -20,7 +20,7 @@ enum State {Idle, Walk, Run, Jump, Fall, Get_Down, Stay_Down, Get_Up}
 
 var current_state
 var is_player_down
-var max_health := 3
+var max_health := 5
 var health := max_health
 var input_enabled := true
 var _hurt_timer := 0.0
@@ -201,8 +201,7 @@ func _die() -> void:
 	velocity = Vector2.ZERO
 	if walking_audio != null and walking_audio.playing:
 		walking_audio.stop()
-	get_node("/root/GameState").call("reset_player_health")
-	get_node("/root/SceneTransition").reload_current_scene()
+	get_node("/root/GameOver").call("show_game_over")
 
 func set_input_enabled(enabled: bool) -> void:
 	input_enabled = enabled

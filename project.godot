@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Repo Game"
+config/name="The Forgotten Apple"
 run/main_scene="res://scenes/ui/splash_screen.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
@@ -23,6 +23,7 @@ GameState="res://scenes/player/game_state.gd"
 DialogManager="res://scenes/ui/dialog_manager.gd"
 InventoryManager="res://scenes/ui/inventory_manager.gd"
 LetterViewer="res://scenes/ui/letter_viewer.gd"
+GameOver="res://scenes/ui/game_over.gd"
 
 [display]
 
