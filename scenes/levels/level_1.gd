@@ -43,7 +43,11 @@ func _process(_delta: float) -> void:
 		_interact_prompt.visible = false
 		return
 
-	var can_interact := _cabin_trigger.overlaps_body(_player) or _tent_trigger.overlaps_body(_player)
+	if _tent_trigger.overlaps_body(_player):
+		_go_to_tent_cutscene()
+		return
+
+	var can_interact := _cabin_trigger.overlaps_body(_player)
 	_interact_prompt.visible = can_interact
 
 	if !_follow_player and _player.global_position.x > _camera_start_x:
@@ -69,10 +73,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		_is_transitioning = true
 		_interact_prompt.visible = false
 		get_node("/root/SceneTransition").transition_to(CABIN_LEVEL_SCENE)
-	elif event.is_action_pressed("interact") and _tent_trigger.overlaps_body(_player):
-		_is_transitioning = true
-		_interact_prompt.visible = false
-		get_node("/root/SceneTransition").transition_to(TEND_LEVEL_SCENE)
+
+func _go_to_tent_cutscene() -> void:
+	_is_transitioning = true
+	_interact_prompt.visible = false
+	get_node("/root/SceneTransition").transition_to(TEND_LEVEL_SCENE)
 
 func _play_music() -> void:
 	if !is_inside_tree():
