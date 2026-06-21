@@ -20,7 +20,7 @@ enum State {Idle, Walk, Run, Jump, Fall, Get_Down, Stay_Down, Get_Up}
 
 var current_state
 var is_player_down
-var max_health := 5
+var max_health := 3
 var health := max_health
 var input_enabled := true
 var _hurt_timer := 0.0
