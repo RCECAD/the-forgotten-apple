@@ -103,3 +103,127 @@ mouse_filter = 2
 texture = ExtResource("5_menu_arrow")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="DevMenu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DevBackdrop" type="ColorRect" parent="DevMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.03, 0.02, 0.82)
+mouse_filter = 2
+
+[node name="DevPanel" type="ColorRect" parent="DevMenu"]
+layout_mode = 0
+offset_left = 310.0
+offset_top = 120.0
+offset_right = 970.0
+offset_bottom = 610.0
+color = Color(0.15, 0.11, 0.07, 0.94)
+mouse_filter = 2
+
+[node name="DevTitle" type="Label" parent="DevMenu"]
+layout_mode = 0
+offset_left = 356.0
+offset_top = 152.0
+offset_right = 924.0
+offset_bottom = 190.0
+theme_override_font_sizes/font_size = 30
+text = "Modo de Desenvolvimento"
+horizontal_alignment = 1
+
+[node name="DevHint" type="Label" parent="DevMenu"]
+layout_mode = 0
+offset_left = 356.0
+offset_top = 192.0
+offset_right = 924.0
+offset_bottom = 222.0
+theme_override_font_sizes/font_size = 18
+text = "F3 abre/fecha | Enter carrega | Esc fecha"
+horizontal_alignment = 1
+
+[node name="DevMenuArrow" type="TextureRect" parent="DevMenu"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 352.0
+offset_top = 276.0
+offset_right = 408.0
+offset_bottom = 332.0
+mouse_filter = 2
+texture = ExtResource("5_menu_arrow")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DevOptionsContainer" type="VBoxContainer" parent="DevMenu"]
+layout_mode = 0
+offset_left = 420.0
+offset_top = 250.0
+offset_right = 880.0
+offset_bottom = 488.0
+theme_override_constants/separation = 8
+
+[node name="DevBedroomLabel" type="Label" parent="DevMenu/DevOptionsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Bedroom"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="DevKitchenLabel" type="Label" parent="DevMenu/DevOptionsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Kitchen"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="DevLevel1Label" type="Label" parent="DevMenu/DevOptionsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Level 1"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="DevCabinLabel" type="Label" parent="DevMenu/DevOptionsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Cabin"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="DevTendLabel" type="Label" parent="DevMenu/DevOptionsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Tend"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="DevLevel2Label" type="Label" parent="DevMenu/DevOptionsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Level 2"
+horizontal_alignment = 0
+vertical_alignment = 1

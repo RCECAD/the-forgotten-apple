@@ -6,7 +6,6 @@ enum CutsceneState {
 	IDLE,
 	STARTING,
 	DIALOGUE,
-	FINISHING,
 	FINISHED,
 }
 
@@ -136,18 +135,13 @@ func _finish_cutscene() -> void:
 	if _state != CutsceneState.DIALOGUE:
 		return
 
-	_state = CutsceneState.FINISHING
-	await _set_forest_view(false)
-	var tween := create_tween().set_parallel(true)
-	tween.tween_property(_wolf, "position:x", _wolf.position.x + 150.0, 0.85).set_trans(
-		Tween.TRANS_QUAD
-	).set_ease(Tween.EASE_IN)
-	tween.tween_property(_wolf, "modulate:a", 0.0, 0.85)
-	await tween.finished
-	_wolf.visible = false
-	_unlock_player()
 	_state = CutsceneState.FINISHED
+	_unlock_player()
 	dialogue_finished.emit()
+	get_node("/root/SceneTransition").transition_to(
+		"res://scenes/levels/level_2.tscn",
+		"EntrySpawn"
+	)
 
 func _on_dialog_line_started(entry: Dictionary, _index: int) -> void:
 	if _state != CutsceneState.DIALOGUE:

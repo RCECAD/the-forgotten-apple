@@ -54,12 +54,14 @@ func _process(_delta: float) -> void:
 		_follow_player = true
 
 	var target_x := _camera_start_x
+	var target_y := _camera_start_y
 	if _follow_player:
 		target_x = round(_player.global_position.x)
+		target_y = round(_player.global_position.y)
 
 	var smooth_factor := 1.0 - exp(-CAMERA_SMOOTH_SPEED * _delta)
 	_camera.global_position.x = lerp(_camera.global_position.x, target_x, smooth_factor)
-	_camera.global_position.y = _camera_start_y
+	_camera.global_position.y = lerp(_camera.global_position.y, target_y, smooth_factor)
 	_background0.global_position = (_camera.global_position + _background0_offset).round()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -92,5 +94,5 @@ func _apply_spawn_marker() -> void:
 	_player.global_position = _cabin_exit_spawn.global_position
 	_follow_player = true
 	_camera.global_position.x = round(_player.global_position.x)
-	_camera.global_position.y = _camera_start_y
+	_camera.global_position.y = round(_player.global_position.y)
 	_background0.global_position = (_camera.global_position + _background0_offset).round()
