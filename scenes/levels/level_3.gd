@@ -5,37 +5,51 @@ extends Node2D
 @onready var _pause_menu: Control = $UI/PauseMenu
 @onready var _wind_sound: AudioStreamPlayer = $WindSound
 @onready var _music_sound: AudioStreamPlayer = $MusicSound
+@onready var _interact_prompt: Label = $Player/InteractPrompt
+@onready var _wolfhouse_door_trigger: Area2D = $WolfhouseDoorTrigger
 
 const CAMERA_SMOOTH_SPEED := 6.0
 const MUSIC_DELAY := 5.0
+const WOLFHOUSE_INTERIOR_SCENE := "res://scenes/levels/wolfhouse_interior_level.tscn"
 
 var _camera_start_x: float
 var _camera_start_y: float
 var _follow_player := false
+var _is_transitioning := false
 var _music_timer: SceneTreeTimer
 
 func _ready() -> void:
 	_camera.make_current()
 	_camera_start_x = _camera.global_position.x
 	_camera_start_y = _camera.global_position.y
+	_interact_prompt.visible = false
+	_wolfhouse_door_trigger.monitoring = true
 	_wind_sound.play()
 	get_node("/root/GameSettings").call("apply_audio")
 	_music_timer = get_tree().create_timer(MUSIC_DELAY)
 	_music_timer.timeout.connect(_play_music)
 
 func _process(delta: float) -> void:
-	if _is_modal_active():
+	if _is_transitioning or _pause_menu.visible or _is_modal_active():
+		_interact_prompt.visible = false
 		return
 
+	_interact_prompt.visible = _wolfhouse_door_trigger.overlaps_body(_player)
 	_update_camera(delta)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _is_modal_active():
+	if _is_transitioning:
 		return
 
 	if event.is_action_pressed("ui_cancel") and !_pause_menu.visible:
 		_pause_menu.open_menu()
 		get_viewport().set_input_as_handled()
+	elif _pause_menu.visible or _is_modal_active():
+		return
+	elif event.is_action_pressed("interact") and _wolfhouse_door_trigger.overlaps_body(_player):
+		_is_transitioning = true
+		_interact_prompt.visible = false
+		get_node("/root/SceneTransition").transition_to(WOLFHOUSE_INTERIOR_SCENE)
 
 func _update_camera(delta: float) -> void:
 	if !_follow_player and _player.global_position.x > _camera_start_x:

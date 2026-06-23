@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://djmk2g3qpatd2" path="res://assets/player/all-assets/forest-image.png" id="5_forest"]
 [ext_resource type="AudioStream" uid="uid://nieqqaqn1us4" path="res://assets/sfx/interior-hum.mp3" id="6_hum"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="7_audio_group"]
+[ext_resource type="AudioStream" uid="uid://rsl5w5cslq80" path="res://assets/sfx/wind-sound.mp3" id="8_wind"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(1000, 48)
@@ -72,6 +73,11 @@ stream = ExtResource("6_hum")
 volume_db = -9.0
 script = ExtResource("7_audio_group")
 audio_group = "music"
+
+[node name="WindSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_wind")
+volume_db = -18.0
+script = ExtResource("7_audio_group")
 
 [node name="ForestIllustration" type="CanvasLayer" parent="." unique_id=1505969162]
 layer = 250

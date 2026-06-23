@@ -16,6 +16,10 @@ extends Area2D
 @export var bob_speed: float = 2.6
 @export var forget_radius: float = 180.0
 @export var return_threshold: float = 4.0
+@export var buzz_enabled := true:
+	set(value):
+		buzz_enabled = value
+		_update_buzz_audio()
 
 @onready var _animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _buzz_audio: AudioStreamPlayer2D = $BeeBuzzAudio
@@ -34,13 +38,14 @@ var _strafe_direction := 1.0
 func _ready() -> void:
 	_start_position = global_position
 	monitoring = true
-	_buzz_audio.play()
+	_update_buzz_audio()
 	_animated_sprite_2d.play("fly")
 	var mult := DIFFICULTY_SPEED_MULTIPLIERS[get_node("/root/GameSettings").get_difficulty()]
 	patrol_speed *= mult
 	chase_speed *= mult
 
 func _physics_process(delta: float) -> void:
+	_update_buzz_audio()
 	_time += delta
 	_attack_timer = maxf(_attack_timer - delta, 0.0)
 	_windup_timer = maxf(_windup_timer - delta, 0.0)
@@ -142,3 +147,11 @@ func _is_player_in_attack_range(player: CharacterBody2D) -> bool:
 
 func _snap_visual() -> void:
 	_animated_sprite_2d.global_position = global_position.round() + Vector2(0, -4)
+
+func _update_buzz_audio() -> void:
+	if _buzz_audio == null:
+		return
+	if buzz_enabled and !_buzz_audio.playing:
+		_buzz_audio.play()
+	elif !buzz_enabled and _buzz_audio.playing:
+		_buzz_audio.stop()

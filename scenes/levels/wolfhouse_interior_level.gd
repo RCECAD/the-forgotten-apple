@@ -4,12 +4,10 @@ extends Node2D
 @onready var _door_trigger: Area2D = $DoorTrigger
 @onready var _interact_prompt: Label = $Player/InteractPrompt
 @onready var _pause_menu: Control = $UI/PauseMenu
-@onready var _letter_interactable: Area2D = $InteractableLetter
+
+const LEVEL_3_SCENE := "res://scenes/levels/level_3.tscn"
 
 var _is_transitioning := false
-
-const LEVEL_1_SCENE := "res://scenes/levels/level_1.tscn"
-const LEVEL_1_SPAWN_MARKER := "HouseExitSpawn"
 
 func _ready() -> void:
 	_interact_prompt.visible = false
@@ -20,10 +18,7 @@ func _process(_delta: float) -> void:
 		_interact_prompt.visible = false
 		return
 
-	_interact_prompt.visible = (
-		_letter_interactable.call("can_interact")
-		or _door_trigger.overlaps_body(_player)
-	)
+	_interact_prompt.visible = _door_trigger.overlaps_body(_player)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _is_transitioning or _is_modal_active():
@@ -33,13 +28,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if !_pause_menu.visible:
 			_pause_menu.open_menu()
 			get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("interact") and _letter_interactable.call("can_interact"):
-		get_viewport().set_input_as_handled()
-		_letter_interactable.call("trigger_sequence")
 	elif event.is_action_pressed("interact") and _door_trigger.overlaps_body(_player):
 		_is_transitioning = true
 		_interact_prompt.visible = false
-		get_node("/root/SceneTransition").transition_to(LEVEL_1_SCENE, LEVEL_1_SPAWN_MARKER)
+		get_node("/root/SceneTransition").transition_to(LEVEL_3_SCENE)
 
 func _is_modal_active() -> bool:
 	return (

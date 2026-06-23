@@ -84,6 +84,7 @@ const DIALOGUE := [
 @onready var _interior: Sprite2D = $InteriorTend
 @onready var _forest_image: TextureRect = %ForestImage
 @onready var _interior_hum: AudioStreamPlayer = $InteriorHum
+@onready var _wind_sound: AudioStreamPlayer = $WindSound
 
 var _state := CutsceneState.IDLE
 var _current_view := "normal"
@@ -98,6 +99,7 @@ func _ready() -> void:
 	_prepare_forest_illustration()
 	_face_characters_toward_each_other()
 	_lock_player()
+	_wind_sound.play()
 	_interior_hum.play()
 	get_node("/root/GameSettings").call("apply_audio")
 	get_node("/root/DialogManager").dialog_line_started.connect(_on_dialog_line_started)

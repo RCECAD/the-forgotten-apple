@@ -6,6 +6,12 @@ extends Node2D
 @onready var _pause_menu: Control = $UI/PauseMenu
 @onready var _interact_prompt: Label = $Ground/Player/InteractPrompt
 @onready var _villager_tend_trigger: Area2D = $VillagerTendTrigger
+@onready var _music_sound: AudioStreamPlayer = $MusicSound
+@onready var _bees: Array[Node] = [
+	$BeeEnemy,
+	$BeeEnemy2,
+	$BeeEnemy3,
+]
 
 const CAMERA_SMOOTH_SPEED := 6.0
 const VILLAGER_TEND_LEVEL_SCENE := "res://scenes/levels/villager_tend_level.tscn"
@@ -17,6 +23,7 @@ const BG_SKY_OFFSET := Vector2(-2.0, -20.5)
 const BG_FRONT_TREES_OFFSET := Vector2(-2.0, -50.0)
 const BG_FILL_COLOR := Color(0.25, 0.38, 0.55)
 const BG_FILL_HALF_SIZE := Vector2(20000.0, 20000.0)
+const CAVE_EXTERIOR_START_X := 1500.0
 
 var _camera_start_x: float
 var _camera_start_y: float
@@ -34,6 +41,8 @@ func _ready() -> void:
 	_interact_prompt.visible = false
 	_villager_tend_trigger.monitoring = true
 	_apply_spawn_marker()
+	_set_bee_buzz_enabled(false)
+	_music_sound.play()
 	_update_parallax_background()
 
 func _process(delta: float) -> void:
@@ -46,6 +55,7 @@ func _process(delta: float) -> void:
 		return
 
 	_interact_prompt.visible = _villager_tend_trigger.overlaps_body(_player)
+	_set_bee_buzz_enabled(_player.global_position.x >= CAVE_EXTERIOR_START_X)
 	_update_camera(delta)
 	_update_parallax_background()
 
@@ -162,3 +172,7 @@ func _is_modal_active() -> bool:
 		or get_node("/root/InventoryManager").is_inventory_open
 		or get_node("/root/LetterViewer").is_letter_open
 	)
+
+func _set_bee_buzz_enabled(enabled: bool) -> void:
+	for bee in _bees:
+		bee.set("buzz_enabled", enabled)

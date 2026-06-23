@@ -9,12 +9,12 @@ extends Node2D
 @onready var _cabin_trigger: Area2D = $CabinDoorTrigger
 @onready var _tent_trigger: Area2D = $TentDoorTrigger
 @onready var _interact_prompt: Label = $Ground/Player/InteractPrompt
-@onready var _cabin_exit_spawn: Marker2D = $CabinExitSpawn
 
 const CAMERA_SMOOTH_SPEED := 6.0
 const BG0_Z_INDEX := -30
 const CABIN_LEVEL_SCENE := "res://scenes/levels/cabin_level.tscn"
 const TEND_LEVEL_SCENE := "res://scenes/levels/tend_level.tscn"
+const HOUSE_EXIT_SPAWN_MARKER := "HouseExitSpawn"
 
 var _camera_start_x: float
 var _camera_start_y: float
@@ -88,11 +88,19 @@ func _play_music() -> void:
 
 func _apply_spawn_marker() -> void:
 	var marker_name: String = get_node("/root/SceneTransition").consume_spawn_marker()
-	if marker_name != _cabin_exit_spawn.name:
+	if marker_name.is_empty():
 		return
 
-	_player.global_position = _cabin_exit_spawn.global_position
-	_follow_player = true
-	_camera.global_position.x = round(_player.global_position.x)
-	_camera.global_position.y = round(_player.global_position.y)
+	var spawn_marker := get_node_or_null(marker_name) as Marker2D
+	if spawn_marker == null:
+		return
+
+	_player.global_position = spawn_marker.global_position
+	_follow_player = marker_name != HOUSE_EXIT_SPAWN_MARKER
+	if _follow_player:
+		_camera.global_position.x = round(_player.global_position.x)
+		_camera.global_position.y = round(_player.global_position.y)
+	else:
+		_camera.global_position.x = _camera_start_x
+		_camera.global_position.y = _camera_start_y
 	_background0.global_position = (_camera.global_position + _background0_offset).round()

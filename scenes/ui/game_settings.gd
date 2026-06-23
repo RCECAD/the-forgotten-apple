@@ -14,7 +14,7 @@ const DIFFICULTY_NAMES := ["Fácil", "Normal", "Difícil"]
 
 var music_volume_percent: float = 100.0
 var enemy_volume_percent: float = 100.0
-var effects_volume_percent: float = 100.0
+var effects_volume_percent: float = 50.0
 var master_volume_percent: float = 100.0
 var fullscreen_enabled := false
 var window_preset_index := 2

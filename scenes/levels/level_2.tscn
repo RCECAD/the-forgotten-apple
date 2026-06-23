@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cm35d8lnjw038" path="res://assets/player/all-assets/apple.png" id="5_r88tb"]
 [ext_resource type="Script" uid="uid://y66konui5wfe" path="res://scenes/levels/level_2.gd" id="6_vx93k"]
 [ext_resource type="AudioStream" uid="uid://rsl5w5cslq80" path="res://assets/sfx/wind-sound.mp3" id="8_wind"]
-[ext_resource type="AudioStream" uid="uid://bosgsxncy0dkl" path="res://assets/sfx/tfa-soundtrack.MP3" id="9_music"]
+[ext_resource type="AudioStream" uid="uid://5nxfrwxqicpq" path="res://assets/sfx/bg-level2-cave.MP3" id="9_music"]
 [ext_resource type="AudioStream" uid="uid://bj6j28f2qwtmy" path="res://assets/sfx/walking-grass.mp3" id="10_walk"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="11_audio_group"]
 [ext_resource type="Texture2D" uid="uid://0haiuucjeipt" path="res://assets/player/all-assets/tend1.png" id="11_ndlae"]
@@ -241,23 +241,6 @@ position = Vector2(325.2655, 3.0010405)
 scale = Vector2(1.259367, 0.97063917)
 texture = ExtResource("2_sk5k4")
 
-[node name="Apple" type="Area2D" parent="Background0/Background0/Background0/Sprite2D" unique_id=566024907]
-position = Vector2(453.00366, 568.72656)
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("4_tv7cl")
-
-[node name="Sprite2D" type="Sprite2D" parent="Background0/Background0/Background0/Sprite2D/Apple" unique_id=1525738664]
-position = Vector2(-137.385, -6.353)
-rotation = -0.27925268
-scale = Vector2(0.121636204, 0.15791778)
-texture = ExtResource("5_r88tb")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Background0/Background0/Background0/Sprite2D/Apple" unique_id=1264801880]
-position = Vector2(-137.21, -3.5)
-scale = Vector2(0.64, 0.64)
-shape = SubResource("CircleShape2D_1yj8c")
-
 [node name="WindSound" type="AudioStreamPlayer" parent="." unique_id=303690043]
 stream = ExtResource("8_wind")
 volume_db = -18.0
@@ -283,6 +266,20 @@ layer = 150
 [node name="Tend1" type="Sprite2D" parent="." unique_id=1794150365]
 position = Vector2(2425, 230)
 texture = ExtResource("11_ndlae")
+
+[node name="Apple" type="Area2D" parent="."]
+z_index = 5
+position = Vector2(1787, 1253)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("4_tv7cl")
+
+[node name="Sprite2D" type="Sprite2D" parent="Apple"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_r88tb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Apple"]
+shape = SubResource("CircleShape2D_1yj8c")
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=2057881822]
 use_parent_material = true
@@ -360,9 +357,12 @@ position = Vector2(-76, 810)
 
 [node name="BeeEnemy" parent="." unique_id=1328790581 instance=ExtResource("15_1yj8c")]
 position = Vector2(1730, 188)
+buzz_enabled = false
 
 [node name="BeeEnemy2" parent="." unique_id=1736567790 instance=ExtResource("15_1yj8c")]
 position = Vector2(1803, 231)
+buzz_enabled = false
 
 [node name="BeeEnemy3" parent="." unique_id=565645969 instance=ExtResource("15_1yj8c")]
 position = Vector2(1665, 171)
+buzz_enabled = false

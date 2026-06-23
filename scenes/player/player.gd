@@ -95,7 +95,15 @@ func _update_walking_audio() -> void:
 	if walking_audio == null:
 		return
 
-	var is_walking: bool = input_enabled and is_on_floor() and absf(velocity.x) > 0.1 and !is_player_down and _control_lock_timer <= 0.0
+	var has_walk_input := !is_zero_approx(Input.get_axis("move_left", "move_right"))
+	var is_walking: bool = (
+		input_enabled
+		and has_walk_input
+		and is_on_floor()
+		and absf(velocity.x) > 0.1
+		and !is_player_down
+		and _control_lock_timer <= 0.0
+	)
 	if is_walking:
 		if !walking_audio.playing:
 			walking_audio.play()
