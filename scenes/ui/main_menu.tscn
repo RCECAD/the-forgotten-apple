@@ -189,7 +189,7 @@ layout_mode = 0
 offset_left = 420.0
 offset_top = 250.0
 offset_right = 880.0
-offset_bottom = 570.0
+offset_bottom = 650.0
 theme_override_constants/separation = 8
 
 [node name="DevBedroomLabel" type="Label" parent="DevMenu/DevOptionsContainer"]
@@ -237,6 +237,15 @@ text = "Tend"
 horizontal_alignment = 0
 vertical_alignment = 1
 
+[node name="DevWolfhouseInteriorLabel" type="Label" parent="DevMenu/DevOptionsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Wolfhouse Interior"
+horizontal_alignment = 0
+vertical_alignment = 1
+
 [node name="DevLevel2Label" type="Label" parent="DevMenu/DevOptionsContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 33)
@@ -261,6 +270,15 @@ custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "Level 4"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="DevFinalSceneLabel" type="Label" parent="DevMenu/DevOptionsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Final Scene"
 horizontal_alignment = 0
 vertical_alignment = 1
 

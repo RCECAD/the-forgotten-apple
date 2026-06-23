@@ -4,6 +4,12 @@ const FINAL_SCENE := "res://scenes/levels/final_scene.tscn"
 const PUZZLE_TIME_LIMIT := 180.0
 const RED_STAGE_STEP := 30.0
 const RED_STAGE_ALPHAS := [0.0, 0.08, 0.14, 0.2, 0.28, 0.36, 0.46]
+const INTRO_DIALOGUE := [
+	"O forno se fecha acima dela com um baque seco.",
+	{"speaker": "GAROTA", "text": "Ainda não está quente... eu consigo sair."},
+	"A única saída visível é uma portinhola lateral presa por dentro."
+]
+const WOLF_OUTSIDE_LINE := "LOBO: \"É sempre pior quando a história percebe que alguém quer sair dela.\""
 
 @onready var _player: CharacterBody2D = $Player
 @onready var _camera: Camera2D = $Camera2D
@@ -12,35 +18,42 @@ const RED_STAGE_ALPHAS := [0.0, 0.08, 0.14, 0.2, 0.28, 0.36, 0.46]
 @onready var _container_trigger: Area2D = $PuzzleContainer
 @onready var _puzzle: Node2D = $PuzzleLayer/PuzzleUI
 @onready var _red_overlay: ColorRect = $PuzzleLayer/RedOverlay
+@onready var _wolf_line_label: Label = $PuzzleLayer/WolfLineLabel
+@onready var _puzzle_marker: CanvasItem = $PuzzleContainer/Sprite2D
 
 var _is_transitioning := false
+var _intro_running := false
 var _puzzle_active := false
 var _puzzle_solved := false
 var _time_remaining := PUZZLE_TIME_LIMIT
 var _red_stage := 0
 var _red_tween: Tween
+var _wolf_line_tween: Tween
 
 func _ready() -> void:
 	_camera.make_current()
 	_interact_prompt.visible = false
-	_container_trigger.monitoring = true
+	_container_trigger.monitoring = false
+	_puzzle_marker.visible = false
+	_wolf_line_label.visible = false
+	_wolf_line_label.modulate.a = 0.0
+	_red_overlay.visible = false
 	_red_overlay.color.a = 0.0
 	_puzzle.hide()
 	_puzzle.connect("puzzle_solved", Callable(self, "_on_puzzle_solved"))
 	_puzzle.call("set_time_remaining", int(PUZZLE_TIME_LIMIT))
+	call_deferred("_start_intro_sequence")
 
 func _process(delta: float) -> void:
 	if _puzzle_active:
 		_update_puzzle_timer(delta)
 
-	if _is_transitioning or _pause_menu.visible or _is_modal_active():
+	if _is_transitioning or _intro_running or _pause_menu.visible or _is_modal_active():
 		_interact_prompt.visible = false
 		return
 
-	_interact_prompt.visible = !_puzzle_solved and _container_trigger.overlaps_body(_player)
-
 func _unhandled_input(event: InputEvent) -> void:
-	if _is_transitioning:
+	if _is_transitioning or _intro_running:
 		return
 
 	if _puzzle_active:
@@ -51,9 +64,18 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 	elif _pause_menu.visible or _is_other_modal_active():
 		return
-	elif event.is_action_pressed("interact") and !_puzzle_solved and _container_trigger.overlaps_body(_player):
-		get_viewport().set_input_as_handled()
-		_open_puzzle()
+
+func _start_intro_sequence() -> void:
+	if _intro_running or _is_transitioning:
+		return
+
+	_intro_running = true
+	_player.set_input_enabled(false)
+	_interact_prompt.visible = false
+	await get_tree().create_timer(0.35).timeout
+	await get_node("/root/DialogManager").start_dialog(INTRO_DIALOGUE, false)
+	_intro_running = false
+	_open_puzzle()
 
 func _open_puzzle() -> void:
 	_puzzle_active = true
@@ -61,10 +83,12 @@ func _open_puzzle() -> void:
 	_red_stage = 0
 	_player.set_input_enabled(false)
 	_interact_prompt.visible = false
+	_red_overlay.visible = true
 	_set_red_stage(0)
 	_puzzle.show()
 	_puzzle.call("start_puzzle")
 	_puzzle.call("set_time_remaining", int(PUZZLE_TIME_LIMIT))
+	_show_wolf_line()
 
 func _update_puzzle_timer(delta: float) -> void:
 	_time_remaining = maxf(_time_remaining - delta, 0.0)
@@ -94,6 +118,7 @@ func _fail_puzzle() -> void:
 		return
 
 	_puzzle_active = false
+	_wolf_line_label.visible = false
 	_puzzle.hide()
 	get_node("/root/GameOver").call("show_game_over")
 
@@ -104,13 +129,30 @@ func _on_puzzle_solved() -> void:
 	_puzzle_active = false
 	_puzzle_solved = true
 	_is_transitioning = true
+	_wolf_line_label.visible = false
 	_puzzle.hide()
 	_interact_prompt.visible = false
 	await get_tree().create_timer(0.15).timeout
 	get_node("/root/SceneTransition").transition_to(FINAL_SCENE)
 
+func _show_wolf_line() -> void:
+	_wolf_line_label.text = WOLF_OUTSIDE_LINE
+	_wolf_line_label.visible = true
+	_wolf_line_label.modulate.a = 0.0
+	if _wolf_line_tween != null and _wolf_line_tween.is_valid():
+		_wolf_line_tween.kill()
+	_wolf_line_tween = create_tween()
+	_wolf_line_tween.tween_property(_wolf_line_label, "modulate:a", 1.0, 0.3)
+	_wolf_line_tween.tween_interval(4.6)
+	_wolf_line_tween.tween_property(_wolf_line_label, "modulate:a", 0.0, 0.45)
+	_wolf_line_tween.finished.connect(_hide_wolf_line)
+
+func _hide_wolf_line() -> void:
+	if _puzzle_active:
+		_wolf_line_label.visible = false
+
 func _is_modal_active() -> bool:
-	return _puzzle_active or _is_other_modal_active()
+	return _intro_running or _puzzle_active or _is_other_modal_active()
 
 func _is_other_modal_active() -> bool:
 	return (

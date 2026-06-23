@@ -11,9 +11,11 @@ const DEV_LEVELS := [
 	{"label": "Level 1", "scene": "res://scenes/levels/level_1.tscn"},
 	{"label": "Cabin", "scene": "res://scenes/levels/cabin_level.tscn"},
 	{"label": "Tend", "scene": "res://scenes/levels/tend_level.tscn"},
+	{"label": "Wolfhouse Interior", "scene": "res://scenes/levels/wolfhouse_interior_level.tscn"},
 	{"label": "Level 2", "scene": "res://scenes/levels/level_2.tscn"},
 	{"label": "Level 3", "scene": "res://scenes/levels/level_3.tscn"},
 	{"label": "Level 4", "scene": "res://scenes/levels/level_4.tscn"},
+	{"label": "Final Scene", "scene": "res://scenes/levels/final_scene.tscn"},
 ]
 
 @onready var _menu_arrow: TextureRect = %MenuArrow
@@ -35,9 +37,11 @@ const DEV_LEVELS := [
 	%DevLevel1Label,
 	%DevCabinLabel,
 	%DevTendLabel,
+	%DevWolfhouseInteriorLabel,
 	%DevLevel2Label,
 	%DevLevel3Label,
 	%DevLevel4Label,
+	%DevFinalSceneLabel,
 ]
 
 var _selected_index := 0

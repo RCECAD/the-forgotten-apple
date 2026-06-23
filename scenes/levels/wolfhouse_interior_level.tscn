@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://cjc0wpeq16o3y"]
 
-[ext_resource type="Texture2D" path="res://assets/textures/environment/wolfhouseinterior.png" id="1_interior"]
+[ext_resource type="Texture2D" uid="uid://ba7h18ls3l0us" path="res://assets/textures/environment/wolfhouseinterior.png" id="1_interior"]
 [ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2_player"]
-[ext_resource type="Script" path="res://scenes/levels/wolfhouse_interior_level.gd" id="3_script"]
+[ext_resource type="Script" uid="uid://dp4maw31jckr" path="res://scenes/levels/wolfhouse_interior_level.gd" id="3_script"]
 [ext_resource type="PackedScene" uid="uid://dl2lvutrpved5" path="res://scenes/ui/pause_menu.tscn" id="4_pause"]
 [ext_resource type="AudioStream" uid="uid://co0pnmyergap7" path="res://assets/sfx/walking-wood.mp3" id="5_walkwood"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="6_audio_group"]
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="7_health"]
+[ext_resource type="Texture2D" uid="uid://q4val7l5yujo" path="res://assets/textures/characters/enemies/wolf.png" id="9_wolf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(260.5, 24)
@@ -40,6 +41,14 @@ color = Color(0, 0, 0, 1)
 position = Vector2(488.99997, 442)
 scale = Vector2(1.1660159, 1.1660159)
 texture = ExtResource("1_interior")
+
+[node name="Wolf" type="Sprite2D" parent="." unique_id=150807224]
+position = Vector2(521.00006, 468)
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("9_wolf")
+flip_h = true
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
 
 [node name="CollisionLayer" type="Node2D" parent="." unique_id=596239090]
 
@@ -106,6 +115,22 @@ zoom = Vector2(2, 2)
 layer = 150
 
 [node name="HealthUI" parent="HUD" unique_id=1917879241 instance=ExtResource("7_health")]
+
+[node name="CutsceneLayer" type="CanvasLayer" parent="." unique_id=1116028362]
+layer = 180
+
+[node name="CutsceneDarken" type="ColorRect" parent="CutsceneLayer" unique_id=770990380]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = -7.0
+offset_right = -30.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1125184561]
 layer = 200

@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://b7tcx4qphjcph"]
 
 [ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="3_player"]
-[ext_resource type="Script" uid="uid://bh83qqfsg31kf" path="res://scenes/levels/level_4.gd" id="4_script"]
+[ext_resource type="Script" path="res://scenes/levels/level_4.gd" id="4_script"]
 [ext_resource type="PackedScene" uid="uid://dl2lvutrpved5" path="res://scenes/ui/pause_menu.tscn" id="5_pause"]
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="6_health"]
-[ext_resource type="Texture2D" uid="uid://bt7w2ovob28kb" path="res://assets/ui/puzzle container.png" id="7_puzzle_container"]
+[ext_resource type="Texture2D" path="res://assets/ui/puzzle container.png" id="7_puzzle_container"]
 [ext_resource type="PackedScene" path="res://scenes/ui/PuzzleScene.tscn" id="8_puzzle_scene"]
 [ext_resource type="AudioStream" uid="uid://bj6j28f2qwtmy" path="res://assets/sfx/walking-grass.mp3" id="9_walk"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="10_audio_group"]
@@ -118,6 +118,18 @@ offset_right = 1106.0
 offset_bottom = 659.0
 mouse_filter = 2
 color = Color(0.55, 0.05, 0.05, 0)
+
+[node name="WolfLineLabel" type="Label" parent="PuzzleLayer" unique_id=1848221169]
+visible = false
+offset_left = 166.0
+offset_top = 86.0
+offset_right = 1114.0
+offset_bottom = 154.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 20
+text = ""
+horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="PuzzleUI" parent="PuzzleLayer" unique_id=1976989449 instance=ExtResource("8_puzzle_scene")]
 visible = false
