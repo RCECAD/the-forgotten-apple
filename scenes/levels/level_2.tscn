@@ -16,6 +16,8 @@
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="13_health"]
 [ext_resource type="PackedScene" uid="uid://csweep78luloc" path="res://scenes/enemies/skeleton_enemy.tscn" id="14_r88tb"]
 [ext_resource type="PackedScene" uid="uid://bpefa8lo1dt1j" path="res://scenes/enemies/bee_enemy.tscn" id="15_1yj8c"]
+[ext_resource type="Texture2D" uid="uid://cwf0m3bdw6wuw" path="res://assets/player/all-assets/white-flower.png" id="16_flower"]
+[ext_resource type="Script" uid="uid://cah2fkx2ivh6q" path="res://scenes/items/white_flower_collectible.gd" id="17_flower_script"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1yj8c"]
 
@@ -312,6 +314,21 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VillagerTendTrigger" unique_id=1833990836]
 shape = SubResource("RectangleShape2D_villager_tend_door")
+
+[node name="WhiteFlower" type="Area2D" parent="."]
+z_index = 6
+position = Vector2(514, 795)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("17_flower_script")
+item_texture = ExtResource("16_flower")
+
+[node name="Sprite2D" type="Sprite2D" parent="WhiteFlower"]
+scale = Vector2(0.032, 0.032)
+texture = ExtResource("16_flower")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WhiteFlower"]
+shape = SubResource("CircleShape2D_1yj8c")
 
 [node name="StartWall" type="StaticBody2D" parent="." unique_id=2067000001]
 position = Vector2(-660, 180)

@@ -2,11 +2,19 @@ extends CanvasLayer
 
 signal presentation_finished
 
+@export var item_texture: Texture2D
+@export var item_name := "Carta da vovó"
+
 @onready var _content: Control = $Root/CenterContainer/Content
+@onready var _item_texture_rect: TextureRect = %ItemTexture
+@onready var _item_name_label: Label = %ItemName
 
 func _ready() -> void:
 	layer = 315
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	if item_texture != null:
+		_item_texture_rect.texture = item_texture
+	_item_name_label.text = item_name
 	_content.modulate.a = 0.0
 	_content.scale = Vector2(0.75, 0.75)
 	call_deferred("_play_presentation")

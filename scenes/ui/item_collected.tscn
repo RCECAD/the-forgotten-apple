@@ -18,6 +18,8 @@ corner_radius_bottom_left = 8
 [node name="ItemCollected" type="CanvasLayer"]
 layer = 315
 script = ExtResource("1_script")
+item_texture = ExtResource("2_letter")
+item_name = "Carta da vovó"
 
 [node name="Root" type="Control" parent="."]
 layout_mode = 3
@@ -72,7 +74,8 @@ theme_override_font_sizes/font_size = 24
 text = "Item coletado"
 horizontal_alignment = 1
 
-[node name="Letter" type="TextureRect" parent="Root/CenterContainer/Content/MarginContainer/VBoxContainer"]
+[node name="ItemTexture" type="TextureRect" parent="Root/CenterContainer/Content/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture_filter = 1
@@ -81,6 +84,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="ItemName" type="Label" parent="Root/CenterContainer/Content/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 19
