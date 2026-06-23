@@ -5,7 +5,7 @@ extends Node2D
 @onready var _interact_prompt: Label = $Player/InteractPrompt
 @onready var _pause_menu: Control = $UI/PauseMenu
 
-const LEVEL_3_SCENE := "res://scenes/levels/level_3.tscn"
+const FINAL_SCENE := "res://scenes/levels/final_scene.tscn"
 
 var _is_transitioning := false
 
@@ -31,7 +31,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("interact") and _door_trigger.overlaps_body(_player):
 		_is_transitioning = true
 		_interact_prompt.visible = false
-		get_node("/root/SceneTransition").transition_to(LEVEL_3_SCENE)
+		get_node("/root/SceneTransition").transition_to(FINAL_SCENE)
 
 func _is_modal_active() -> bool:
 	return (

@@ -61,6 +61,16 @@ shape = SubResource("RectangleShape2D_wall")
 position = Vector2(350, 590)
 scale = Vector2(3, 3)
 
+[node name="InteractPrompt" type="Label" parent="Player"]
+visible = false
+offset_left = -7.0
+offset_top = -47.0
+offset_right = 8.0
+offset_bottom = -19.0
+theme_override_font_sizes/font_size = 13
+text = "E"
+horizontal_alignment = 1
+
 [node name="Villager" type="Sprite2D" parent="."]
 position = Vector2(601, 511)
 scale = Vector2(3, 3)

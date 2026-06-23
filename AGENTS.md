@@ -99,7 +99,7 @@ Fluxo implementado:
 
 Fluxo planejado:
 
-`bedroom -> kitchen -> level_1 -> tend -> level_2 -> level_3 -> level_4 -> final_level`
+`bedroom -> kitchen -> level_1 -> tend -> level_2 -> level_3 -> final_scene -> hidden_room`
 
 Preserve a motivação central: a garota procura a avó depois de encontrar sinais de que ela não voltou.
 

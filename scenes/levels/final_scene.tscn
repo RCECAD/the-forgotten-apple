@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://b7tcx4qphjcph"]
+
+[ext_resource type="Texture2D" path="res://assets/textures/environment/interior-oven.png" id="1_oven"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://scenes/levels/final_scene.gd" id="3_script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="4_pause"]
+[ext_resource type="AudioStream" path="res://assets/sfx/walking-wood.mp3" id="5_walkwood"]
+[ext_resource type="Script" path="res://scenes/audio/audio_group.gd" id="6_audio_group"]
+[ext_resource type="PackedScene" path="res://scenes/ui/health_ui.tscn" id="7_health"]
+[ext_resource type="AudioStream" path="res://assets/sfx/bg-suspense-puzzle.MP3" id="8_music"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(920, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(32, 360)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ceiling"]
+size = Vector2(920, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_furnace"]
+size = Vector2(170, 130)
+
+[node name="FinalScene" type="Node2D"]
+script = ExtResource("3_script")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -100
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.015686275, 0.011764706, 0.011764706, 1)
+
+[node name="OvenInterior" type="Sprite2D" parent="."]
+position = Vector2(640, 342)
+scale = Vector2(4.25, 4.25)
+texture = ExtResource("1_oven")
+
+[node name="EmberGlow" type="PointLight2D" parent="."]
+position = Vector2(640, 460)
+color = Color(1, 0.34117648, 0.12156863, 1)
+energy = 1.4
+texture_scale = 2.6
+
+[node name="CollisionLayer" type="Node2D" parent="."]
+
+[node name="Floor" type="StaticBody2D" parent="CollisionLayer"]
+position = Vector2(640, 592)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/Floor"]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="LeftWall" type="StaticBody2D" parent="CollisionLayer"]
+position = Vector2(170, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/LeftWall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="RightWall" type="StaticBody2D" parent="CollisionLayer"]
+position = Vector2(1110, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/RightWall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Ceiling" type="StaticBody2D" parent="CollisionLayer"]
+position = Vector2(640, 250)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/Ceiling"]
+shape = SubResource("RectangleShape2D_ceiling")
+
+[node name="FurnacePuzzleTrigger" type="Area2D" parent="."]
+position = Vector2(640, 508)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FurnacePuzzleTrigger"]
+shape = SubResource("RectangleShape2D_furnace")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(320, 560)
+
+[node name="WalkingAudio" type="AudioStreamPlayer2D" parent="Player"]
+stream = ExtResource("5_walkwood")
+volume_db = 8.0
+script = ExtResource("6_audio_group")
+
+[node name="InteractPrompt" type="Label" parent="Player"]
+visible = false
+offset_left = -7.0
+offset_top = -47.0
+offset_right = 8.0
+offset_bottom = -19.0
+theme_override_font_sizes/font_size = 13
+text = "E"
+horizontal_alignment = 1
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="MusicSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_music")
+volume_db = -4.0
+script = ExtResource("6_audio_group")
+audio_group = "music"
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 150
+
+[node name="HealthUI" parent="HUD" instance=ExtResource("7_health")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 200
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("4_pause")]
+visible = false

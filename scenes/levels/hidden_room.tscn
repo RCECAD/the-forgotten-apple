@@ -1,0 +1,184 @@
+[gd_scene format=3 uid="uid://da3r0m6rrx6vl"]
+
+[ext_resource type="Script" path="res://scenes/levels/hidden_room.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="3_pause"]
+[ext_resource type="PackedScene" path="res://scenes/ui/health_ui.tscn" id="4_health"]
+[ext_resource type="Texture2D" path="res://assets/textures/environment/wall.png" id="5_wall"]
+[ext_resource type="Texture2D" path="res://assets/ui/letter-expanded.png" id="6_letter"]
+[ext_resource type="Texture2D" path="res://assets/textures/environment/white-flower.png" id="7_flower"]
+[ext_resource type="AudioStream" path="res://assets/sfx/walking-wood.mp3" id="8_walkwood"]
+[ext_resource type="Script" path="res://scenes/audio/audio_group.gd" id="9_audio_group"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(980, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(24, 380)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_recipe"]
+size = Vector2(150, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_letters"]
+size = Vector2(150, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_flowers"]
+size = Vector2(170, 150)
+
+[node name="HiddenRoom" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -100
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.019607844, 0.019607844, 0.023529412, 1)
+
+[node name="StoneWall" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
+scale = Vector2(0.78, 0.78)
+texture = ExtResource("5_wall")
+modulate = Color(0.35, 0.35, 0.38, 1)
+
+[node name="RoomTint" type="CanvasModulate" parent="."]
+color = Color(0.72, 0.68, 0.64, 1)
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="RecipeTable" type="Polygon2D" parent="Objects"]
+position = Vector2(426, 520)
+color = Color(0.14117648, 0.08235294, 0.047058824, 1)
+polygon = PackedVector2Array(-110, -12, 110, -12, 96, 22, -96, 22)
+
+[node name="LettersTable" type="Polygon2D" parent="Objects"]
+position = Vector2(688, 520)
+color = Color(0.14117648, 0.08235294, 0.047058824, 1)
+polygon = PackedVector2Array(-100, -12, 100, -12, 88, 22, -88, 22)
+
+[node name="AncientRecipeVisual" type="Sprite2D" parent="Objects"]
+position = Vector2(425, 486)
+rotation = -0.08
+scale = Vector2(0.075, 0.075)
+texture = ExtResource("6_letter")
+modulate = Color(0.92, 0.84, 0.68, 1)
+
+[node name="GrandmaLettersVisual" type="Sprite2D" parent="Objects"]
+position = Vector2(692, 486)
+rotation = 0.12
+scale = Vector2(0.058, 0.058)
+texture = ExtResource("6_letter")
+modulate = Color(0.76, 0.68, 0.57, 1)
+
+[node name="DriedFlower1" type="Sprite2D" parent="Objects"]
+position = Vector2(858, 290)
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("7_flower")
+modulate = Color(0.62, 0.59, 0.52, 1)
+
+[node name="DriedFlower2" type="Sprite2D" parent="Objects"]
+position = Vector2(910, 318)
+rotation = 0.2
+scale = Vector2(0.032, 0.032)
+texture = ExtResource("7_flower")
+modulate = Color(0.52, 0.5, 0.45, 1)
+
+[node name="DriedFlower3" type="Sprite2D" parent="Objects"]
+position = Vector2(825, 340)
+rotation = -0.25
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("7_flower")
+modulate = Color(0.55, 0.53, 0.48, 1)
+
+[node name="CollisionLayer" type="Node2D" parent="."]
+
+[node name="Floor" type="StaticBody2D" parent="CollisionLayer"]
+position = Vector2(640, 612)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/Floor"]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="LeftWall" type="StaticBody2D" parent="CollisionLayer"]
+position = Vector2(142, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/LeftWall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="RightWall" type="StaticBody2D" parent="CollisionLayer"]
+position = Vector2(1138, 430)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/RightWall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="AncientRecipeInteractable" type="Area2D" parent="."]
+position = Vector2(425, 498)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AncientRecipeInteractable"]
+shape = SubResource("RectangleShape2D_recipe")
+
+[node name="GrandmaLettersInteractable" type="Area2D" parent="."]
+position = Vector2(692, 498)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrandmaLettersInteractable"]
+shape = SubResource("RectangleShape2D_letters")
+
+[node name="DriedWhiteFlowersInteractable" type="Area2D" parent="."]
+position = Vector2(872, 326)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DriedWhiteFlowersInteractable"]
+shape = SubResource("RectangleShape2D_flowers")
+
+[node name="GrandmaShadow" type="Node2D" parent="."]
+visible = false
+
+[node name="Body" type="Polygon2D" parent="GrandmaShadow"]
+position = Vector2(1045, 486)
+color = Color(0.015686275, 0.011764706, 0.011764706, 0.86)
+polygon = PackedVector2Array(-40, 96, -24, -24, 0, -70, 24, -24, 40, 96)
+
+[node name="Head" type="Polygon2D" parent="GrandmaShadow"]
+position = Vector2(1045, 392)
+color = Color(0.015686275, 0.011764706, 0.011764706, 0.86)
+polygon = PackedVector2Array(-24, 0, -16, -18, 0, -26, 16, -18, 24, 0, 16, 18, 0, 26, -16, 18)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(260, 580)
+
+[node name="WalkingAudio" type="AudioStreamPlayer2D" parent="Player"]
+stream = ExtResource("8_walkwood")
+volume_db = 8.0
+script = ExtResource("9_audio_group")
+
+[node name="InteractPrompt" type="Label" parent="Player"]
+visible = false
+offset_left = -7.0
+offset_top = -47.0
+offset_right = 8.0
+offset_bottom = -19.0
+theme_override_font_sizes/font_size = 13
+text = "E"
+horizontal_alignment = 1
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 150
+
+[node name="HealthUI" parent="HUD" instance=ExtResource("4_health")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 200
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("3_pause")]
+visible = false
