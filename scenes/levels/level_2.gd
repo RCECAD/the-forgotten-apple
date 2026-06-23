@@ -6,6 +6,7 @@ extends Node2D
 @onready var _pause_menu: Control = $UI/PauseMenu
 @onready var _interact_prompt: Label = $Ground/Player/InteractPrompt
 @onready var _villager_tend_trigger: Area2D = $VillagerTendTrigger
+@onready var _wind_sound: AudioStreamPlayer = $WindSound
 @onready var _music_sound: AudioStreamPlayer = $MusicSound
 @onready var _bees: Array[Node] = [
 	$BeeEnemy,
@@ -24,6 +25,9 @@ const BG_FRONT_TREES_OFFSET := Vector2(-2.0, -50.0)
 const BG_FILL_COLOR := Color(0.25, 0.38, 0.55)
 const BG_FILL_HALF_SIZE := Vector2(20000.0, 20000.0)
 const CAVE_EXTERIOR_START_X := 1500.0
+const BEE_BUZZ_RADIUS := 420.0
+const AUDIO_FADE_DURATION := 0.65
+const AUDIO_FADE_MIN_DB := -60.0
 
 var _camera_start_x: float
 var _camera_start_y: float
@@ -41,7 +45,7 @@ func _ready() -> void:
 	_interact_prompt.visible = false
 	_villager_tend_trigger.monitoring = true
 	_apply_spawn_marker()
-	_set_bee_buzz_enabled(false)
+	_update_bee_buzz_audio()
 	_music_sound.play()
 	_update_parallax_background()
 
@@ -55,7 +59,7 @@ func _process(delta: float) -> void:
 		return
 
 	_interact_prompt.visible = _villager_tend_trigger.overlaps_body(_player)
-	_set_bee_buzz_enabled(_player.global_position.x >= CAVE_EXTERIOR_START_X)
+	_update_bee_buzz_audio()
 	_update_camera(delta)
 	_update_parallax_background()
 
@@ -69,6 +73,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("interact") and _villager_tend_trigger.overlaps_body(_player):
 		_is_transitioning = true
 		_interact_prompt.visible = false
+		await _fade_out_level_audio()
 		get_node("/root/SceneTransition").transition_to(VILLAGER_TEND_LEVEL_SCENE)
 
 func _update_camera(delta: float) -> void:
@@ -176,3 +181,45 @@ func _is_modal_active() -> bool:
 func _set_bee_buzz_enabled(enabled: bool) -> void:
 	for bee in _bees:
 		bee.set("buzz_enabled", enabled)
+
+func _update_bee_buzz_audio() -> void:
+	var is_exterior := _player.global_position.x >= CAVE_EXTERIOR_START_X
+	for bee in _bees:
+		var is_near_player := bee.global_position.distance_to(_player.global_position) <= BEE_BUZZ_RADIUS
+		bee.set("buzz_enabled", is_exterior and is_near_player)
+
+func _fade_out_level_audio() -> void:
+	var audio_players: Array[AudioStreamPlayer] = [_music_sound, _wind_sound]
+	var has_playing_audio := false
+	var tween := create_tween()
+	tween.set_parallel(true)
+	for player in audio_players:
+		if player.playing:
+			has_playing_audio = true
+			tween.tween_property(
+				player,
+				"volume_db",
+				AUDIO_FADE_MIN_DB,
+				AUDIO_FADE_DURATION
+			).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+
+	for bee in _bees:
+		var buzz_audio := bee.get_node_or_null("BeeBuzzAudio") as AudioStreamPlayer2D
+		if buzz_audio != null and buzz_audio.playing:
+			has_playing_audio = true
+			tween.tween_property(
+				buzz_audio,
+				"volume_db",
+				AUDIO_FADE_MIN_DB,
+				AUDIO_FADE_DURATION
+			).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+
+	if !has_playing_audio:
+		tween.kill()
+		_set_bee_buzz_enabled(false)
+		return
+
+	await tween.finished
+	_set_bee_buzz_enabled(false)
+	for player in audio_players:
+		player.stop()

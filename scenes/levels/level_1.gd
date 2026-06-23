@@ -9,12 +9,21 @@ extends Node2D
 @onready var _cabin_trigger: Area2D = $CabinDoorTrigger
 @onready var _tent_trigger: Area2D = $TentDoorTrigger
 @onready var _interact_prompt: Label = $Ground/Player/InteractPrompt
+@onready var _bees: Array[Node] = [
+	$BeeEnemy,
+	$BeeEnemy2,
+	$BeeEnemy3,
+	$BeeEnemy4,
+	$BeeEnemy5,
+	$BeeEnemy6,
+]
 
 const CAMERA_SMOOTH_SPEED := 6.0
 const BG0_Z_INDEX := -30
 const CABIN_LEVEL_SCENE := "res://scenes/levels/cabin_level.tscn"
 const TEND_LEVEL_SCENE := "res://scenes/levels/tend_level.tscn"
 const HOUSE_EXIT_SPAWN_MARKER := "HouseExitSpawn"
+const BEE_BUZZ_RADIUS := 420.0
 
 var _camera_start_x: float
 var _camera_start_y: float
@@ -33,6 +42,7 @@ func _ready() -> void:
 	_cabin_trigger.monitoring = true
 	_tent_trigger.monitoring = true
 	_apply_spawn_marker()
+	_update_bee_buzz_audio()
 	_wind_sound.play()
 	get_node("/root/GameSettings").call("apply_audio")
 	_music_timer = get_tree().create_timer(5.0)
@@ -49,6 +59,7 @@ func _process(_delta: float) -> void:
 
 	var can_interact := _cabin_trigger.overlaps_body(_player)
 	_interact_prompt.visible = can_interact
+	_update_bee_buzz_audio()
 
 	if !_follow_player and _player.global_position.x > _camera_start_x:
 		_follow_player = true
@@ -104,3 +115,7 @@ func _apply_spawn_marker() -> void:
 		_camera.global_position.x = _camera_start_x
 		_camera.global_position.y = _camera_start_y
 	_background0.global_position = (_camera.global_position + _background0_offset).round()
+
+func _update_bee_buzz_audio() -> void:
+	for bee in _bees:
+		bee.set("buzz_enabled", bee.global_position.distance_to(_player.global_position) <= BEE_BUZZ_RADIUS)

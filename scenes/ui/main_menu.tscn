@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cuujssn8yop2f"]
+[gd_scene load_steps=11 format=3 uid="uid://cuujssn8yop2f"]
 
 [ext_resource type="Script" uid="uid://525kshqau10j" path="res://scenes/ui/main_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/player/all-assets/wall.png" id="2_background"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="7_audio_group"]
 [ext_resource type="AudioStream" uid="uid://cl6l174b351yq" path="res://assets/sfx/button-selection.MP3" id="8_button_selection"]
 [ext_resource type="AudioStream" uid="uid://d0wqijdarj6cm" path="res://assets/sfx/button-selected.MP3" id="9_button_selected"]
+[ext_resource type="PackedScene" uid="uid://dl2lvutrpved5" path="res://scenes/ui/pause_menu.tscn" id="10_settings_menu"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -26,9 +27,11 @@ audio_group = "music"
 
 [node name="ButtonSelectionSfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_button_selection")
+script = ExtResource("7_audio_group")
 
 [node name="ButtonSelectedSfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_button_selected")
+script = ExtResource("7_audio_group")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -242,3 +245,7 @@ theme_override_font_sizes/font_size = 25
 text = "Level 2"
 horizontal_alignment = 0
 vertical_alignment = 1
+
+[node name="SettingsMenu" parent="." instance=ExtResource("10_settings_menu")]
+unique_name_in_owner = true
+visible = false
