@@ -10,7 +10,7 @@ metadata={
 
 [deps]
 
-source_file="res://assets/player/all-assets/white-flower.png"
+source_file="res://assets/textures/environment/white-flower.png"
 dest_files=["res://.godot/imported/white-flower.png-dc42ee04a2f61d87e64a4ec419650cb5.ctex"]
 
 [params]

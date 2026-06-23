@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="13_health"]
 [ext_resource type="PackedScene" uid="uid://csweep78luloc" path="res://scenes/enemies/skeleton_enemy.tscn" id="14_r88tb"]
 [ext_resource type="PackedScene" uid="uid://bpefa8lo1dt1j" path="res://scenes/enemies/bee_enemy.tscn" id="15_1yj8c"]
-[ext_resource type="Texture2D" uid="uid://cwf0m3bdw6wuw" path="res://assets/player/all-assets/white-flower.png" id="16_flower"]
+[ext_resource type="Texture2D" uid="uid://cwf0m3bdw6wuw" path="res://assets/textures/environment/white-flower.png" id="16_flower"]
 [ext_resource type="Script" uid="uid://cah2fkx2ivh6q" path="res://scenes/items/white_flower_collectible.gd" id="17_flower_script"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1yj8c"]
@@ -317,7 +317,7 @@ shape = SubResource("RectangleShape2D_villager_tend_door")
 
 [node name="WhiteFlower" type="Area2D" parent="."]
 z_index = 6
-position = Vector2(514, 795)
+position = Vector2(735, 795)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("17_flower_script")

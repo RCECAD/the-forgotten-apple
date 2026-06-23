@@ -256,6 +256,8 @@ func _die() -> void:
 	velocity = Vector2.ZERO
 	if walking_audio != null and walking_audio.playing:
 		walking_audio.stop()
+	get_node("/root/GameState").call("reset_white_flower_after_death")
+	get_node("/root/InventoryManager").call("remove_item", "white_flower")
 	get_node("/root/GameOver").call("show_game_over")
 
 func set_input_enabled(enabled: bool) -> void:

@@ -2,8 +2,11 @@ extends Node
 
 const INVENTORY_SCENE := preload("res://scenes/ui/inventory_ui.tscn")
 const ITEM_COLLECTED_SCENE := preload("res://scenes/ui/item_collected.tscn")
-const LETTER_TEXTURE := preload("res://assets/player/all-assets/letter.png")
+const LETTER_TEXTURE := preload("res://assets/ui/letter.png")
+const APPLE_TEXTURE := preload("res://assets/textures/items/apple.png")
 const LETTER_ITEM_ID := "letter"
+const WHITE_FLOWER_ITEM_ID := "white_flower"
+const APPLE_ITEM_ID := "apple"
 
 var is_inventory_open := false
 var _items: Array[String] = []
@@ -46,7 +49,12 @@ func remove_item(item_id: String) -> bool:
 	_refresh_ui()
 	return true
 
-func collect_item_with_presentation(item_id: String, display_name: String, texture: Texture2D) -> bool:
+func collect_item_with_presentation(
+	item_id: String,
+	display_name: String,
+	texture: Texture2D,
+	release_player_after := true
+) -> bool:
 	if has_item(item_id):
 		return false
 
@@ -59,7 +67,8 @@ func collect_item_with_presentation(item_id: String, display_name: String, textu
 	await presentation.presentation_finished
 	if is_instance_valid(presentation):
 		presentation.queue_free()
-	_set_player_input_enabled(true)
+	if release_player_after:
+		_set_player_input_enabled(true)
 	return true
 
 func collect_letter_with_presentation() -> bool:
@@ -67,6 +76,14 @@ func collect_letter_with_presentation() -> bool:
 		return false
 
 	return await collect_item_with_presentation(LETTER_ITEM_ID, "Carta da vovó", LETTER_TEXTURE)
+
+func collect_apple_with_presentation(release_player_after := true) -> bool:
+	return await collect_item_with_presentation(
+		APPLE_ITEM_ID,
+		"Maçã",
+		APPLE_TEXTURE,
+		release_player_after
+	)
 
 func has_item(item_id: String) -> bool:
 	return _items.has(item_id)
@@ -86,6 +103,7 @@ func open_inventory() -> void:
 	_inventory_ui = INVENTORY_SCENE.instantiate() as CanvasLayer
 	get_tree().root.add_child(_inventory_ui)
 	_inventory_ui.letter_selected.connect(_on_letter_selected)
+	_inventory_ui.apple_selected.connect(_on_apple_selected)
 	_refresh_ui()
 
 func close_inventory(release_player: bool = true) -> void:
@@ -101,11 +119,38 @@ func close_inventory(release_player: bool = true) -> void:
 
 func _refresh_ui() -> void:
 	if is_instance_valid(_inventory_ui):
-		_inventory_ui.call("set_letter_visible", has_item(LETTER_ITEM_ID))
+		_inventory_ui.call(
+			"set_items_visible",
+			has_item(LETTER_ITEM_ID),
+			has_item(WHITE_FLOWER_ITEM_ID),
+			has_item(APPLE_ITEM_ID)
+		)
 
 func _on_letter_selected() -> void:
 	close_inventory(false)
 	await get_node("/root/LetterViewer").open_letter()
+
+func _on_apple_selected() -> void:
+	if !_use_apple():
+		return
+	_refresh_ui()
+
+func _use_apple() -> bool:
+	if !has_item(APPLE_ITEM_ID):
+		return false
+
+	var player := get_tree().get_first_node_in_group("player")
+	if player == null or !player.has_method("heal"):
+		return false
+
+	var current_health := int(player.get("health"))
+	var max_health := int(player.get("max_health"))
+	if current_health >= max_health:
+		return false
+
+	player.call("heal", 1)
+	remove_item(APPLE_ITEM_ID)
+	return true
 
 func _set_player_input_enabled(enabled: bool) -> void:
 	for player in get_tree().get_nodes_in_group("player"):

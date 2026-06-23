@@ -15,8 +15,13 @@ extends CharacterBody2D
 @export var vision_origin_offset := Vector2(0.0, -22.0)
 @export var player_target_offset := Vector2(0.0, -16.0)
 @export var vision_collision_mask: int = 3
+@export var skeleton_audio_enabled := false:
+	set(value):
+		skeleton_audio_enabled = value
+		_update_skeleton_audio()
 
 @onready var _animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _skeleton_audio: AudioStreamPlayer2D = $SkeletonAudio
 
 const TILE_SIZE := 16.0
 const GROUND_COLLISION_MASK := 1
@@ -31,11 +36,14 @@ var _has_hit_during_attack := false
 
 func _ready() -> void:
 	add_to_group("enemy")
+	add_to_group("skeleton_enemy")
 	collision_mask = GROUND_COLLISION_MASK
 	floor_snap_length = 4.0
+	_update_skeleton_audio()
 	_play_animation("idle")
 
 func _physics_process(delta: float) -> void:
+	_update_skeleton_audio()
 	_attack_cooldown_timer = maxf(_attack_cooldown_timer - delta, 0.0)
 	_jump_cooldown_timer = maxf(_jump_cooldown_timer - delta, 0.0)
 	var player := get_tree().get_first_node_in_group("player") as CharacterBody2D
@@ -180,3 +188,11 @@ func _play_animation(animation_name: StringName) -> void:
 	if _animated_sprite.animation == animation_name:
 		return
 	_animated_sprite.play(animation_name)
+
+func _update_skeleton_audio() -> void:
+	if _skeleton_audio == null:
+		return
+	if skeleton_audio_enabled and !_skeleton_audio.playing:
+		_skeleton_audio.play()
+	elif !skeleton_audio_enabled and _skeleton_audio.playing:
+		_skeleton_audio.stop()

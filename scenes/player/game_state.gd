@@ -22,6 +22,9 @@ func reset_narrative_progress() -> void:
 	has_white_flower = false
 	gave_white_flower_to_npc = false
 
+func reset_white_flower_after_death() -> void:
+	has_white_flower = false
+
 func set_player_health(current_health: int, current_max_health: int) -> void:
 	max_health = maxi(current_max_health, 1)
 	health = clampi(current_health, 0, max_health)

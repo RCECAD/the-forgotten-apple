@@ -27,8 +27,10 @@ const BG_FILL_COLOR := Color(0.25, 0.38, 0.55)
 const BG_FILL_HALF_SIZE := Vector2(20000.0, 20000.0)
 const CAVE_EXTERIOR_START_X := 1500.0
 const BEE_BUZZ_RADIUS := 420.0
+const SKELETON_AUDIO_RADIUS := 420.0
 const AUDIO_FADE_DURATION := 0.65
 const AUDIO_FADE_MIN_DB := -60.0
+const WHITE_FLOWER_SPAWN_POSITION := Vector2(735.0, 795.0)
 
 var _camera_start_x: float
 var _camera_start_y: float
@@ -36,17 +38,22 @@ var _camera_start_position: Vector2
 var _follow_player := false
 var _is_transitioning := false
 var _parallax_layers: Array[Dictionary] = []
+var _skeletons: Array[Node] = []
 
 func _ready() -> void:
 	_camera.make_current()
+	_skeletons = get_tree().get_nodes_in_group("skeleton_enemy")
 	_camera_start_x = _camera.global_position.x
 	_camera_start_y = _camera.global_position.y
 	_camera_start_position = _camera.global_position
 	_build_parallax_background()
 	_interact_prompt.visible = false
 	_villager_tend_trigger.monitoring = true
+	if is_instance_valid(_white_flower):
+		_white_flower.global_position = WHITE_FLOWER_SPAWN_POSITION
 	_apply_spawn_marker()
 	_update_bee_buzz_audio()
+	_update_skeleton_audio()
 	_music_sound.play()
 	_update_parallax_background()
 
@@ -61,6 +68,7 @@ func _process(delta: float) -> void:
 
 	_interact_prompt.visible = _can_interact_with_white_flower() or _villager_tend_trigger.overlaps_body(_player)
 	_update_bee_buzz_audio()
+	_update_skeleton_audio()
 	_update_camera(delta)
 	_update_parallax_background()
 
@@ -189,15 +197,26 @@ func _set_bee_buzz_enabled(enabled: bool) -> void:
 	for bee in _bees:
 		bee.set("buzz_enabled", enabled)
 
+func _set_skeleton_audio_enabled(enabled: bool) -> void:
+	for skeleton in _skeletons:
+		if is_instance_valid(skeleton):
+			skeleton.set("skeleton_audio_enabled", enabled)
+
 func _update_bee_buzz_audio() -> void:
 	var is_exterior := _player.global_position.x >= CAVE_EXTERIOR_START_X
 	for bee in _bees:
-<<<<<<< HEAD
-		var is_near_player: bool = bee.global_position.distance_to(_player.global_position) <= BEE_BUZZ_RADIUS
-=======
 		var is_near_player: bool = (bee as Node2D).global_position.distance_to(_player.global_position) <= BEE_BUZZ_RADIUS
->>>>>>> f944071 (feat;: add oven)
 		bee.set("buzz_enabled", is_exterior and is_near_player)
+
+func _update_skeleton_audio() -> void:
+	for skeleton in _skeletons:
+		if !is_instance_valid(skeleton):
+			continue
+		var skeleton_node := skeleton as Node2D
+		if skeleton_node == null:
+			continue
+		var is_near_player := skeleton_node.global_position.distance_to(_player.global_position) <= SKELETON_AUDIO_RADIUS
+		skeleton.set("skeleton_audio_enabled", is_near_player)
 
 func _fade_out_level_audio() -> void:
 	var audio_players: Array[AudioStreamPlayer] = [_music_sound, _wind_sound]
@@ -224,13 +243,27 @@ func _fade_out_level_audio() -> void:
 				AUDIO_FADE_MIN_DB,
 				AUDIO_FADE_DURATION
 			).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	for skeleton in _skeletons:
+		if !is_instance_valid(skeleton):
+			continue
+		var skeleton_audio := skeleton.get_node_or_null("SkeletonAudio") as AudioStreamPlayer2D
+		if skeleton_audio != null and skeleton_audio.playing:
+			has_playing_audio = true
+			tween.tween_property(
+				skeleton_audio,
+				"volume_db",
+				AUDIO_FADE_MIN_DB,
+				AUDIO_FADE_DURATION
+			).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 
 	if !has_playing_audio:
 		tween.kill()
 		_set_bee_buzz_enabled(false)
+		_set_skeleton_audio_enabled(false)
 		return
 
 	await tween.finished
 	_set_bee_buzz_enabled(false)
+	_set_skeleton_audio_enabled(false)
 	for player in audio_players:
 		player.stop()

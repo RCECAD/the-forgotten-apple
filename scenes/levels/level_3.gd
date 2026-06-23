@@ -10,6 +10,7 @@ extends Node2D
 
 const CAMERA_SMOOTH_SPEED := 6.0
 const MUSIC_DELAY := 5.0
+const SKELETON_AUDIO_RADIUS := 420.0
 const WOLFHOUSE_INTERIOR_SCENE := "res://scenes/levels/wolfhouse_interior_level.tscn"
 
 var _camera_start_x: float
@@ -17,13 +18,16 @@ var _camera_start_y: float
 var _follow_player := false
 var _is_transitioning := false
 var _music_timer: SceneTreeTimer
+var _skeletons: Array[Node] = []
 
 func _ready() -> void:
 	_camera.make_current()
+	_skeletons = get_tree().get_nodes_in_group("skeleton_enemy")
 	_camera_start_x = _camera.global_position.x
 	_camera_start_y = _camera.global_position.y
 	_interact_prompt.visible = false
 	_wolfhouse_door_trigger.monitoring = true
+	_update_skeleton_audio()
 	_wind_sound.play()
 	get_node("/root/GameSettings").call("apply_audio")
 	_music_timer = get_tree().create_timer(MUSIC_DELAY)
@@ -35,6 +39,7 @@ func _process(delta: float) -> void:
 		return
 
 	_interact_prompt.visible = _wolfhouse_door_trigger.overlaps_body(_player)
+	_update_skeleton_audio()
 	_update_camera(delta)
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -49,6 +54,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("interact") and _wolfhouse_door_trigger.overlaps_body(_player):
 		_is_transitioning = true
 		_interact_prompt.visible = false
+		_set_skeleton_audio_enabled(false)
 		get_node("/root/SceneTransition").transition_to(WOLFHOUSE_INTERIOR_SCENE)
 
 func _update_camera(delta: float) -> void:
@@ -70,6 +76,21 @@ func _play_music() -> void:
 	if !is_inside_tree():
 		return
 	_music_sound.play()
+
+func _set_skeleton_audio_enabled(enabled: bool) -> void:
+	for skeleton in _skeletons:
+		if is_instance_valid(skeleton):
+			skeleton.set("skeleton_audio_enabled", enabled)
+
+func _update_skeleton_audio() -> void:
+	for skeleton in _skeletons:
+		if !is_instance_valid(skeleton):
+			continue
+		var skeleton_node := skeleton as Node2D
+		if skeleton_node == null:
+			continue
+		var is_near_player := skeleton_node.global_position.distance_to(_player.global_position) <= SKELETON_AUDIO_RADIUS
+		skeleton.set("skeleton_audio_enabled", is_near_player)
 
 func _is_modal_active() -> bool:
 	return (

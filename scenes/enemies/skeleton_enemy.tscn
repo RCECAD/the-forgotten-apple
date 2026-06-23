@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://dm0racfipkmyp" path="res://assets/textures/characters/enemies/skeleton-stylesheet.png" id="1_skeleton"]
 [ext_resource type="Script" uid="uid://ojoyokkcmpm7" path="res://scenes/enemies/skeleton_enemy.gd" id="2_script"]
+[ext_resource type="AudioStream" uid="uid://b3eeoh8ko7kup" path="res://assets/sfx/skeleton.mp3" id="3_skeleton_audio"]
+[ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="4_audio_group"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_attack_0"]
 atlas = ExtResource("1_skeleton")
@@ -89,3 +91,8 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=532909040]
 position = Vector2(1, -25)
 shape = SubResource("RectangleShape2D_body")
+
+[node name="SkeletonAudio" type="AudioStreamPlayer2D" parent="." unique_id=532909041]
+stream = ExtResource("3_skeleton_audio")
+script = ExtResource("4_audio_group")
+audio_group = "enemies"
