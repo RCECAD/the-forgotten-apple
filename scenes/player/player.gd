@@ -6,7 +6,7 @@ signal health_changed(current_health: int, max_health: int)
 @onready var walking_audio: AudioStreamPlayer2D = get_node_or_null("WalkingAudio") as AudioStreamPlayer2D
 
 const GRAVITY = 1000
-const WALK_SPEED = 90.0
+const WALK_SPEED = 100.0
 const RUN_SPEED = 155.0
 const CROUCH_WALK_SPEED := 45.0
 const SLOW_FLOOR_SPEED_MULTIPLIER := 0.45
