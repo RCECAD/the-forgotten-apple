@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://d0anj0l6f5rlh"
-path="res://.godot/imported/taking-paper.MP3-f4c59adc881d200ef04a18fbf709bc2d.mp3str"
+path="res://.godot/imported/taking-paper.mp3-9a215ba696e963a6922658a8dca9c23f.mp3str"
 
 [deps]
 
-source_file="res://assets/sfx/taking-paper.MP3"
-dest_files=["res://.godot/imported/taking-paper.MP3-f4c59adc881d200ef04a18fbf709bc2d.mp3str"]
+source_file="res://assets/sfx/taking-paper.mp3"
+dest_files=["res://.godot/imported/taking-paper.mp3-9a215ba696e963a6922658a8dca9c23f.mp3str"]
 
 [params]
 

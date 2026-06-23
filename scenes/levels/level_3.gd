@@ -11,6 +11,12 @@ extends Node2D
 const CAMERA_SMOOTH_SPEED := 6.0
 const MUSIC_DELAY := 5.0
 const WOLFHOUSE_INTERIOR_SCENE := "res://scenes/levels/wolfhouse_interior_level.tscn"
+const LEVEL_3_INTRO_DIALOG_ID := "level_3_intro"
+const LEVEL_3_INTRO_DIALOG := [
+	{"speaker": "GAROTA", "text": "A mata ficou mais fechada..."},
+	{"speaker": "GAROTA", "text": "Não dá mais para ouvir a casa daqui."},
+	{"speaker": "GAROTA", "text": "Vovó, por favor... deixa alguma pista no caminho."},
+]
 
 var _camera_start_x: float
 var _camera_start_y: float
@@ -28,6 +34,7 @@ func _ready() -> void:
 	get_node("/root/GameSettings").call("apply_audio")
 	_music_timer = get_tree().create_timer(MUSIC_DELAY)
 	_music_timer.timeout.connect(_play_music)
+	call_deferred("_start_level_intro_dialog")
 
 func _process(delta: float) -> void:
 	if _is_transitioning or _pause_menu.visible or _is_modal_active():
@@ -70,6 +77,15 @@ func _play_music() -> void:
 	if !is_inside_tree():
 		return
 	_music_sound.play()
+
+
+func _start_level_intro_dialog() -> void:
+	var game_state := get_node("/root/GameState")
+	if game_state.has_seen_dialog(LEVEL_3_INTRO_DIALOG_ID):
+		return
+
+	game_state.mark_dialog_seen(LEVEL_3_INTRO_DIALOG_ID)
+	await get_node("/root/DialogManager").start_dialog(LEVEL_3_INTRO_DIALOG)
 
 func _is_modal_active() -> bool:
 	return (

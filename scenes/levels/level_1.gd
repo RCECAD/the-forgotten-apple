@@ -24,6 +24,12 @@ const CABIN_LEVEL_SCENE := "res://scenes/levels/cabin_level.tscn"
 const TEND_LEVEL_SCENE := "res://scenes/levels/tend_level.tscn"
 const HOUSE_EXIT_SPAWN_MARKER := "HouseExitSpawn"
 const BEE_BUZZ_RADIUS := 420.0
+const LEVEL_1_INTRO_DIALOG_ID := "level_1_intro"
+const LEVEL_1_INTRO_DIALOG := [
+	{"speaker": "GAROTA", "text": "A floresta parece bem maior daqui de fora."},
+	{"speaker": "GAROTA", "text": "A vovó não teria entrado tão longe sem avisar... teria?"},
+	{"speaker": "GAROTA", "text": "Vou procurar com calma. Qualquer sinal dela já ajuda."},
+]
 
 var _camera_start_x: float
 var _camera_start_y: float
@@ -47,9 +53,10 @@ func _ready() -> void:
 	get_node("/root/GameSettings").call("apply_audio")
 	_music_timer = get_tree().create_timer(5.0)
 	_music_timer.timeout.connect(_play_music)
+	call_deferred("_start_level_intro_dialog")
 
 func _process(_delta: float) -> void:
-	if _is_transitioning:
+	if _is_transitioning or _is_modal_active():
 		_interact_prompt.visible = false
 		return
 
@@ -76,7 +83,7 @@ func _process(_delta: float) -> void:
 	_background0.global_position = (_camera.global_position + _background0_offset).round()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _is_transitioning:
+	if _is_transitioning or _is_modal_active():
 		return
 
 	if event.is_action_pressed("ui_cancel") and !_pause_menu.visible:
@@ -119,3 +126,19 @@ func _apply_spawn_marker() -> void:
 func _update_bee_buzz_audio() -> void:
 	for bee in _bees:
 		bee.set("buzz_enabled", bee.global_position.distance_to(_player.global_position) <= BEE_BUZZ_RADIUS)
+
+
+func _start_level_intro_dialog() -> void:
+	var game_state := get_node("/root/GameState")
+	if game_state.has_seen_dialog(LEVEL_1_INTRO_DIALOG_ID):
+		return
+
+	game_state.mark_dialog_seen(LEVEL_1_INTRO_DIALOG_ID)
+	await get_node("/root/DialogManager").start_dialog(LEVEL_1_INTRO_DIALOG)
+
+func _is_modal_active() -> bool:
+	return (
+		get_node("/root/DialogManager").is_dialog_active
+		or get_node("/root/InventoryManager").is_inventory_open
+		or get_node("/root/LetterViewer").is_letter_open
+	)

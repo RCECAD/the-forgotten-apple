@@ -8,10 +8,10 @@ extends Node2D
 @onready var _villager_tend_trigger: Area2D = $VillagerTendTrigger
 @onready var _wind_sound: AudioStreamPlayer = $WindSound
 @onready var _music_sound: AudioStreamPlayer = $MusicSound
-@onready var _bees: Array[Node] = [
-	$BeeEnemy,
-	$BeeEnemy2,
-	$BeeEnemy3,
+@onready var _bees: Array[Node2D] = [
+	$BeeEnemy as Node2D,
+	$BeeEnemy2 as Node2D,
+	$BeeEnemy3 as Node2D,
 ]
 
 const CAMERA_SMOOTH_SPEED := 6.0
@@ -28,6 +28,12 @@ const CAVE_EXTERIOR_START_X := 1500.0
 const BEE_BUZZ_RADIUS := 420.0
 const AUDIO_FADE_DURATION := 0.65
 const AUDIO_FADE_MIN_DB := -60.0
+const LEVEL_2_INTRO_DIALOG_ID := "level_2_intro"
+const LEVEL_2_INTRO_DIALOG := [
+	{"speaker": "GAROTA", "text": "O aviso do lobo ainda está na minha cabeça."},
+	{"speaker": "GAROTA", "text": "Raízes, espinhos, caminhos que somem..."},
+	{"speaker": "GAROTA", "text": "Preciso observar antes de correr."},
+]
 
 var _camera_start_x: float
 var _camera_start_y: float
@@ -48,6 +54,7 @@ func _ready() -> void:
 	_update_bee_buzz_audio()
 	_music_sound.play()
 	_update_parallax_background()
+	call_deferred("_start_level_intro_dialog")
 
 func _process(delta: float) -> void:
 	if _is_transitioning:
@@ -178,14 +185,26 @@ func _is_modal_active() -> bool:
 		or get_node("/root/LetterViewer").is_letter_open
 	)
 
+
+func _start_level_intro_dialog() -> void:
+	var game_state := get_node("/root/GameState")
+	if game_state.has_seen_dialog(LEVEL_2_INTRO_DIALOG_ID):
+		return
+
+	game_state.mark_dialog_seen(LEVEL_2_INTRO_DIALOG_ID)
+	await get_node("/root/DialogManager").start_dialog(LEVEL_2_INTRO_DIALOG)
+
 func _set_bee_buzz_enabled(enabled: bool) -> void:
 	for bee in _bees:
 		bee.set("buzz_enabled", enabled)
 
 func _update_bee_buzz_audio() -> void:
-	var is_exterior := _player.global_position.x >= CAVE_EXTERIOR_START_X
-	for bee in _bees:
-		var is_near_player := bee.global_position.distance_to(_player.global_position) <= BEE_BUZZ_RADIUS
+	var is_exterior: bool = _player.global_position.x >= CAVE_EXTERIOR_START_X
+
+	for bee: Node2D in _bees:
+		var distance_to_player: float = bee.global_position.distance_to(_player.global_position)
+		var is_near_player: bool = distance_to_player <= BEE_BUZZ_RADIUS
+
 		bee.set("buzz_enabled", is_exterior and is_near_player)
 
 func _fade_out_level_audio() -> void:
