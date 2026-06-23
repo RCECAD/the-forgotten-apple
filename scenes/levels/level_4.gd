@@ -1,6 +1,6 @@
 extends Node2D
 
-const LEVEL_5_SCENE := "res://scenes/levels/level_5.tscn"
+const FINAL_SCENE := "res://scenes/levels/final_scene.tscn"
 const PUZZLE_TIME_LIMIT := 180.0
 const RED_STAGE_STEP := 30.0
 const RED_STAGE_ALPHAS := [0.0, 0.08, 0.14, 0.2, 0.28, 0.36, 0.46]
@@ -107,7 +107,7 @@ func _on_puzzle_solved() -> void:
 	_puzzle.hide()
 	_interact_prompt.visible = false
 	await get_tree().create_timer(0.15).timeout
-	get_node("/root/SceneTransition").transition_to(LEVEL_5_SCENE)
+	get_node("/root/SceneTransition").transition_to(FINAL_SCENE)
 
 func _is_modal_active() -> bool:
 	return _puzzle_active or _is_other_modal_active()
