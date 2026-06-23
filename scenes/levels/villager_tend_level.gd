@@ -4,7 +4,6 @@ signal dialogue_finished
 
 enum CutsceneState {
 	IDLE,
-	STARTING,
 	DIALOGUE,
 	FINISHED,
 }
@@ -15,20 +14,43 @@ const VILLAGER_FRAME_COUNT := 2
 const VILLAGER_FRAME_INTERVAL := 0.35
 const LEVEL_3_SCENE := "res://scenes/levels/level_3.tscn"
 
-const DIALOGUE := [
-	{"speaker": "GAROTA", "text": "Desculpe... havia um lobo por aqui?", "view": "normal"},
-	{"speaker": "MORADORA", "text": "Um lobo? Ouvi dizer que ele passou pela trilha cedo.", "view": "normal"},
-	{"speaker": "GAROTA", "text": "Ele ainda está perto?", "view": "normal"},
-	{"speaker": "MORADORA", "text": "Acho que não. Pelo que contaram, ele seguiu viagem floresta adentro.", "view": "normal"},
-	{"speaker": "MORADORA", "text": "Você parece cansada. Eu deixo você descansar aqui antes de continuar.", "view": "normal"},
+const REQUEST_DIALOGUE := [
+	{"speaker": "MORADORA", "text": "Você viu alguma flor branca pelo caminho?", "view": "normal"},
+	{"speaker": "MORADORA", "text": "Dizem que elas crescem onde ninguém deveria parar.", "view": "normal"},
+	{"speaker": "GAROTA", "text": "Ainda não.", "view": "normal"},
+]
+
+const WAITING_DIALOGUE := [
+	{"speaker": "MORADORA", "text": "A flor branca costuma nascer longe da trilha.", "view": "normal"},
+	{"speaker": "MORADORA", "text": "Se for procurar, não confie em todo silêncio.", "view": "normal"},
+]
+
+const DELIVERY_DIALOGUE := [
+	{"speaker": "GAROTA", "text": "Essa aqui?", "view": "normal"},
+	{"speaker": "MORADORA", "text": "Você trouxe mesmo…", "view": "normal"},
+	{"speaker": "MORADORA", "text": "Então ele também te convenceu a sair do caminho?", "view": "normal"},
+	{
+		"speaker": "MORADORA",
+		"text": "Preste atenção: nem todo guia quer te levar ao destino certo.",
+		"view": "normal",
+	},
+]
+
+const COMPLETED_DIALOGUE := [
+	{"speaker": "MORADORA", "text": "A floresta sempre recompensa quem se desvia.", "view": "normal"},
+	{"speaker": "MORADORA", "text": "Mas ela cobra depois.", "view": "normal"},
 ]
 
 @onready var _player: CharacterBody2D = $Player
 @onready var _player_sprite: AnimatedSprite2D = $Player/AnimatedSprite2D
+@onready var _interact_prompt: Label = $Player/InteractPrompt
 @onready var _villager: Sprite2D = $Villager
+@onready var _villager_interaction: Area2D = $VillagerInteraction
+@onready var _exit_trigger: Area2D = $ExitTrigger
 @onready var _interior_hum: AudioStreamPlayer = $InteriorHum
 
 var _state := CutsceneState.IDLE
+var _is_transitioning := false
 var _villager_animating := false
 var _villager_frame := 0
 var _villager_frame_elapsed := 0.0
@@ -36,13 +58,19 @@ var _villager_frame_elapsed := 0.0
 func _ready() -> void:
 	_villager.region_enabled = true
 	_set_villager_frame(0)
+	_interact_prompt.visible = false
+	_villager_interaction.monitoring = true
+	_exit_trigger.monitoring = true
 	_face_characters_toward_each_other()
-	_lock_player()
 	_interior_hum.play()
 	get_node("/root/GameSettings").call("apply_audio")
-	call_deferred("_start_cutscene")
 
 func _process(delta: float) -> void:
+	if _is_transitioning or _is_modal_active():
+		_interact_prompt.visible = false
+	else:
+		_interact_prompt.visible = _villager_interaction.overlaps_body(_player) or _exit_trigger.overlaps_body(_player)
+
 	if !_villager_animating:
 		return
 
@@ -54,29 +82,58 @@ func _process(delta: float) -> void:
 	_villager_frame = (_villager_frame + 1) % VILLAGER_FRAME_COUNT
 	_set_villager_frame(_villager_frame)
 
-func _start_cutscene() -> void:
+func _unhandled_input(event: InputEvent) -> void:
+	if _is_transitioning or _is_modal_active():
+		return
+	if !event.is_action_pressed("interact"):
+		return
+
+	if _villager_interaction.overlaps_body(_player):
+		get_viewport().set_input_as_handled()
+		_start_npc_dialogue()
+	elif _exit_trigger.overlaps_body(_player):
+		get_viewport().set_input_as_handled()
+		_go_to_next_level()
+
+func _start_npc_dialogue() -> void:
 	if _state != CutsceneState.IDLE:
 		return
 
-	_state = CutsceneState.STARTING
+	_state = CutsceneState.DIALOGUE
 	_lock_player()
 	_face_characters_toward_each_other()
 	_villager_animating = true
-	await get_tree().create_timer(0.65).timeout
 
-	_state = CutsceneState.DIALOGUE
-	await get_node("/root/DialogManager").start_dialog(DIALOGUE, false)
-	await _finish_cutscene()
+	var game_state := get_node("/root/GameState")
+	if bool(game_state.get("gave_white_flower_to_npc")):
+		await get_node("/root/DialogManager").start_dialog(COMPLETED_DIALOGUE, false)
+	elif bool(game_state.get("has_white_flower")):
+		await get_node("/root/DialogManager").start_dialog(DELIVERY_DIALOGUE, false)
+		game_state.set("has_white_flower", false)
+		game_state.set("gave_white_flower_to_npc", true)
+		game_state.set("white_flower_quest_started", true)
+		get_node("/root/InventoryManager").remove_item("white_flower")
+	elif bool(game_state.get("white_flower_quest_started")):
+		await get_node("/root/DialogManager").start_dialog(WAITING_DIALOGUE, false)
+	else:
+		game_state.set("white_flower_quest_started", true)
+		await get_node("/root/DialogManager").start_dialog(REQUEST_DIALOGUE, false)
 
-func _finish_cutscene() -> void:
+	_finish_dialogue()
+
+func _finish_dialogue() -> void:
 	if _state != CutsceneState.DIALOGUE:
 		return
 
-	_state = CutsceneState.FINISHED
 	_villager_animating = false
 	_set_villager_frame(0)
 	_unlock_player()
+	_state = CutsceneState.IDLE
 	dialogue_finished.emit()
+
+func _go_to_next_level() -> void:
+	_is_transitioning = true
+	_interact_prompt.visible = false
 	get_node("/root/SceneTransition").transition_to(LEVEL_3_SCENE)
 
 func _lock_player() -> void:
@@ -97,4 +154,11 @@ func _set_villager_frame(frame: int) -> void:
 		0,
 		VILLAGER_FRAME_WIDTH,
 		VILLAGER_FRAME_HEIGHT
+	)
+
+func _is_modal_active() -> bool:
+	return (
+		get_node("/root/DialogManager").is_dialog_active
+		or get_node("/root/InventoryManager").is_inventory_open
+		or get_node("/root/LetterViewer").is_letter_open
 	)
