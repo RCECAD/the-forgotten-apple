@@ -43,19 +43,25 @@ func _process(_delta: float) -> void:
 		_interact_prompt.visible = false
 		return
 
-	var can_interact := _cabin_trigger.overlaps_body(_player) or _tent_trigger.overlaps_body(_player)
+	if _tent_trigger.overlaps_body(_player):
+		_go_to_tent_cutscene()
+		return
+
+	var can_interact := _cabin_trigger.overlaps_body(_player)
 	_interact_prompt.visible = can_interact
 
 	if !_follow_player and _player.global_position.x > _camera_start_x:
 		_follow_player = true
 
 	var target_x := _camera_start_x
+	var target_y := _camera_start_y
 	if _follow_player:
 		target_x = round(_player.global_position.x)
+		target_y = round(_player.global_position.y)
 
 	var smooth_factor := 1.0 - exp(-CAMERA_SMOOTH_SPEED * _delta)
 	_camera.global_position.x = lerp(_camera.global_position.x, target_x, smooth_factor)
-	_camera.global_position.y = _camera_start_y
+	_camera.global_position.y = lerp(_camera.global_position.y, target_y, smooth_factor)
 	_background0.global_position = (_camera.global_position + _background0_offset).round()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -69,10 +75,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		_is_transitioning = true
 		_interact_prompt.visible = false
 		get_node("/root/SceneTransition").transition_to(CABIN_LEVEL_SCENE)
-	elif event.is_action_pressed("interact") and _tent_trigger.overlaps_body(_player):
-		_is_transitioning = true
-		_interact_prompt.visible = false
-		get_node("/root/SceneTransition").transition_to(TEND_LEVEL_SCENE)
+
+func _go_to_tent_cutscene() -> void:
+	_is_transitioning = true
+	_interact_prompt.visible = false
+	get_node("/root/SceneTransition").transition_to(TEND_LEVEL_SCENE)
 
 func _play_music() -> void:
 	if !is_inside_tree():
@@ -87,5 +94,5 @@ func _apply_spawn_marker() -> void:
 	_player.global_position = _cabin_exit_spawn.global_position
 	_follow_player = true
 	_camera.global_position.x = round(_player.global_position.x)
-	_camera.global_position.y = _camera_start_y
+	_camera.global_position.y = round(_player.global_position.y)
 	_background0.global_position = (_camera.global_position + _background0_offset).round()

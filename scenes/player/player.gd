@@ -33,6 +33,9 @@ func _ready():
 	is_player_down = false
 	_jumps_remaining = MAX_JUMPS
 	add_to_group("player")
+	var game_state := get_node("/root/GameState")
+	max_health = int(game_state.get("max_health"))
+	health = int(game_state.get("health"))
 	health_changed.emit(health, max_health)
 	
 func _physics_process(delta):
@@ -169,15 +172,12 @@ func player_animations():
 	elif current_state == State.Get_Up:
 		animated_sprite_2d.play("get_up")
 
-func _on_area_entered(area):
-	if area.is_in_group("apple"):
-		area.queue_free()
-
 func take_damage(amount: int = 1, source_position: Vector2 = Vector2.ZERO) -> void:
 	if _is_dead or _hurt_timer > 0.0:
 		return
 
 	health = maxi(health - amount, 0)
+	get_node("/root/GameState").call("set_player_health", health, max_health)
 	health_changed.emit(health, max_health)
 	_hurt_timer = HURT_INVULNERABILITY
 	_control_lock_timer = HURT_CONTROL_LOCK
@@ -192,12 +192,20 @@ func take_damage(amount: int = 1, source_position: Vector2 = Vector2.ZERO) -> vo
 	if health <= 0:
 		_die()
 
+func heal(amount: int = 1) -> void:
+	if _is_dead or amount <= 0:
+		return
+
+	health = mini(health + amount, max_health)
+	get_node("/root/GameState").call("set_player_health", health, max_health)
+	health_changed.emit(health, max_health)
+
 func _die() -> void:
 	_is_dead = true
 	velocity = Vector2.ZERO
 	if walking_audio != null and walking_audio.playing:
 		walking_audio.stop()
-	get_node("/root/SceneTransition").reload_current_scene()
+	get_node("/root/GameOver").call("show_game_over")
 
 func set_input_enabled(enabled: bool) -> void:
 	input_enabled = enabled

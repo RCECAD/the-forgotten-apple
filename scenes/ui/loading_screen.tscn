@@ -1,92 +1,41 @@
-[gd_scene format=3 uid="uid://dhg74k08txw1k"]
+[gd_scene load_steps=8 format=3 uid="uid://dhg74k08txw1k"]
 
 [ext_resource type="Script" uid="uid://cev3hi3c37jeq" path="res://scenes/ui/loading_screen.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://c3e7wgaj40g23" path="res://assets/textures/tileset-sunset.png" id="2_bg"]
-[ext_resource type="Texture2D" uid="uid://dbn5jemqdntqg" path="res://assets/textures/logo.png" id="3_logo"]
-[ext_resource type="Texture2D" uid="uid://ccxlmjrfplt85" path="res://assets/player/AnimationSheet_Character.png" id="4_player"]
+[ext_resource type="Texture2D" path="res://assets/player/all-assets/loading-screen.png" id="2_background"]
+[ext_resource type="Texture2D" uid="uid://cw57nxvaqfcfh" path="res://assets/player/all-assets/new-logo.png" id="3_logo"]
+[ext_resource type="AudioStream" uid="uid://rsl5w5cslq80" path="res://assets/sfx/wind-sound.mp3" id="4_wind"]
+[ext_resource type="Script" path="res://scenes/audio/audio_group.gd" id="5_audio_group"]
+[ext_resource type="Texture2D" path="res://assets/player/all-assets/apple.png" id="6_apple"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_run_0"]
-atlas = ExtResource("4_player")
-region = Rect2(0, 96, 32, 32)
+[sub_resource type="StyleBoxFlat" id="StyleBox_progress_background"]
+bg_color = Color(0.055, 0.026, 0.022, 0.9)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.32, 0.16, 0.065, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_run_1"]
-atlas = ExtResource("4_player")
-region = Rect2(32, 96, 32, 32)
+[sub_resource type="StyleBoxFlat" id="StyleBox_progress_fill"]
+bg_color = Color(0.55, 0.105, 0.075, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.93, 0.55, 0.18, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_run_2"]
-atlas = ExtResource("4_player")
-region = Rect2(64, 96, 32, 32)
+[sub_resource type="Shader" id="Shader_vignette"]
+code = "shader_type canvas_item;\n\nvoid fragment() {\n\tvec2 centered_uv = UV * 2.0 - 1.0;\n\tfloat vignette = smoothstep(0.48, 1.2, length(centered_uv));\n\tCOLOR = vec4(0.005, 0.008, 0.018, vignette * 0.62);\n}\n"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_run_3"]
-atlas = ExtResource("4_player")
-region = Rect2(96, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_run_4"]
-atlas = ExtResource("4_player")
-region = Rect2(128, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_run_5"]
-atlas = ExtResource("4_player")
-region = Rect2(160, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_run_6"]
-atlas = ExtResource("4_player")
-region = Rect2(192, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_run_7"]
-atlas = ExtResource("4_player")
-region = Rect2(224, 96, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_runner"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_run_0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_run_1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_run_2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_run_3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_run_4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_run_5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_run_6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_run_7")
-}],
-"loop": true,
-"name": &"run",
-"speed": 9.0
-}]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_bg"]
-bg_color = Color(0.069, 0.035, 0.039, 0.88)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.54, 0.25, 0.08, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_fill"]
-bg_color = Color(0.84, 0.512, 0.173, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
+shader = SubResource("Shader_vignette")
 
 [node name="LoadingScreen" type="Control"]
 layout_mode = 3
@@ -104,71 +53,98 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_bg")
-expand_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_background")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="Tint" type="ColorRect" parent="."]
+[node name="DarkTint" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.031, 0.018, 0.027, 0.52)
+mouse_filter = 2
+color = Color(0.005, 0.012, 0.025, 0.28)
+
+[node name="Vignette" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_vignette")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
 
 [node name="Logo" type="TextureRect" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -190.0
-offset_top = -110.0
-offset_right = 190.0
-offset_bottom = 35.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 380.0
+offset_top = 30.0
+offset_right = -380.0
+offset_bottom = 300.0
 grow_horizontal = 2
-grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("3_logo")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1735034102]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(380, 18)
+[node name="LoadingGroup" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -190.0
-offset_top = -88.0
-offset_right = 190.0
-offset_bottom = -70.0
+offset_left = -270.0
+offset_top = -120.0
+offset_right = 270.0
+offset_bottom = -42.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_styles/background = SubResource("StyleBoxFlat_progress_bg")
-theme_override_styles/fill = SubResource("StyleBoxFlat_progress_fill")
+
+[node name="ProgressBar" type="ProgressBar" parent="LoadingGroup"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 10.0
+offset_right = 540.0
+offset_bottom = 38.0
+theme_override_styles/background = SubResource("StyleBox_progress_background")
+theme_override_styles/fill = SubResource("StyleBox_progress_fill")
 show_percentage = false
 
-[node name="RunnerAnchor" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -148.0
-offset_top = -132.0
-offset_right = -72.0
-offset_bottom = -60.0
-grow_horizontal = 0
-grow_vertical = 0
+[node name="AppleMarker" type="TextureRect" parent="LoadingGroup"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+mouse_filter = 2
+texture = ExtResource("6_apple")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="Runner" type="AnimatedSprite2D" parent="RunnerAnchor"]
-position = Vector2(38, 36)
-scale = Vector2(2.5, 2.5)
-sprite_frames = SubResource("SpriteFrames_runner")
-animation = &"run"
-autoplay = "run"
+[node name="ProgressLabel" type="Label" parent="LoadingGroup"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 43.0
+offset_right = 540.0
+offset_bottom = 76.0
+theme_override_colors/font_color = Color(0.94, 0.81, 0.59, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.95)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 20
+text = "Carregando... 0%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WindSound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_wind")
+volume_db = -14.0
+autoplay = false
+script = ExtResource("5_audio_group")
