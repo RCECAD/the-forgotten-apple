@@ -1,0 +1,72 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" uid="uid://c1dq4dudt4poj" path="res://assets/player/all-assets/interior-tend1.png" id="1_interior"]
+[ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="Script" uid="uid://4eq8112q574b" path="res://scenes/levels/villager_tend_level.gd" id="3_script"]
+[ext_resource type="Texture2D" uid="uid://bkm1d0rywstv4" path="res://assets/villager/villager.png" id="4_villager"]
+[ext_resource type="AudioStream" uid="uid://nieqqaqn1us4" path="res://assets/sfx/interior-hum.mp3" id="6_hum"]
+[ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="7_audio_group"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(1000, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(48, 520)
+
+[node name="VillagerTendLevel" type="Node2D"]
+script = ExtResource("3_script")
+
+[node name="EncounterCamera" type="Camera2D" parent="."]
+position = Vector2(478, 500)
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="Backdrop" type="ColorRect" parent="."]
+offset_left = -320.0
+offset_right = 1280.0
+offset_bottom = 896.0
+color = Color(0.014, 0.008, 0.012, 1)
+
+[node name="InteriorTend" type="Sprite2D" parent="."]
+position = Vector2(478, 472.99997)
+scale = Vector2(2.109375, 2.109375)
+texture = ExtResource("1_interior")
+
+[node name="CollisionLayer" type="Node2D" parent="."]
+
+[node name="Floor" type="StaticBody2D" parent="CollisionLayer"]
+position = Vector2(640, 625)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/Floor"]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="LeftWall" type="StaticBody2D" parent="CollisionLayer"]
+position = Vector2(120, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/LeftWall"]
+position = Vector2(44, 0)
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="RightWall" type="StaticBody2D" parent="CollisionLayer"]
+position = Vector2(1160, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/RightWall"]
+position = Vector2(-419, 0)
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(350, 590)
+scale = Vector2(3, 3)
+
+[node name="Villager" type="Sprite2D" parent="."]
+position = Vector2(601, 495)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("4_villager")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 64)
+
+[node name="InteriorHum" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_hum")
+volume_db = -9.0
+script = ExtResource("7_audio_group")
+audio_group = "music"
