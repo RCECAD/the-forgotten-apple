@@ -8,9 +8,9 @@ extends Node2D
 @onready var _camera: Camera2D = $Camera2D
 
 const HIDDEN_ROOM_SCENE := "res://scenes/levels/hidden_room.tscn"
+const FURNACE_PUZZLE_SCENE := "res://scenes/levels/level_4.tscn"
 
 var _is_transitioning := false
-var _is_solving_puzzle := false
 
 func _ready() -> void:
 	_camera.make_current()
@@ -22,16 +22,18 @@ func _ready() -> void:
 
 	if bool(get_node("/root/GameState").get("furnace_puzzle_solved")):
 		call_deferred("_go_to_hidden_room")
+	else:
+		call_deferred("_go_to_furnace_puzzle")
 
 func _process(_delta: float) -> void:
-	if _is_transitioning or _is_solving_puzzle or _is_modal_active():
+	if _is_transitioning or _is_modal_active():
 		_interact_prompt.visible = false
 		return
 
 	_interact_prompt.visible = _furnace_trigger.overlaps_body(_player)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _is_transitioning or _is_solving_puzzle:
+	if _is_transitioning:
 		return
 
 	if event.is_action_pressed("ui_cancel"):
@@ -42,19 +44,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	elif event.is_action_pressed("interact") and _furnace_trigger.overlaps_body(_player):
 		get_viewport().set_input_as_handled()
-		_solve_furnace_puzzle()
-
-func _solve_furnace_puzzle() -> void:
-	_is_solving_puzzle = true
-	_interact_prompt.visible = false
-	await get_node("/root/DialogManager").start_dialog([
-		{"speaker": "GAROTA", "text": "O calor vem de dentro... como se o forno estivesse esperando."},
-		"Ela empurra a porta pesada e entra no brilho baixo das brasas.",
-		"Cinzas sobem, formando uma trilha que aponta para baixo."
-	])
-
-	get_node("/root/GameState").set("furnace_puzzle_solved", true)
-	_go_to_hidden_room()
+		_go_to_furnace_puzzle()
 
 func _go_to_hidden_room() -> void:
 	if _is_transitioning:
@@ -63,6 +53,14 @@ func _go_to_hidden_room() -> void:
 	_is_transitioning = true
 	_interact_prompt.visible = false
 	get_node("/root/SceneTransition").transition_to(HIDDEN_ROOM_SCENE)
+
+func _go_to_furnace_puzzle() -> void:
+	if _is_transitioning:
+		return
+
+	_is_transitioning = true
+	_interact_prompt.visible = false
+	get_node("/root/SceneTransition").transition_to(FURNACE_PUZZLE_SCENE)
 
 func _is_modal_active() -> bool:
 	return (

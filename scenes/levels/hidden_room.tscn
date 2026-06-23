@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" path="res://assets/textures/environment/white-flower.png" id="7_flower"]
 [ext_resource type="AudioStream" path="res://assets/sfx/walking-wood.mp3" id="8_walkwood"]
 [ext_resource type="Script" path="res://scenes/audio/audio_group.gd" id="9_audio_group"]
+[ext_resource type="Texture2D" path="res://assets/textures/items/apple.png" id="10_apple"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(980, 30)
@@ -94,6 +95,21 @@ scale = Vector2(0.03, 0.03)
 texture = ExtResource("7_flower")
 modulate = Color(0.55, 0.53, 0.48, 1)
 
+[node name="RitualOven" type="Polygon2D" parent="Objects"]
+position = Vector2(1012, 538)
+color = Color(0.08, 0.047058824, 0.03529412, 1)
+polygon = PackedVector2Array(-54, 56, -54, -38, -24, -72, 24, -72, 54, -38, 54, 56)
+
+[node name="RitualOvenGlow" type="Polygon2D" parent="Objects"]
+position = Vector2(1012, 538)
+color = Color(0.86, 0.22, 0.08, 0.72)
+polygon = PackedVector2Array(-24, 34, -20, -12, 0, -32, 20, -12, 24, 34)
+
+[node name="RitualApple" type="Sprite2D" parent="Objects"]
+position = Vector2(1014, 584)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("10_apple")
+
 [node name="CollisionLayer" type="Node2D" parent="."]
 
 [node name="Floor" type="StaticBody2D" parent="CollisionLayer"]
@@ -151,6 +167,19 @@ position = Vector2(1045, 392)
 color = Color(0.015686275, 0.011764706, 0.011764706, 0.86)
 polygon = PackedVector2Array(-24, 0, -16, -18, 0, -26, 16, -18, 24, 0, 16, 18, 0, 26, -16, 18)
 
+[node name="WolfShadow" type="Node2D" parent="."]
+visible = false
+
+[node name="Body" type="Polygon2D" parent="WolfShadow"]
+position = Vector2(938, 512)
+color = Color(0.011764706, 0.011764706, 0.015686275, 0.9)
+polygon = PackedVector2Array(-58, 54, -34, -28, -14, -62, 22, -62, 46, -20, 64, 54)
+
+[node name="Head" type="Polygon2D" parent="WolfShadow"]
+position = Vector2(940, 404)
+color = Color(0.011764706, 0.011764706, 0.015686275, 0.9)
+polygon = PackedVector2Array(-44, 18, -34, -38, -12, -18, 10, -52, 34, -16, 48, 20, 16, 38, -18, 38)
+
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(260, 580)
 
@@ -182,3 +211,143 @@ layer = 200
 
 [node name="PauseMenu" parent="UI" instance=ExtResource("3_pause")]
 visible = false
+
+[node name="ChoiceLayer" type="CanvasLayer" parent="."]
+visible = false
+layer = 260
+
+[node name="ChoicePanel" type="PanelContainer" parent="ChoiceLayer"]
+offset_left = 330.0
+offset_top = 162.0
+offset_right = 950.0
+offset_bottom = 558.0
+
+[node name="MarginContainer" type="MarginContainer" parent="ChoiceLayer/ChoicePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 34
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 34
+theme_override_constants/margin_bottom = 28
+
+[node name="ChoiceContent" type="VBoxContainer" parent="ChoiceLayer/ChoicePanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="TitleLabel" type="Label" parent="ChoiceLayer/ChoicePanel/MarginContainer/ChoiceContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Escolha final"
+horizontal_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="ChoiceLayer/ChoicePanel/MarginContainer/ChoiceContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Descrição"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Options" type="VBoxContainer" parent="ChoiceLayer/ChoicePanel/MarginContainer/ChoiceContent"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ConcludeRecipeLabel" type="Label" parent="ChoiceLayer/ChoicePanel/MarginContainer/ChoiceContent/Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Concluir a receita"
+horizontal_alignment = 1
+
+[node name="HelpGrandmaLabel" type="Label" parent="ChoiceLayer/ChoicePanel/MarginContainer/ChoiceContent/Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Ajudar a vovó"
+horizontal_alignment = 1
+
+[node name="BreakRecipeLabel" type="Label" parent="ChoiceLayer/ChoicePanel/MarginContainer/ChoiceContent/Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Quebrar a receita"
+horizontal_alignment = 1
+
+[node name="EndingLayer" type="CanvasLayer" parent="."]
+visible = false
+layer = 320
+
+[node name="Fade" type="ColorRect" parent="EndingLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Content" type="Control" parent="EndingLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EndingImage" type="TextureRect" parent="EndingLayer/Content"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+modulate = Color(0.58, 0.58, 0.58, 1)
+expand_mode = 1
+stretch_mode = 6
+
+[node name="EndingPanel" type="PanelContainer" parent="EndingLayer/Content"]
+layout_mode = 1
+offset_left = 96.0
+offset_top = 66.0
+offset_right = 1184.0
+offset_bottom = 654.0
+
+[node name="MarginContainer" type="MarginContainer" parent="EndingLayer/Content/EndingPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 34
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 34
+theme_override_constants/margin_bottom = 26
+
+[node name="EndingContent" type="VBoxContainer" parent="EndingLayer/Content/EndingPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="EndingLayer/Content/EndingPanel/MarginContainer/EndingContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Final"
+horizontal_alignment = 1
+
+[node name="TextLabel" type="Label" parent="EndingLayer/Content/EndingPanel/MarginContainer/EndingContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Texto narrativo"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="LastLineLabel" type="Label" parent="EndingLayer/Content/EndingPanel/MarginContainer/EndingContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Última frase"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Actions" type="HBoxContainer" parent="EndingLayer/Content/EndingPanel/MarginContainer/EndingContent"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 38
+
+[node name="MenuLabel" type="Label" parent="EndingLayer/Content/EndingPanel/MarginContainer/EndingContent/Actions"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Menu inicial"
+
+[node name="RestartLabel" type="Label" parent="EndingLayer/Content/EndingPanel/MarginContainer/EndingContent/Actions"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Reiniciar"

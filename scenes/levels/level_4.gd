@@ -1,6 +1,6 @@
 extends Node2D
 
-const FINAL_SCENE := "res://scenes/levels/final_scene.tscn"
+const HIDDEN_ROOM_SCENE := "res://scenes/levels/hidden_room.tscn"
 const PUZZLE_TIME_LIMIT := 180.0
 const RED_STAGE_STEP := 30.0
 const RED_STAGE_ALPHAS := [0.0, 0.08, 0.14, 0.2, 0.28, 0.36, 0.46]
@@ -132,8 +132,9 @@ func _on_puzzle_solved() -> void:
 	_wolf_line_label.visible = false
 	_puzzle.hide()
 	_interact_prompt.visible = false
+	get_node("/root/GameState").set("furnace_puzzle_solved", true)
 	await get_tree().create_timer(0.15).timeout
-	get_node("/root/SceneTransition").transition_to(FINAL_SCENE)
+	get_node("/root/SceneTransition").transition_to(HIDDEN_ROOM_SCENE)
 
 func _show_wolf_line() -> void:
 	_wolf_line_label.text = WOLF_OUTSIDE_LINE

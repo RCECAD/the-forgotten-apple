@@ -13,6 +13,8 @@ var has_read_recipe := false
 var has_read_letters := false
 var has_seen_flowers := false
 var hidden_room_grandma_scene_triggered := false
+var hidden_room_reveal_completed := false
+var selected_ending := ""
 
 var collected_collectibles: Dictionary = {}
 
@@ -31,6 +33,8 @@ func reset_narrative_progress() -> void:
 	has_read_letters = false
 	has_seen_flowers = false
 	hidden_room_grandma_scene_triggered = false
+	hidden_room_reveal_completed = false
+	selected_ending = ""
 
 func reset_white_flower_after_death() -> void:
 	has_white_flower = false
