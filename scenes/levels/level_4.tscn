@@ -1,0 +1,123 @@
+[gd_scene format=3 uid="uid://b7tcx4qphjcph"]
+
+[ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="3_player"]
+[ext_resource type="Script" uid="uid://bh83qqfsg31kf" path="res://scenes/levels/level_4.gd" id="4_script"]
+[ext_resource type="PackedScene" uid="uid://dl2lvutrpved5" path="res://scenes/ui/pause_menu.tscn" id="5_pause"]
+[ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="6_health"]
+[ext_resource type="Texture2D" uid="uid://bt7w2ovob28kb" path="res://assets/ui/puzzle container.png" id="7_puzzle_container"]
+[ext_resource type="PackedScene" path="res://scenes/ui/PuzzleScene.tscn" id="8_puzzle_scene"]
+[ext_resource type="AudioStream" uid="uid://bj6j28f2qwtmy" path="res://assets/sfx/walking-grass.mp3" id="9_walk"]
+[ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="10_audio_group"]
+[ext_resource type="Texture2D" uid="uid://dyv2dcqe5bggs" path="res://assets/textures/environment/interior-oven.png" id="11_oven"]
+
+[sub_resource type="RectangleShape2D" id="1_ground_shape"]
+size = Vector2(704, 96)
+
+[sub_resource type="RectangleShape2D" id="2_wall_shape"]
+size = Vector2(32, 480)
+
+[sub_resource type="RectangleShape2D" id="3_container_shape"]
+size = Vector2(42, 39)
+
+[node name="Level4" type="Node2D" unique_id=1642634935]
+script = ExtResource("4_script")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1851135736]
+position = Vector2(320, 180)
+zoom = Vector2(2, 2)
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=1701111348]
+z_index = -20
+offset_left = -234.42188
+offset_top = -29.59375
+offset_right = 1365.5781
+offset_bottom = 866.40625
+color = Color(0.012617188, 0.012617188, 0.012617188, 1)
+
+[node name="InteriorOven" type="Sprite2D" parent="." unique_id=1566222877]
+z_index = -5
+position = Vector2(198, 194)
+scale = Vector2(1.0546875, 1.0546875)
+texture = ExtResource("11_oven")
+
+[node name="Ground" type="StaticBody2D" parent="." unique_id=1134294945]
+position = Vector2(320, 320)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=424280105]
+position = Vector2(-60, -19)
+shape = SubResource("1_ground_shape")
+
+[node name="LeftWall" type="StaticBody2D" parent="." unique_id=811723685]
+position = Vector2(-16, 180)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall" unique_id=1794248183]
+position = Vector2(92, 0)
+shape = SubResource("2_wall_shape")
+
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=712134665]
+position = Vector2(656, 180)
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=803024952]
+position = Vector2(-330, 11)
+shape = SubResource("2_wall_shape")
+
+[node name="PuzzleContainer" type="Area2D" parent="." unique_id=708036856]
+position = Vector2(500, 228)
+collision_layer = 0
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="PuzzleContainer" unique_id=1541474107]
+position = Vector2(-266, -16.999994)
+scale = Vector2(0.24793416, 0.24793416)
+texture = ExtResource("7_puzzle_container")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PuzzleContainer" unique_id=787922972]
+position = Vector2(-266, -17)
+shape = SubResource("3_container_shape")
+
+[node name="Player" parent="." unique_id=1166565999 instance=ExtResource("3_player")]
+position = Vector2(136, 238)
+
+[node name="WalkingAudio" type="AudioStreamPlayer2D" parent="Player" unique_id=656799247]
+stream = ExtResource("9_walk")
+volume_db = 2.5
+script = ExtResource("10_audio_group")
+
+[node name="InteractPrompt" type="Label" parent="Player" unique_id=1300718210]
+visible = false
+offset_left = -7.0
+offset_top = -47.0
+offset_right = 8.0
+offset_bottom = -19.0
+theme_override_font_sizes/font_size = 13
+text = "E"
+horizontal_alignment = 1
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=456108145]
+layer = 200
+
+[node name="PauseMenu" parent="UI" unique_id=1436323454 instance=ExtResource("5_pause")]
+visible = false
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=206177997]
+layer = 150
+
+[node name="HealthUI" parent="HUD" unique_id=2106903400 instance=ExtResource("6_health")]
+
+[node name="PuzzleLayer" type="CanvasLayer" parent="." unique_id=602045450]
+layer = 250
+
+[node name="RedOverlay" type="ColorRect" parent="PuzzleLayer" unique_id=521980812]
+visible = false
+offset_left = -174.0
+offset_top = -61.0
+offset_right = 1106.0
+offset_bottom = 659.0
+mouse_filter = 2
+color = Color(0.55, 0.05, 0.05, 0)
+
+[node name="PuzzleUI" parent="PuzzleLayer" unique_id=1976989449 instance=ExtResource("8_puzzle_scene")]
+visible = false

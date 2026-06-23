@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://b3eeoh8ko7kup"
-path="res://.godot/imported/skeleton.mp3-45a77f8ead96bcf930872d35dbe0a731.mp3str"
+path="res://.godot/imported/skeleton.mp3-1a7b6718f7e4641b9278d0bfe77d1e9c.mp3str"
 
 [deps]
 
 source_file="res://assets/sfx/skeleton.mp3"
-dest_files=["res://.godot/imported/skeleton.mp3-45a77f8ead96bcf930872d35dbe0a731.mp3str"]
+dest_files=["res://.godot/imported/skeleton.mp3-1a7b6718f7e4641b9278d0bfe77d1e9c.mp3str"]
 
 [params]
 

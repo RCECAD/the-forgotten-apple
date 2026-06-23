@@ -189,7 +189,7 @@ layout_mode = 0
 offset_left = 420.0
 offset_top = 250.0
 offset_right = 880.0
-offset_bottom = 488.0
+offset_bottom = 570.0
 theme_override_constants/separation = 8
 
 [node name="DevBedroomLabel" type="Label" parent="DevMenu/DevOptionsContainer"]
@@ -243,6 +243,24 @@ custom_minimum_size = Vector2(0, 33)
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "Level 2"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="DevLevel3Label" type="Label" parent="DevMenu/DevOptionsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Level 3"
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="DevLevel4Label" type="Label" parent="DevMenu/DevOptionsContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Level 4"
 horizontal_alignment = 0
 vertical_alignment = 1
 

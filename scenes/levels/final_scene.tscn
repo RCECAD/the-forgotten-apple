@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b7tcx4qphjcph"]
+[gd_scene format=3 uid="uid://cw3kwfr5mug40"]
 
 [ext_resource type="Texture2D" path="res://assets/textures/environment/interior-oven.png" id="1_oven"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
