@@ -8,6 +8,7 @@ signal health_changed(current_health: int, max_health: int)
 const GRAVITY = 1000
 const WALK_SPEED = 90.0
 const RUN_SPEED = 155.0
+const CROUCH_WALK_SPEED := 45.0
 const JUMP_FORCE = -300
 const MAX_JUMPS := 2
 const HURT_INVULNERABILITY := 0.9
@@ -16,7 +17,7 @@ const HURT_KNOCKBACK_X := 220.0
 const HURT_KNOCKBACK_Y := -220.0
 const HURT_BLINK_INTERVAL_MS := 70
 
-enum State {Idle, Walk, Run, Jump, Fall, Get_Down, Stay_Down, Get_Up}
+enum State {Idle, Walk, Run, Jump, Fall, Get_Down, Stay_Down, Get_Up, Crouch_Walk}
 
 var current_state
 var is_player_down
@@ -108,6 +109,17 @@ func player_idle(delta):
 @warning_ignore("unused_parameter")
 func player_move(delta):
 	var direction := signf(Input.get_axis("move_left", "move_right"))
+
+	if is_player_down:
+		if direction != 0:
+			velocity.x = direction * CROUCH_WALK_SPEED
+			current_state = State.Crouch_Walk
+			animated_sprite_2d.flip_h = false if direction > 0 else true
+		else:
+			velocity.x = move_toward(velocity.x, 0, RUN_SPEED)
+			current_state = State.Stay_Down
+		
+		return
 	
 	if direction:
 		var movement_speed := RUN_SPEED if Input.is_key_pressed(KEY_SHIFT) else WALK_SPEED
@@ -138,9 +150,14 @@ func player_down():
 		is_player_down = false
 
 func update_state():
-	if Input.is_action_pressed("down") and is_on_floor():
-		player_down()
-	elif !is_on_floor():
+	if is_on_floor() and is_player_down:
+		if absf(velocity.x) > 0.1:
+			current_state = State.Crouch_Walk
+		else:
+			current_state = State.Stay_Down
+		return
+
+	if !is_on_floor():
 		if velocity.y < 0:
 			current_state = State.Jump
 		else:
@@ -167,6 +184,8 @@ func player_animations():
 		animated_sprite_2d.play("stay_down")
 	elif current_state == State.Get_Up:
 		animated_sprite_2d.play("get_up")
+	elif current_state == State.Crouch_Walk:
+		animated_sprite_2d.play("crouch_walk")
 
 func take_damage(amount: int = 1, source_position: Vector2 = Vector2.ZERO) -> void:
 	if _is_dead or _hurt_timer > 0.0:
