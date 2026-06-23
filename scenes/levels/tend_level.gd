@@ -173,6 +173,7 @@ func _set_forest_view(enabled: bool) -> void:
 	await _forest_tween.finished
 
 func _prepare_forest_illustration() -> void:
+	_fit_forest_illustration_to_viewport()
 	if forest_illustration != null:
 		_forest_image.texture = forest_illustration
 	else:
@@ -181,6 +182,15 @@ func _prepare_forest_illustration() -> void:
 		)
 		_forest_image.texture = _interior.texture
 	_forest_image.modulate.a = 0.0
+
+func _fit_forest_illustration_to_viewport() -> void:
+	_forest_image.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_forest_image.offset_left = 0.0
+	_forest_image.offset_top = 0.0
+	_forest_image.offset_right = 0.0
+	_forest_image.offset_bottom = 0.0
+	_forest_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_forest_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 
 func _lock_player() -> void:
 	_player.set_input_enabled(false)

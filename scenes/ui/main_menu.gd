@@ -26,6 +26,7 @@ const DEV_LEVELS := [
 @onready var _music_sound: AudioStreamPlayer = $MusicSound
 @onready var _button_selection_sfx: AudioStreamPlayer = $ButtonSelectionSfx
 @onready var _button_selected_sfx: AudioStreamPlayer = $ButtonSelectedSfx
+@onready var _settings_menu: Control = %SettingsMenu
 @onready var _dev_options: Array[Label] = [
 	%DevBedroomLabel,
 	%DevKitchenLabel,
@@ -46,6 +47,9 @@ func _ready() -> void:
 	call_deferred("_update_dev_selection")
 
 func _input(event: InputEvent) -> void:
+	if _settings_menu.visible:
+		return
+
 	if !event.is_pressed() or event.is_echo():
 		return
 
@@ -145,7 +149,7 @@ func _confirm_selection() -> void:
 		1:
 			print("Continuar ainda não implementado")
 		2:
-			print("Configurações ainda não implementado")
+			_settings_menu.call("open_settings_menu")
 		3:
 			_on_sair_pressed()
 

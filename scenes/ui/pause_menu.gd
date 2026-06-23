@@ -67,6 +67,8 @@ const VOLUME_STEP := 5.0
 var _state := MenuState.MAIN
 var _selected_index := 0
 var _is_animating := false
+var _settings_only := false
+var _pause_tree_on_open := true
 var _selection_tween: Tween
 
 func _ready() -> void:
@@ -79,12 +81,21 @@ func _ready() -> void:
 	_update_layout()
 
 func open_menu() -> void:
+	_open_with_state(MenuState.MAIN, true, false)
+
+func open_settings_menu() -> void:
+	_open_with_state(MenuState.SETTINGS, false, true)
+
+func _open_with_state(initial_state: MenuState, should_pause_tree: bool, settings_only: bool) -> void:
 	if visible:
 		return
 
-	get_tree().paused = true
+	_pause_tree_on_open = should_pause_tree
+	_settings_only = settings_only
+	if _pause_tree_on_open:
+		get_tree().paused = true
 	visible = true
-	_state = MenuState.MAIN
+	_state = initial_state
 	_selected_index = 0
 	_sync_from_settings()
 	_show_current_state()
@@ -106,7 +117,10 @@ func close_menu() -> void:
 	await tween.finished
 	visible = false
 	modulate.a = 1.0
-	get_tree().paused = false
+	if _pause_tree_on_open:
+		get_tree().paused = false
+	_settings_only = false
+	_pause_tree_on_open = true
 	_is_animating = false
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -135,7 +149,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 
 func _handle_back() -> void:
-	if _state == MenuState.MAIN:
+	if _settings_only:
+		close_menu()
+	elif _state == MenuState.MAIN:
 		close_menu()
 	else:
 		_show_main()
@@ -185,7 +201,10 @@ func _confirm_settings_option() -> void:
 		4:
 			_cycle_resolution(1)
 		5:
-			_show_main()
+			if _settings_only:
+				close_menu()
+			else:
+				_show_main()
 
 func _adjust_setting(direction: int) -> void:
 	var settings := get_node("/root/GameSettings")
