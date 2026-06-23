@@ -23,6 +23,9 @@ const DEV_LEVELS := [
 ]
 @onready var _dev_menu: Control = %DevMenu
 @onready var _dev_menu_arrow: TextureRect = %DevMenuArrow
+@onready var _music_sound: AudioStreamPlayer = $MusicSound
+@onready var _button_selection_sfx: AudioStreamPlayer = $ButtonSelectionSfx
+@onready var _button_selected_sfx: AudioStreamPlayer = $ButtonSelectedSfx
 @onready var _dev_options: Array[Label] = [
 	%DevBedroomLabel,
 	%DevKitchenLabel,
@@ -38,6 +41,7 @@ var _dev_menu_open := false
 
 func _ready() -> void:
 	_dev_menu.visible = false
+	_music_sound.play()
 	call_deferred("_update_selection")
 	call_deferred("_update_dev_selection")
 
@@ -53,13 +57,16 @@ func _input(event: InputEvent) -> void:
 	if _dev_menu_open:
 		if event.is_action_pressed("ui_up") or _is_key(event, KEY_W):
 			_dev_selected_index = wrapi(_dev_selected_index - 1, 0, _dev_options.size())
+			_play_button_selection_sfx()
 			_update_dev_selection()
 			get_viewport().set_input_as_handled()
 		elif event.is_action_pressed("ui_down") or _is_key(event, KEY_S):
 			_dev_selected_index = wrapi(_dev_selected_index + 1, 0, _dev_options.size())
+			_play_button_selection_sfx()
 			_update_dev_selection()
 			get_viewport().set_input_as_handled()
 		elif event.is_action_pressed("ui_accept") or event.is_action_pressed("interact"):
+			_play_button_selected_sfx()
 			_confirm_dev_selection()
 			get_viewport().set_input_as_handled()
 		elif event.is_action_pressed("ui_cancel"):
@@ -69,13 +76,16 @@ func _input(event: InputEvent) -> void:
 
 	if event.is_action_pressed("ui_up") or _is_key(event, KEY_W):
 		_selected_index = wrapi(_selected_index - 1, 0, _options.size())
+		_play_button_selection_sfx()
 		_update_selection()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_down") or _is_key(event, KEY_S):
 		_selected_index = wrapi(_selected_index + 1, 0, _options.size())
+		_play_button_selection_sfx()
 		_update_selection()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("ui_accept") or event.is_action_pressed("interact"):
+		_play_button_selected_sfx()
 		_confirm_selection()
 		get_viewport().set_input_as_handled()
 
@@ -138,6 +148,14 @@ func _confirm_selection() -> void:
 			print("Configurações ainda não implementado")
 		3:
 			_on_sair_pressed()
+
+func _play_button_selection_sfx() -> void:
+	_button_selection_sfx.stop()
+	_button_selection_sfx.play()
+
+func _play_button_selected_sfx() -> void:
+	_button_selected_sfx.stop()
+	_button_selected_sfx.play()
 
 func _is_key(event: InputEvent, keycode: Key) -> bool:
 	return event is InputEventKey and (event as InputEventKey).physical_keycode == keycode

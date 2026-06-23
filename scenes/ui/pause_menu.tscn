@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dl2lvutrpved5"]
+[gd_scene load_steps=9 format=3 uid="uid://dl2lvutrpved5"]
 
 [ext_resource type="Script" uid="uid://caxke4mt1546w" path="res://scenes/ui/pause_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/ui/menu_box.png" id="2_main_panel"]
 [ext_resource type="Texture2D" path="res://assets/player/all-assets/menu-box-expanded.png" id="3_expanded_panel"]
 [ext_resource type="Texture2D" path="res://assets/ui/menu_arrow.png" id="4_arrow"]
+[ext_resource type="AudioStream" uid="uid://cl6l174b351yq" path="res://assets/sfx/button-selection.MP3" id="6_button_selection"]
+[ext_resource type="AudioStream" uid="uid://d0wqijdarj6cm" path="res://assets/sfx/button-selected.MP3" id="7_button_selected"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_slider"]
 bg_color = Color(0.11, 0.075, 0.045, 1)
@@ -38,6 +40,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_script")
+
+[node name="ButtonSelectionSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_button_selection")
+
+[node name="ButtonSelectedSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_button_selected")
 
 [node name="BackgroundOverlay" type="ColorRect" parent="."]
 layout_mode = 1

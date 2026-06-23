@@ -8,6 +8,9 @@ extends Node2D
 
 var _is_transitioning := false
 
+const LEVEL_1_SCENE := "res://scenes/levels/level_1.tscn"
+const LEVEL_1_SPAWN_MARKER := "HouseExitSpawn"
+
 func _ready() -> void:
 	_interact_prompt.visible = false
 	_door_trigger.monitoring = true
@@ -36,7 +39,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("interact") and _door_trigger.overlaps_body(_player):
 		_is_transitioning = true
 		_interact_prompt.visible = false
-		get_node("/root/SceneTransition").transition_to("res://scenes/levels/level_1.tscn")
+		get_node("/root/SceneTransition").transition_to(LEVEL_1_SCENE, LEVEL_1_SPAWN_MARKER)
 
 func _is_modal_active() -> bool:
 	return (

@@ -57,6 +57,8 @@ const VOLUME_STEP := 5.0
 @onready var _controls_back_row: Control = %ControlsBackRow
 @onready var _controls_back_label: Label = %ControlsBackLabel
 @onready var _confirmation_message: Label = %ConfirmationMessage
+@onready var _button_selection_sfx: AudioStreamPlayer = $ButtonSelectionSfx
+@onready var _button_selected_sfx: AudioStreamPlayer = $ButtonSelectedSfx
 @onready var _confirmation_options: Array[Label] = [
 	%ConfirmationYes,
 	%ConfirmationNo,
@@ -112,16 +114,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event.is_action_pressed("ui_cancel"):
+		_play_button_selected_sfx()
 		_handle_back()
 	elif _is_up(event):
 		_move_selection(-1)
 	elif _is_down(event):
 		_move_selection(1)
 	elif _state == MenuState.SETTINGS and _is_left(event):
+		_play_button_selection_sfx()
 		_adjust_setting(-1)
 	elif _state == MenuState.SETTINGS and _is_right(event):
+		_play_button_selection_sfx()
 		_adjust_setting(1)
 	elif event.is_action_pressed("ui_accept") or event.is_action_pressed("interact"):
+		_play_button_selected_sfx()
 		_confirm_selection()
 	else:
 		return
@@ -137,6 +143,7 @@ func _handle_back() -> void:
 func _move_selection(direction: int) -> void:
 	var option_count := _get_option_count()
 	_selected_index = wrapi(_selected_index + direction, 0, option_count)
+	_play_button_selection_sfx()
 	_update_selection()
 
 func _confirm_selection() -> void:
@@ -348,6 +355,14 @@ func _go_to_main_menu() -> void:
 	visible = false
 	get_tree().paused = false
 	get_node("/root/SceneTransition").transition_to(MAIN_MENU_SCENE)
+
+func _play_button_selection_sfx() -> void:
+	_button_selection_sfx.stop()
+	_button_selection_sfx.play()
+
+func _play_button_selected_sfx() -> void:
+	_button_selected_sfx.stop()
+	_button_selected_sfx.play()
 
 func _update_layout() -> void:
 	var viewport_size := get_viewport_rect().size

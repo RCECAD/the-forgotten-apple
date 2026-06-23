@@ -245,6 +245,9 @@ texture = ExtResource("2_sk5k4")
 position = Vector2(-509, 168)
 texture = ExtResource("4_s8va5")
 
+[node name="HouseExitSpawn" type="Marker2D" parent="."]
+position = Vector2(-430, 228)
+
 [node name="Cabin" type="Sprite2D" parent="." unique_id=2087180670]
 position = Vector2(2200, 74)
 texture = ExtResource("6_wtwp4")
