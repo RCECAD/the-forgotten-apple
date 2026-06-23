@@ -1,11 +1,11 @@
 [gd_scene format=4 uid="uid://cq176uprdny52"]
 
-[ext_resource type="Texture2D" path="res://assets/villager/wolfhouse.png" id="1_0qepi"]
+[ext_resource type="Texture2D" uid="uid://bj3mbi04ie2g2" path="res://assets/villager/wolfhouse.png" id="1_0qepi"]
 [ext_resource type="Texture2D" uid="uid://hhaoe042w28g" path="res://assets/textures/tileset.png" id="2_fmg3e"]
 [ext_resource type="PackedScene" uid="uid://csweep78luloc" path="res://scenes/enemies/skeleton_enemy.tscn" id="3_ftfob"]
 [ext_resource type="PackedScene" uid="uid://bpefa8lo1dt1j" path="res://scenes/enemies/bee_enemy.tscn" id="4_fkk1g"]
 [ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="5_fmg3e"]
-[ext_resource type="Script" path="res://scenes/levels/level_3.gd" id="6_level3"]
+[ext_resource type="Script" uid="uid://b73k4nsl5xq2e" path="res://scenes/levels/level_3.gd" id="6_level3"]
 [ext_resource type="AudioStream" uid="uid://rsl5w5cslq80" path="res://assets/sfx/wind-sound.mp3" id="7_wind"]
 [ext_resource type="AudioStream" uid="uid://bosgsxncy0dkl" path="res://assets/sfx/tfa-soundtrack.MP3" id="8_music"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="9_audio_group"]
@@ -196,6 +196,9 @@ sources/0 = SubResource("TileSetAtlasSource_ugcn1")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fmg3e"]
 size = Vector2(24, 480)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wolfhouse_door"]
+size = Vector2(22, 48)
+
 [node name="Level3" type="Node2D" unique_id=218568659]
 script = ExtResource("6_level3")
 
@@ -349,6 +352,25 @@ position = Vector2(-193, 78)
 stream = ExtResource("12_walk")
 volume_db = 2.5
 script = ExtResource("9_audio_group")
+
+[node name="InteractPrompt" type="Label" parent="Player" unique_id=953559148]
+visible = false
+offset_left = -7.0
+offset_top = -47.0
+offset_right = 8.0
+offset_bottom = -19.0
+theme_override_font_sizes/font_size = 13
+text = "E"
+horizontal_alignment = 1
+
+[node name="WolfhouseDoorTrigger" type="Area2D" parent="." unique_id=1709164924]
+position = Vector2(11376, -641)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WolfhouseDoorTrigger" unique_id=721075736]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_wolfhouse_door")
 
 [node name="StartWall2" type="StaticBody2D" parent="." unique_id=2116408429]
 position = Vector2(12068, -730)
