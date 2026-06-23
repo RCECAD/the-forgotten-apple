@@ -56,12 +56,14 @@ shape = SubResource("RectangleShape2D_floor")
 position = Vector2(118, 184)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/LeftWall" unique_id=418142384]
+position = Vector2(59, 3)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="RightWall" type="StaticBody2D" parent="CollisionLayer" unique_id=564632954]
 position = Vector2(522, 184)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionLayer/RightWall" unique_id=1462004862]
+position = Vector2(-200, 0)
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="Ceiling" type="StaticBody2D" parent="CollisionLayer" unique_id=1188650889]
