@@ -192,7 +192,7 @@ func _set_bee_buzz_enabled(enabled: bool) -> void:
 func _update_bee_buzz_audio() -> void:
 	var is_exterior := _player.global_position.x >= CAVE_EXTERIOR_START_X
 	for bee in _bees:
-		var is_near_player := bee.global_position.distance_to(_player.global_position) <= BEE_BUZZ_RADIUS
+		var is_near_player: bool = bee.global_position.distance_to(_player.global_position) <= BEE_BUZZ_RADIUS
 		bee.set("buzz_enabled", is_exterior and is_near_player)
 
 func _fade_out_level_audio() -> void:

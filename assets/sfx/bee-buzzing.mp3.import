@@ -2,13 +2,13 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-uid="uid://b3pefvnoqnfft"
-path="res://.godot/imported/bee-buzzing.MP3-311afbb1c2b72cf6de55178d574cafaf.mp3str"
+uid="uid://dawvsnkebpwel"
+path="res://.godot/imported/bee-buzzing.mp3-852f630802c097fdcc441c1651e3906b.mp3str"
 
 [deps]
 
-source_file="res://assets/sfx/bee-buzzing.MP3"
-dest_files=["res://.godot/imported/bee-buzzing.MP3-311afbb1c2b72cf6de55178d574cafaf.mp3str"]
+source_file="res://assets/sfx/bee-buzzing.mp3"
+dest_files=["res://.godot/imported/bee-buzzing.mp3-852f630802c097fdcc441c1651e3906b.mp3str"]
 
 [params]
 
