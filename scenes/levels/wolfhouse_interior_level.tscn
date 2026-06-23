@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://co0pnmyergap7" path="res://assets/sfx/walking-wood.mp3" id="5_walkwood"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="6_audio_group"]
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="7_health"]
+[ext_resource type="Texture2D" uid="uid://cjgs2d83nmnrx" path="res://assets/textures/characters/npcs/grandma-stylesheet.png" id="8_grandma"]
 [ext_resource type="Texture2D" uid="uid://q4val7l5yujo" path="res://assets/textures/characters/enemies/wolf.png" id="9_wolf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
@@ -41,6 +42,13 @@ color = Color(0, 0, 0, 1)
 position = Vector2(488.99997, 442)
 scale = Vector2(1.1660159, 1.1660159)
 texture = ExtResource("1_interior")
+
+[node name="Grandma" type="Sprite2D" parent="." unique_id=653572226]
+position = Vector2(538, 458)
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("8_grandma")
+region_enabled = true
+region_rect = Rect2(0, 0, 40, 64)
 
 [node name="Wolf" type="Sprite2D" parent="." unique_id=150807224]
 position = Vector2(521.00006, 468)

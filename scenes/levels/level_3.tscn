@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://dl2lvutrpved5" path="res://scenes/ui/pause_menu.tscn" id="10_pause"]
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="11_health"]
 [ext_resource type="AudioStream" uid="uid://bj6j28f2qwtmy" path="res://assets/sfx/walking-grass.mp3" id="12_walk"]
+[ext_resource type="Texture2D" path="res://assets/textures/backgrounds/bg_level3_0.png" id="13_bg0"]
+[ext_resource type="Texture2D" path="res://assets/textures/backgrounds/bg_level3_1.png" id="14_bg1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ugcn1"]
 texture = ExtResource("2_fmg3e")
@@ -201,6 +203,75 @@ size = Vector2(22, 48)
 
 [node name="Level3" type="Node2D" unique_id=218568659]
 script = ExtResource("6_level3")
+
+[node name="BackgroundSky" type="Sprite2D" parent="."]
+z_index = -40
+position = Vector2(6000, 100)
+scale = Vector2(14, 3)
+texture = ExtResource("13_bg0")
+
+[node name="BackgroundForest" type="Node2D" parent="."]
+z_index = -30
+
+[node name="Strip0" type="Sprite2D" parent="BackgroundForest"]
+position = Vector2(-320, -260)
+scale = Vector2(4, 4)
+texture = ExtResource("14_bg1")
+
+[node name="Strip1" type="Sprite2D" parent="BackgroundForest"]
+position = Vector2(832, -260)
+scale = Vector2(4, 4)
+texture = ExtResource("14_bg1")
+
+[node name="Strip2" type="Sprite2D" parent="BackgroundForest"]
+position = Vector2(1984, -260)
+scale = Vector2(4, 4)
+texture = ExtResource("14_bg1")
+
+[node name="Strip3" type="Sprite2D" parent="BackgroundForest"]
+position = Vector2(3136, -260)
+scale = Vector2(4, 4)
+texture = ExtResource("14_bg1")
+
+[node name="Strip4" type="Sprite2D" parent="BackgroundForest"]
+position = Vector2(4288, -260)
+scale = Vector2(4, 4)
+texture = ExtResource("14_bg1")
+
+[node name="Strip5" type="Sprite2D" parent="BackgroundForest"]
+position = Vector2(5440, -260)
+scale = Vector2(4, 4)
+texture = ExtResource("14_bg1")
+
+[node name="Strip6" type="Sprite2D" parent="BackgroundForest"]
+position = Vector2(6592, -260)
+scale = Vector2(4, 4)
+texture = ExtResource("14_bg1")
+
+[node name="Strip7" type="Sprite2D" parent="BackgroundForest"]
+position = Vector2(7744, -260)
+scale = Vector2(4, 4)
+texture = ExtResource("14_bg1")
+
+[node name="Strip8" type="Sprite2D" parent="BackgroundForest"]
+position = Vector2(8896, -260)
+scale = Vector2(4, 4)
+texture = ExtResource("14_bg1")
+
+[node name="Strip9" type="Sprite2D" parent="BackgroundForest"]
+position = Vector2(10048, -260)
+scale = Vector2(4, 4)
+texture = ExtResource("14_bg1")
+
+[node name="Strip10" type="Sprite2D" parent="BackgroundForest"]
+position = Vector2(11200, -260)
+scale = Vector2(4, 4)
+texture = ExtResource("14_bg1")
+
+[node name="Strip11" type="Sprite2D" parent="BackgroundForest"]
+position = Vector2(12352, -260)
+scale = Vector2(4, 4)
+texture = ExtResource("14_bg1")
 
 [node name="Wolfhouse" type="Sprite2D" parent="." unique_id=584615491]
 position = Vector2(11400, -680)
