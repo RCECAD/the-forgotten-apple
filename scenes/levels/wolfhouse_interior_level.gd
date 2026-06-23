@@ -27,7 +27,7 @@ const DARKEN_ALPHA := 0.5
 @onready var _interact_prompt: Label = $Player/InteractPrompt
 @onready var _pause_menu: Control = $UI/PauseMenu
 @onready var _wolf: Sprite2D = $Wolf
-@onready var _grandma: Sprite2D = $Grandma
+@onready var _grandma: Sprite2D = get_node_or_null("Grandma") as Sprite2D
 @onready var _darken_overlay: ColorRect = $CutsceneLayer/CutsceneDarken
 
 var _is_transitioning := false
@@ -72,8 +72,9 @@ func _configure_scene_sprites() -> void:
 	_wolf.region_enabled = true
 	_wolf.region_rect = Rect2(0, 0, WOLF_FRAME_WIDTH, WOLF_FRAME_HEIGHT)
 	_wolf.scale = CALM_WOLF_SCALE
-	_grandma.region_enabled = true
-	_grandma.region_rect = Rect2(0, 0, GRANDMA_FRAME_WIDTH, GRANDMA_FRAME_HEIGHT)
+	if _grandma != null:
+		_grandma.region_enabled = true
+		_grandma.region_rect = Rect2(0, 0, GRANDMA_FRAME_WIDTH, GRANDMA_FRAME_HEIGHT)
 
 func _set_wolf_threat_pose() -> void:
 	_wolf.scale = THREAT_WOLF_SCALE
@@ -114,7 +115,8 @@ func _lock_player() -> void:
 func _face_characters() -> void:
 	_player_sprite.flip_h = false
 	_wolf.flip_h = true
-	_grandma.flip_h = false
+	if _grandma != null:
+		_grandma.flip_h = false
 
 func _is_modal_active() -> bool:
 	return (
