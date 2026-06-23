@@ -9,6 +9,10 @@ const GRAVITY = 1000
 const WALK_SPEED = 90.0
 const RUN_SPEED = 155.0
 const CROUCH_WALK_SPEED := 45.0
+const SLOW_FLOOR_SPEED_MULTIPLIER := 0.45
+const SLOW_FLOOR_ATLAS_COORDS := [Vector2i(8, 9), Vector2i(9, 9), Vector2i(10, 9)]
+const FLOOR_CHECK_X_OFFSETS := [-6.0, 0.0, 6.0]
+const FLOOR_CHECK_Y_OFFSET := 2.0
 const JUMP_FORCE = -300
 const MAX_JUMPS := 2
 const HURT_INVULNERABILITY := 0.9
@@ -28,6 +32,7 @@ var _hurt_timer := 0.0
 var _control_lock_timer := 0.0
 var _jumps_remaining := MAX_JUMPS
 var _is_dead := false
+var _floor_speed_multiplier := 1.0
 
 func _ready():
 	current_state = State.Idle
@@ -47,6 +52,7 @@ func _physics_process(delta):
 	_update_control_lock_timer(delta)
 	if is_on_floor():
 		_jumps_remaining = MAX_JUMPS
+	_update_floor_speed_multiplier()
 	player_falling(delta)
 
 	if !input_enabled:
@@ -101,6 +107,28 @@ func player_falling(delta):
 	if !is_on_floor():
 		velocity.y += GRAVITY * delta
 
+func _update_floor_speed_multiplier() -> void:
+	_floor_speed_multiplier = 1.0
+
+	if !is_on_floor():
+		return
+
+	var floor_node := get_parent() as Node2D
+	if floor_node == null:
+		return
+
+	if !floor_node.has_method("local_to_map") or !floor_node.has_method("get_cell_atlas_coords"):
+		return
+
+	for x_offset in FLOOR_CHECK_X_OFFSETS:
+		var foot_position := global_position + Vector2(x_offset, FLOOR_CHECK_Y_OFFSET)
+		var cell: Vector2i = floor_node.call("local_to_map", floor_node.to_local(foot_position))
+		var atlas_coords: Vector2i = floor_node.call("get_cell_atlas_coords", cell)
+
+		if SLOW_FLOOR_ATLAS_COORDS.has(atlas_coords):
+			_floor_speed_multiplier = SLOW_FLOOR_SPEED_MULTIPLIER
+			return
+
 @warning_ignore("unused_parameter")
 func player_idle(delta):
 	if is_on_floor() and velocity.x == 0 and !is_player_down:
@@ -112,7 +140,7 @@ func player_move(delta):
 
 	if is_player_down:
 		if direction != 0:
-			velocity.x = direction * CROUCH_WALK_SPEED
+			velocity.x = direction * CROUCH_WALK_SPEED * _floor_speed_multiplier
 			current_state = State.Crouch_Walk
 			animated_sprite_2d.flip_h = false if direction > 0 else true
 		else:
@@ -123,7 +151,7 @@ func player_move(delta):
 	
 	if direction:
 		var movement_speed := RUN_SPEED if Input.is_key_pressed(KEY_SHIFT) else WALK_SPEED
-		velocity.x = direction * movement_speed
+		velocity.x = direction * movement_speed * _floor_speed_multiplier
 	else:
 		velocity.x = move_toward(velocity.x, 0, RUN_SPEED)
 		
