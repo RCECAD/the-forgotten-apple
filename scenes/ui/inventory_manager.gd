@@ -2,6 +2,7 @@ extends Node
 
 const INVENTORY_SCENE := preload("res://scenes/ui/inventory_ui.tscn")
 const ITEM_COLLECTED_SCENE := preload("res://scenes/ui/item_collected.tscn")
+const LETTER_TEXTURE := preload("res://assets/player/all-assets/letter.png")
 const LETTER_ITEM_ID := "letter"
 
 var is_inventory_open := false
@@ -38,19 +39,34 @@ func add_item(item_id: String) -> bool:
 	_refresh_ui()
 	return true
 
-func collect_letter_with_presentation() -> bool:
-	if has_item(LETTER_ITEM_ID):
+func remove_item(item_id: String) -> bool:
+	if !_items.has(item_id):
+		return false
+	_items.erase(item_id)
+	_refresh_ui()
+	return true
+
+func collect_item_with_presentation(item_id: String, display_name: String, texture: Texture2D) -> bool:
+	if has_item(item_id):
 		return false
 
 	_set_player_input_enabled(false)
-	add_item(LETTER_ITEM_ID)
+	add_item(item_id)
 	var presentation := ITEM_COLLECTED_SCENE.instantiate() as CanvasLayer
+	presentation.set("item_name", display_name)
+	presentation.set("item_texture", texture)
 	get_tree().root.add_child(presentation)
 	await presentation.presentation_finished
 	if is_instance_valid(presentation):
 		presentation.queue_free()
 	_set_player_input_enabled(true)
 	return true
+
+func collect_letter_with_presentation() -> bool:
+	if has_item(LETTER_ITEM_ID):
+		return false
+
+	return await collect_item_with_presentation(LETTER_ITEM_ID, "Carta da vovó", LETTER_TEXTURE)
 
 func has_item(item_id: String) -> bool:
 	return _items.has(item_id)

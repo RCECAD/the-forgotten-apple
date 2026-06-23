@@ -6,6 +6,7 @@ extends Node2D
 @onready var _pause_menu: Control = $UI/PauseMenu
 @onready var _interact_prompt: Label = $Ground/Player/InteractPrompt
 @onready var _villager_tend_trigger: Area2D = $VillagerTendTrigger
+@onready var _white_flower: Area2D = $WhiteFlower
 @onready var _wind_sound: AudioStreamPlayer = $WindSound
 @onready var _music_sound: AudioStreamPlayer = $MusicSound
 @onready var _bees: Array[Node2D] = [
@@ -65,7 +66,7 @@ func _process(delta: float) -> void:
 		_interact_prompt.visible = false
 		return
 
-	_interact_prompt.visible = _villager_tend_trigger.overlaps_body(_player)
+	_interact_prompt.visible = _can_interact_with_white_flower() or _villager_tend_trigger.overlaps_body(_player)
 	_update_bee_buzz_audio()
 	_update_camera(delta)
 	_update_parallax_background()
@@ -77,6 +78,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and !_pause_menu.visible:
 		_pause_menu.open_menu()
 		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("interact") and _can_interact_with_white_flower():
+		get_viewport().set_input_as_handled()
+		_white_flower.call("collect")
 	elif event.is_action_pressed("interact") and _villager_tend_trigger.overlaps_body(_player):
 		_is_transitioning = true
 		_interact_prompt.visible = false
@@ -193,6 +197,9 @@ func _start_level_intro_dialog() -> void:
 
 	game_state.mark_dialog_seen(LEVEL_2_INTRO_DIALOG_ID)
 	await get_node("/root/DialogManager").start_dialog(LEVEL_2_INTRO_DIALOG)
+
+func _can_interact_with_white_flower() -> bool:
+	return is_instance_valid(_white_flower) and bool(_white_flower.call("can_interact"))
 
 func _set_bee_buzz_enabled(enabled: bool) -> void:
 	for bee in _bees:

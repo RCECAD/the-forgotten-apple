@@ -68,6 +68,17 @@ const DIALOGUE := [
 	},
 	{"speaker": "GAROTA", "text": "Eu não tenho escolha. Preciso encontrar minha avó.", "view": "normal"},
 	{"speaker": "LOBO", "text": "Então não deixe a pressa escolher por você.", "view": "normal"},
+	{"speaker": "LOBO", "text": "Se quiser um conselho:", "view": "normal"},
+	{
+		"speaker": "LOBO",
+		"text": "Siga pelo caminho onde as flores nascem enquanto a floresta guarda seus ossos.",
+		"view": "normal",
+	},
+	{
+		"speaker": "LOBO",
+		"text": "É um atalho bem conhecido, sua vó, sendo de idade, conheceria.",
+		"view": "normal",
+	},
 	{"speaker": "GAROTA", "text": "...", "view": "normal"},
 	{"speaker": "GAROTA", "text": "Vou encontrar você de novo?", "view": "normal"},
 	{"speaker": "LOBO", "text": "Se chegar longe o bastante.", "view": "normal"},
