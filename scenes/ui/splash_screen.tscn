@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://n6xsmqxxdkak"]
 
 [ext_resource type="Script" uid="uid://bfiwhyn66iub8" path="res://scenes/ui/splash_screen.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/player/all-assets/loading-screen.png" id="2_background"]
-[ext_resource type="Texture2D" uid="uid://cw57nxvaqfcfh" path="res://assets/player/all-assets/new-logo.png" id="3_logo"]
+[ext_resource type="Texture2D" path="res://assets/ui/loading-screen.png" id="2_background"]
+[ext_resource type="Texture2D" uid="uid://cw57nxvaqfcfh" path="res://assets/ui/new-logo.png" id="3_logo"]
 
 [sub_resource type="Shader" id="Shader_vignette"]
 code = "shader_type canvas_item;\n\nvoid fragment() {\n\tvec2 centered_uv = UV * 2.0 - 1.0;\n\tfloat vignette = smoothstep(0.35, 1.15, length(centered_uv));\n\tCOLOR = vec4(0.01, 0.005, 0.015, vignette * 0.78);\n}\n"

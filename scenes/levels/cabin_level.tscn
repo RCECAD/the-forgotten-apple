@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://cyrdkd7d1ibuv"]
 
-[ext_resource type="Texture2D" uid="uid://bht0qrhodhy7t" path="res://assets/player/all-assets/interior-cabin1.png" id="1_cabin"]
+[ext_resource type="Texture2D" uid="uid://bht0qrhodhy7t" path="res://assets/textures/environment/interior-cabin1.png" id="1_cabin"]
 [ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="Script" uid="uid://cr54oushkdu31" path="res://scenes/levels/cabin_level.gd" id="3_script"]
 [ext_resource type="PackedScene" uid="uid://dl2lvutrpved5" path="res://scenes/ui/pause_menu.tscn" id="4_pause"]
 [ext_resource type="AudioStream" uid="uid://co0pnmyergap7" path="res://assets/sfx/walking-wood.mp3" id="5_walkwood"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="6_audio_group"]
 [ext_resource type="PackedScene" uid="uid://cpd8mc3n3xrpt" path="res://scenes/ui/health_ui.tscn" id="7_health"]
-[ext_resource type="Texture2D" uid="uid://cm35d8lnjw038" path="res://assets/player/all-assets/apple.png" id="8_apple"]
+[ext_resource type="Texture2D" uid="uid://cm35d8lnjw038" path="res://assets/textures/items/apple.png" id="8_apple"]
 [ext_resource type="Script" uid="uid://dm65jpv68ijrq" path="res://scenes/items/apple_collectible.gd" id="9_apple_script"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]

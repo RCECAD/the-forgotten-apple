@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://csweep78luloc"]
 
-[ext_resource type="Texture2D" uid="uid://dm0racfipkmyp" path="res://assets/skeleton/skeleton-stylesheet.png" id="1_skeleton"]
+[ext_resource type="Texture2D" uid="uid://dm0racfipkmyp" path="res://assets/textures/characters/enemies/skeleton-stylesheet.png" id="1_skeleton"]
 [ext_resource type="Script" uid="uid://ojoyokkcmpm7" path="res://scenes/enemies/skeleton_enemy.gd" id="2_script"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_attack_0"]

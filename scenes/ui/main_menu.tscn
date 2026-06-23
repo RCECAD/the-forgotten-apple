@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://cuujssn8yop2f"]
 
 [ext_resource type="Script" uid="uid://525kshqau10j" path="res://scenes/ui/main_menu.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/player/all-assets/wall.png" id="2_background"]
-[ext_resource type="Texture2D" path="res://assets/player/all-assets/new-logo.png" id="3_logo"]
+[ext_resource type="Texture2D" path="res://assets/textures/environment/wall.png" id="2_background"]
+[ext_resource type="Texture2D" path="res://assets/ui/new-logo.png" id="3_logo"]
 [ext_resource type="Texture2D" path="res://assets/ui/menu_box.png" id="4_menu_box"]
 [ext_resource type="Texture2D" path="res://assets/ui/menu_arrow.png" id="5_menu_arrow"]
 [ext_resource type="AudioStream" path="res://assets/sfx/bg-main-menu.MP3" id="6_main_music"]

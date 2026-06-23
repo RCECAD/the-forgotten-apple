@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cjc0wpeq16o3y"]
 
-[ext_resource type="Texture2D" path="res://assets/textures/wolfhouseinterior.png" id="1_interior"]
+[ext_resource type="Texture2D" path="res://assets/textures/environment/wolfhouseinterior.png" id="1_interior"]
 [ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="Script" path="res://scenes/levels/wolfhouse_interior_level.gd" id="3_script"]
 [ext_resource type="PackedScene" uid="uid://dl2lvutrpved5" path="res://scenes/ui/pause_menu.tscn" id="4_pause"]

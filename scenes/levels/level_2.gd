@@ -17,8 +17,8 @@ extends Node2D
 
 const CAMERA_SMOOTH_SPEED := 6.0
 const VILLAGER_TEND_LEVEL_SCENE := "res://scenes/levels/villager_tend_level.tscn"
-const BG_SKY_TEXTURE := preload("res://assets/textures/background_0.png")
-const BG_TREES_TEXTURE := preload("res://assets/textures/background_1_2.png")
+const BG_SKY_TEXTURE := preload("res://assets/textures/backgrounds/background_0.png")
+const BG_TREES_TEXTURE := preload("res://assets/textures/backgrounds/background_1_2.png")
 const BG_Z_INDEX := -30
 const BG_REPEAT_EXTRA_TILES := 4
 const BG_SKY_OFFSET := Vector2(-2.0, -20.5)
@@ -192,7 +192,11 @@ func _set_bee_buzz_enabled(enabled: bool) -> void:
 func _update_bee_buzz_audio() -> void:
 	var is_exterior := _player.global_position.x >= CAVE_EXTERIOR_START_X
 	for bee in _bees:
+<<<<<<< HEAD
 		var is_near_player: bool = bee.global_position.distance_to(_player.global_position) <= BEE_BUZZ_RADIUS
+=======
+		var is_near_player: bool = (bee as Node2D).global_position.distance_to(_player.global_position) <= BEE_BUZZ_RADIUS
+>>>>>>> f944071 (feat;: add oven)
 		bee.set("buzz_enabled", is_exterior and is_near_player)
 
 func _fade_out_level_audio() -> void:

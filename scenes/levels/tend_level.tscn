@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://dd1k84r64h437"]
 
-[ext_resource type="Texture2D" uid="uid://c1dq4dudt4poj" path="res://assets/player/all-assets/interior-tend1.png" id="1_interior"]
+[ext_resource type="Texture2D" uid="uid://c1dq4dudt4poj" path="res://assets/textures/environment/interior-tend1.png" id="1_interior"]
 [ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="Script" uid="uid://dlrrdwts1w7u0" path="res://scenes/levels/tend_level.gd" id="3_script"]
-[ext_resource type="Texture2D" uid="uid://q4val7l5yujo" path="res://assets/player/all-assets/wolf.png" id="4_wolf"]
-[ext_resource type="Texture2D" uid="uid://djmk2g3qpatd2" path="res://assets/player/all-assets/forest-image.png" id="5_forest"]
+[ext_resource type="Texture2D" uid="uid://q4val7l5yujo" path="res://assets/textures/characters/enemies/wolf.png" id="4_wolf"]
+[ext_resource type="Texture2D" uid="uid://djmk2g3qpatd2" path="res://assets/textures/backgrounds/forest-image.png" id="5_forest"]
 [ext_resource type="AudioStream" uid="uid://nieqqaqn1us4" path="res://assets/sfx/interior-hum.mp3" id="6_hum"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="7_audio_group"]
 [ext_resource type="AudioStream" uid="uid://rsl5w5cslq80" path="res://assets/sfx/wind-sound.mp3" id="8_wind"]

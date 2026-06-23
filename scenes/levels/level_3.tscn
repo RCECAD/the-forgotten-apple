@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://cq176uprdny52"]
 
-[ext_resource type="Texture2D" uid="uid://bj3mbi04ie2g2" path="res://assets/villager/wolfhouse.png" id="1_0qepi"]
-[ext_resource type="Texture2D" uid="uid://hhaoe042w28g" path="res://assets/textures/tileset.png" id="2_fmg3e"]
+[ext_resource type="Texture2D" uid="uid://bj3mbi04ie2g2" path="res://assets/textures/environment/wolfhouse.png" id="1_0qepi"]
+[ext_resource type="Texture2D" uid="uid://hhaoe042w28g" path="res://assets/textures/tilesets/tileset.png" id="2_fmg3e"]
 [ext_resource type="PackedScene" uid="uid://csweep78luloc" path="res://scenes/enemies/skeleton_enemy.tscn" id="3_ftfob"]
 [ext_resource type="PackedScene" uid="uid://bpefa8lo1dt1j" path="res://scenes/enemies/bee_enemy.tscn" id="4_fkk1g"]
 [ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="5_fmg3e"]

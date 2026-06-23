@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://caxke4mt1546w" path="res://scenes/ui/pause_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/ui/menu_box.png" id="2_main_panel"]
-[ext_resource type="Texture2D" path="res://assets/player/all-assets/menu-box-expanded.png" id="3_expanded_panel"]
+[ext_resource type="Texture2D" path="res://assets/ui/menu-box-expanded.png" id="3_expanded_panel"]
 [ext_resource type="Texture2D" path="res://assets/ui/menu_arrow.png" id="4_arrow"]
 [ext_resource type="AudioStream" uid="uid://cl6l174b351yq" path="res://assets/sfx/button-selection.MP3" id="6_button_selection"]
 [ext_resource type="AudioStream" uid="uid://d0wqijdarj6cm" path="res://assets/sfx/button-selected.MP3" id="7_button_selected"]

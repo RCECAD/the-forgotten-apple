@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cpd8mc3n3xrpt"]
 
 [ext_resource type="Script" uid="uid://c8qsp7ceda4ha" path="res://scenes/ui/health_ui.gd" id="1_health"]
-[ext_resource type="Texture2D" uid="uid://cm35d8lnjw038" path="res://assets/player/all-assets/apple.png" id="2_apple"]
+[ext_resource type="Texture2D" uid="uid://cm35d8lnjw038" path="res://assets/textures/items/apple.png" id="2_apple"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 bg_color = Color(0.06666667, 0.043137256, 0.03137255, 0.72)

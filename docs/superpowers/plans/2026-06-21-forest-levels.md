@@ -17,7 +17,7 @@
 - Autoloads disponíveis: `SceneTransition`, `GameState`, `GameSettings`, `DialogManager`, `InventoryManager`, `LetterViewer`, `GameOver`.
 - **Sem commits com Co-Authored-By** (preferência do usuário).
 - **O ambiente não tem Godot no PATH** — nenhum passo deste plano roda o editor. O "bake" e o playtest são feitos pelo usuário; cada task marca claramente o que é verificação estática (automática) vs. checklist de editor (manual do usuário).
-- Nomes de tiles iniciais (ajustáveis no editor depois): topo-grama = atlas `(5,4)`; fill = atlas `(0,8)`. Source id = `0`. Textura `res://assets/textures/tileset.png`.
+- Nomes de tiles iniciais (ajustáveis no editor depois): topo-grama = atlas `(5,4)`; fill = atlas `(0,8)`. Source id = `0`. Textura `res://assets/textures/tilesets/tileset.png`.
 
 ---
 
@@ -36,7 +36,7 @@ Conteúdo de `assets/textures/forest_tileset.tres`:
 ```
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://forest_tileset_tfa"]
 
-[ext_resource type="Texture2D" uid="uid://hhaoe042w28g" path="res://assets/textures/tileset.png" id="1_tex"]
+[ext_resource type="Texture2D" uid="uid://hhaoe042w28g" path="res://assets/textures/tilesets/tileset.png" id="1_tex"]
 
 [sub_resource type="TileSetAtlasSource" id="atlas_0"]
 texture = ExtResource("1_tex")
@@ -105,7 +105,7 @@ func _on_body_entered(body: Node2D) -> void:
 [gd_scene load_steps=3 format=3 uid="uid://hazard_tfa"]
 
 [ext_resource type="Script" path="res://scenes/hazards/hazard.gd" id="1_s"]
-[ext_resource type="Texture2D" uid="uid://hhaoe042w28g" path="res://assets/textures/tileset.png" id="2_tex"]
+[ext_resource type="Texture2D" uid="uid://hhaoe042w28g" path="res://assets/textures/tilesets/tileset.png" id="2_tex"]
 
 [sub_resource type="RectangleShape2D" id="shape"]
 size = Vector2(14, 8)
@@ -176,7 +176,7 @@ func _ready() -> void:
 [gd_scene load_steps=3 format=3 uid="uid://moving_platform_tfa"]
 
 [ext_resource type="Script" path="res://scenes/hazards/moving_platform.gd" id="1_s"]
-[ext_resource type="Texture2D" uid="uid://hhaoe042w28g" path="res://assets/textures/tileset.png" id="2_tex"]
+[ext_resource type="Texture2D" uid="uid://hhaoe042w28g" path="res://assets/textures/tilesets/tileset.png" id="2_tex"]
 
 [sub_resource type="RectangleShape2D" id="shape"]
 size = Vector2(48, 12)
@@ -285,7 +285,7 @@ git commit -m "feat: death zone de queda"
 [gd_scene load_steps=4 format=3 uid="uid://apple_collectible_tfa"]
 
 [ext_resource type="Script" path="res://scenes/items/apple_collectible.gd" id="1_s"]
-[ext_resource type="Texture2D" uid="uid://cm35d8lnjw038" path="res://assets/player/all-assets/apple.png" id="2_tex"]
+[ext_resource type="Texture2D" uid="uid://cm35d8lnjw038" path="res://assets/textures/items/apple.png" id="2_tex"]
 
 [sub_resource type="CircleShape2D" id="shape"]
 radius = 8.0

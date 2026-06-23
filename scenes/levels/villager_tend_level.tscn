@@ -1,9 +1,9 @@
 [gd_scene format=3]
 
-[ext_resource type="Texture2D" uid="uid://c1dq4dudt4poj" path="res://assets/player/all-assets/interior-tend1.png" id="1_interior"]
+[ext_resource type="Texture2D" uid="uid://c1dq4dudt4poj" path="res://assets/textures/environment/interior-tend1.png" id="1_interior"]
 [ext_resource type="PackedScene" uid="uid://dxrmb8kjqeort" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="Script" uid="uid://4eq8112q574b" path="res://scenes/levels/villager_tend_level.gd" id="3_script"]
-[ext_resource type="Texture2D" uid="uid://bkm1d0rywstv4" path="res://assets/villager/villager.png" id="4_villager"]
+[ext_resource type="Texture2D" uid="uid://bkm1d0rywstv4" path="res://assets/textures/characters/npcs/villager.png" id="4_villager"]
 [ext_resource type="AudioStream" uid="uid://nieqqaqn1us4" path="res://assets/sfx/interior-hum.mp3" id="6_hum"]
 [ext_resource type="Script" uid="uid://cpo5k4ehtwx4p" path="res://scenes/audio/audio_group.gd" id="7_audio_group"]
 

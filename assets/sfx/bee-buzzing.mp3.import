@@ -2,7 +2,11 @@
 
 importer="mp3"
 type="AudioStreamMP3"
+<<<<<<< HEAD
 uid="uid://dawvsnkebpwel"
+=======
+uid="uid://b3pefvnoqnfft"
+>>>>>>> f944071 (feat;: add oven)
 path="res://.godot/imported/bee-buzzing.mp3-852f630802c097fdcc441c1651e3906b.mp3str"
 
 [deps]

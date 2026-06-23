@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://dhg74k08txw1k"]
 
 [ext_resource type="Script" uid="uid://cev3hi3c37jeq" path="res://scenes/ui/loading_screen.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/player/all-assets/loading-screen.png" id="2_background"]
-[ext_resource type="Texture2D" uid="uid://cw57nxvaqfcfh" path="res://assets/player/all-assets/new-logo.png" id="3_logo"]
+[ext_resource type="Texture2D" path="res://assets/ui/loading-screen.png" id="2_background"]
+[ext_resource type="Texture2D" uid="uid://cw57nxvaqfcfh" path="res://assets/ui/new-logo.png" id="3_logo"]
 [ext_resource type="AudioStream" uid="uid://rsl5w5cslq80" path="res://assets/sfx/wind-sound.mp3" id="4_wind"]
 [ext_resource type="Script" path="res://scenes/audio/audio_group.gd" id="5_audio_group"]
-[ext_resource type="Texture2D" path="res://assets/player/all-assets/apple.png" id="6_apple"]
+[ext_resource type="Texture2D" path="res://assets/textures/items/apple.png" id="6_apple"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_progress_background"]
 bg_color = Color(0.055, 0.026, 0.022, 0.9)
