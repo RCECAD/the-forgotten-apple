@@ -77,10 +77,7 @@ func _finish_cutscene() -> void:
 	_set_villager_frame(0)
 	_unlock_player()
 	dialogue_finished.emit()
-	get_node("/root/SceneTransition").transition_to(
-		LEVEL_3_SCENE,
-		"EntrySpawn"
-	)
+	get_node("/root/SceneTransition").transition_to(LEVEL_3_SCENE)
 
 func _lock_player() -> void:
 	_player.set_input_enabled(false)
